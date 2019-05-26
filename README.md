@@ -6,7 +6,7 @@ BizDoc is a developer framework for designing organization forms. It includes a 
 
 Prerequisite:
 
-[Visual Studio 2019](https://visualstudio.microsoft.com/vs/), Net Core.,
+[Visual Studio](https://visualstudio.microsoft.com/vs/), Net Core.,
 [Node.js](https://nodejs.org/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
