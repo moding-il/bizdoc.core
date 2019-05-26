@@ -79,8 +79,9 @@ You will also need to declare the database context using AddDbContext() method, 
 BizDoc has four background services you can optionaly configure: escalate job, which escaltes unattended documents, set by AddEscalateJob() method, mail pending summary set by AddMailWaitingJob(), execute mail job, set by AddMailExecuteJob() method which comes in three configurtions: IMAP, POP3 and Exchange, each has required options. 
 
 You need to set up authentication. BizDoc has three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, and [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). Install the relevant Nuget and add it to services in _startup.cs_.
-Yo may want to implement your own identity manager to retrive custom information about users. Refer to _BizDoc.Core.Identity.IIdentityProvider_ and _BizDOc.>Core.Identity.ISignInProvider_ for more.
 
-You can set BizDoc client side behaviour using the BizDocModule.forRoot() function.
+You may want to implement your own identity manager. To achive that, implement _BizDoc.Core.Identity.IIdentityProvider_ and _BizDoc.Core.Identity.ISignInProvider_ and register each of them separately in _startup.cs_ as scoped service, prior to calling AddBizDoc() method.
+
+You can set some BizDoc client behaviour from BizDocModule.forRoot() function.
 
 > Open _/ClinetApp/src/app/app.module_ and find the BizDocModule.forRoot() function.
