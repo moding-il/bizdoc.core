@@ -7,7 +7,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="Form" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="Model" />
       <xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="Owner" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Owner" type="UserInfo" />
       <xs:element minOccurs="0" maxOccurs="1" name="Subject" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="Summary" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="Value" nillable="true" type="xs:decimal" />
@@ -18,7 +18,8 @@
       <xs:element minOccurs="0" maxOccurs="1" name="Recipients" type="Recipients" />
       <xs:element minOccurs="0" maxOccurs="1" name="CustomData" />
       <xs:element minOccurs="0" maxOccurs="1" name="ThumbnailPhoto" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="By" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="By" type="UserInfo" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Sender" type="UserInfo" />
     </xs:sequence>
     <xs:attribute name="FormId" type="xs:string" />
     <xs:attribute name="EncryptedId" type="xs:string" />
@@ -34,12 +35,34 @@
     </xs:sequence>
     <xs:attribute name="Name" type="xs:string" />
   </xs:complexType>
+  <xs:complexType name="UserInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ThumbnailPhoto" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Gender" nillable="true" type="GenderType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="GenderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Male" />
+      <xs:enumeration value="Female" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="Comments">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="Comment" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="Comment" />
+  <xs:complexType name="Comment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="User" type="UserInfo" />
+      <xs:element minOccurs="0" maxOccurs="1" name="By" type="UserInfo" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Text" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="Attachments">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Attachment" nillable="true" type="Attachment" />
@@ -58,7 +81,7 @@
   </xs:complexType>
   <xs:complexType name="Recipient">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="User" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="User" type="UserInfo" />
       <xs:element minOccurs="1" maxOccurs="1" name="Sent" type="xs:dateTime" />
       <xs:element minOccurs="1" maxOccurs="1" name="Replied" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
