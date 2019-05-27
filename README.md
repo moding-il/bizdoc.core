@@ -386,15 +386,18 @@ On bizdoc.config, find your form node. Edit Permissions node, providing a name, 
       ]
     }
   },
-  "Name": "myForm",
-  ...
+  "Name": "myForm"
 }
 ```
 In your form component, ue the onBind function to get permissions.
 ```typescript
 private privileges: { [name: string]: boolean; };
-onBind(model: MailModel<DummyFormModel>): void {
+onBind(model: MailModel<MyFormModel>): void {
     this.privileges = model.privileges;
 }
 ```
 Your template can now test privileges, providing the permission name.
+```html
+<mat-form-field [hidden]='!privileges["myField"]'></mat-form-field>
+```
+```
