@@ -305,19 +305,8 @@ public struct MyReportArgsModel
 [Report(title: "My report")]
 public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 {
-    private readonly Store _store;
-
-    public MyReport(Store store)
-    {
-        _store = store;
-    }
-
     public override async Task<IEnumerable<MyReportDataModel>> PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
-        await _store.Documents.Where(d => d.Log.Any(l => l.Time >= args.Starting)).Select(d => new MyReportDataModel
-        {
-            Number = d.Number,
-            Amount = d.Value
-        }).ToListAsync();
+        await ...ToListAsync();
 }
 ```
 
@@ -354,6 +343,53 @@ Implement the CubeBase.IExplore<T>.
 
 Override cube GetExploreType() methon and return the T type for the requested axes.
 
+### Widget
+
+A _Widget_ shows summary data on dashboard.
+
+```c#
+[Template("app-my-widget")]
+public class MyWidget : WidgetBase<PersonalActivity.DataModel, PersonalActivity.ArgsModel>
+{
+    public override Task<DataModel> GetAsync(ArgsModel args)
+    {
+        ...
+    }
+    public struct DataModel
+    {
+        ...
+    }
+    public struct ArgsModel
+    {
+    }
+}
+```
+
+Add a new compoenent to your widget in ./ClientApp.
+
+```typescript
+import { Component } from '@angular/core';
+import { WidgetComponent } from 'bizdoc.base';
+import { BizDoc } from 'bizdoc.core';
+
+@Component({
+  selector: 'app-my-widget',
+  templateUrl: './my-widget.widget.html',
+})
+@BizDoc({
+  selector: 'app-my-widget'
+})
+/** component*/
+export class MyWidget implements WidgetComponent<DataModel[]> {
+  onBind(data: DataModel[]) {
+    ...
+  }
+}
+interface DataModel {
+    ...
+}
+```
+
 ## How To
 
 ### Format email
@@ -362,8 +398,8 @@ Create new xslt file. In file properties, choose 'Copy Always'.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-<xsl:stylesheet version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="https://raw.githubusercontent.com/moding-il/bizdoc.core/master/message.xsd">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns="https://raw.githubusercontent.com/moding-il/bizdoc.core/master/message.xsd">
   <xsl:output method="html" indent="no"/>
   <xsl:template match="/Message">
     <html>
@@ -410,5 +446,4 @@ onBind(model: MailModel<MyFormModel>): void {
 Your template can now test privileges, providing the permission name.
 ```html
 <mat-form-field [hidden]='!privileges["myField"]'></mat-form-field>
-```
 ```
