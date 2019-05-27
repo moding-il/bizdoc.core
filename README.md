@@ -6,7 +6,7 @@ BizDoc is a developer framework for designing organization forms. It includes a 
 
 BizDoc is designed as a .Net Core web application running Angular 7. You author a BizDoc implementation by creating a new project, either from Visual Studio or Visual Code. 
 
-###Prerequisite:
+### Prerequisites
 
 [Visual Studio](https://visualstudio.microsoft.com/vs/), Net Core.,
 [Node.js](https://nodejs.org/)
@@ -95,13 +95,63 @@ You can set some BizDoc client behaviour from BizDocModule.forRoot() function.
 
 ## Objects
 
-You control BizDoc is built as objects.
+You control BizDoc flow by authoring _objects_. An object is a unit of code that implements one of the basic BizDoc models.
 
-###Create new form
+### Form
+
+A form comprises of a backing class, responsible for managing form scope, a model, which represent form structure, and an Angular component, managing user interaction. 
+
+You may override scope events to control form flow. Events are OnFlowEnd().
+
+```
+    using BizDoc.Configuration;
+    
+    public class MyForm : FormBase<MyFormModel>
+    {
+            public override Task FlowEndAsync(MyFormModel model)
+        {
+            ...
+        }
+    }
+```
+
+You can annotate your class with Form attribute to apply configuration properties.
+
+```
+using BizDoc.Configuration.Annotations;
+[Form(title: "My form")]
+    public class MyForm : FormBase<MyFormModel> {
+    ...
+    }
+```
+
+#### Mapping cube
+
+```   [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
+```
+
+#### Mapping scheduled tasks
+
+### Type
+
+A type represent a source of values, which can be applied to model property.
+For example, the type Account can retreive accounts from your database.
+
+You link a model property to a type by setting it's ListType attribute.
+
+```
+   [ListType(typeof(Account))]
+   public string AccountId {get; set }
+```
+
+BizDoc has several built-in types, including Years, Monthes.
+
+### Cube
 
 ## How To
 
-###Create custom Identity Manager
+### Create custom Identity Manager
 
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
+
