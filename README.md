@@ -293,7 +293,20 @@ Override cube GetExploreType() methon and return the T type for the requested ax
 
 ## How To
 
+### Format email
+
+Create new xslt file. Refer to xsd. In properties, choose 'Copy'.
+
+In startup.cs services.AddBizDoc(), set the Template path relative to the project root.
+
+You can pass data to Data node by implementing GetCustomData() on your form object.
+
 ### Create custom Identity Manager
 
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
+
+### Change cube chart type
+
+bizdoc.json
+
