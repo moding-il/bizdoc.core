@@ -75,7 +75,7 @@ Consult Angular Material on how to add new components to your project.
 BizDoc database is installed on first run. The BizDoc database objects are created under \[BizDoc\] schema. You are likely to want to create your own database context to gain access to custom database objects. Refer to .Net Core [EF](https://docs.microsoft.com/en-us/ef/core/get-started/index) for more information.
 To access BizDoc objects, use the _Store_ service, using BizDoc.Core.Data namespace. 
 
-##Configuring
+## Configuration
 
 BizDoc behaviour is set in _startup.cs_. Two methods are responsible for that: services.AddBizDoc() and app.UseBizDoc().
 BizDoc configuration includes licensing and messaging.
@@ -171,15 +171,11 @@ BizDoc has several built-in types, including Years, Monthes and Users. See BizDo
 
 A cube represent a cross-data perspective, which can be later visualized as a chart of accumulated documents.
 
-A cube has Axes. Each exis represent a Type.
-
-#### Mapping cube
+A cube decare _Axes_. Each axis represents a Type.
 
 You map a cube to form model by annotating the CubeMapping attribute.
 
-```   
-    [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
-```
+> Open _bizdoc.json_ and find Cubes section. You can reorder, modify and add axes to the Axes section.
 
 ## How To
 
@@ -187,4 +183,3 @@ You map a cube to form model by annotating the CubeMapping attribute.
 
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
-
