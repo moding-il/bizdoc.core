@@ -68,7 +68,7 @@ BizDoc provides seeveral built-in services you can aquire: Store, IOptions<Syste
 
 Browse to _ClientApp\src\app_ to create and update Angular components.
 
-> Use _ng_ command-line to generate new components. See https://angular.io/cli/generate for more. 
+> Use `ng` command-line to generate new components. See https://angular.io/cli/generate for more. 
 
 The Angular user interface is built on Material Design guidelines, using the [Angular Material](https://material.angular.io/) library.
 Consult Angular Material documentation on how to use components in your project.
@@ -109,34 +109,34 @@ A form comprises of a backing class, responsible for managing form scope, a mode
 You may override scope events to control form flow. Events are OnFlowEnd().
 
 ```c#
-    using BizDoc.Configuration;
-    
-    public class MyForm : FormBase<MyFormModel>
+using BizDoc.Configuration;
+
+public class MyForm : FormBase<MyFormModel>
+{
+    public override Task FlowEndAsync(MyFormModel model)
     {
-            public override Task FlowEndAsync(MyFormModel model)
-        {
-            ...
-        }
+        ...
     }
+}
 ```
 
 You can annotate your class with Form attribute to apply configuration properties.
 
 ```c#
-    using BizDoc.Configuration.Annotations;
-    
-    [Form(title: "My form")]
-    public class MyForm : FormBase<MyFormModel> {
+using BizDoc.Configuration.Annotations;
+
+[Form(title: "My form")]
+public class MyForm : FormBase<MyFormModel> {
     ...
-    }
+}
 ```
 #### Declare data model 
 
 ```c#  
-    public class MyFormModel {
-        public DateTime? Due { get; set; }
-        ...
-    }
+public class MyFormModel {
+    public DateTime? Due { get; set; }
+    ...
+}
 ```
 
 Annotatate properties to control flow and default layouting.
@@ -145,13 +145,13 @@ Subject, Summary, Value,
 Required, DataType, MaxLength, Hint, ListType
 
 ```c#  
-    using BizDoc.ComponentModel.Annotations;
+using BizDoc.ComponentModel.Annotations;
 
-    public class MyFormModel {
-        [Subject]
-        public string Subject { get; set; }
-        ...
-    }
+public class MyFormModel {
+    [Subject]
+    public string Subject { get; set; }
+    ...
+}
 ```
 
 #### Mapping database table
@@ -160,12 +160,12 @@ You can map form model and sub models to database tables by annotating the class
 Annotate one or more of the properties with the Key attribute. Use DocumentId to apply it to a key.
 
 ```c# 
-    [Table("MyTable")]
-    public class MyFormModel {
-        [Key, DocumentId]
-        public int BizDocId { get; set; }
-        ...
-    }
+[Table("MyTable")]
+public class MyFormModel {
+    [Key, DocumentId]
+    public int BizDocId { get; set; }
+    ...
+}
 ```
 
 #### Mapping cube
@@ -174,7 +174,7 @@ Annotate one or more of the properties with the Key attribute. Use DocumentId to
 You map a form model to a cube by annotating the CubeMapping attribute.
 
 ```c# 
-    [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
+[CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
 ```
 
 See Cube below for more.
@@ -182,7 +182,7 @@ See Cube below for more.
 #### Mapping scheduled tasks
 
 ```c#
-    [EvenMapping]
+[EvenMapping(...)]
 ```
 
 #### Add user interface 
@@ -221,17 +221,55 @@ interface MyFormModel {
     subject: string;
 }
 ```
-
+Add Template attribute to your form object, providing the value on BizDoc annotation.
+```c#
+[Form(title: "My form"), Template("app-my-form")]
+public class MyForm : FormBase<MyFormModel> {
+    ...
+}
+```
 ### Type
 
 A type represent a source of values, which can be applied to model property.
 For example, the type Account can retreive accounts from your database.
 
+```c#
+[Table("Accounts")]
+public class Account
+{
+    [System.ComponentModel.DataAnnotations.Key]
+    public string Id { get; set; }
+    public string Name { get; set; }
+}
+public class Accounts : TypeBase<string, string>
+{
+    private readonly CustomStore customStore;
+
+    public Accounts(CustomStore customStore)
+    {
+        this.customStore = customStore;
+    }
+    public override Task<Dictionary<string, string>> GetValuesAsync(string args)
+    {
+        try
+        {
+            return customStore.Accounts.ToDictionaryAsync(a => a.Id, a => a.Name);
+
+        }
+        catch (Exception e)
+        {
+
+            throw;
+        }
+    }
+}
+```
+
 You link a model property to a type by setting it's ListType attribute.
 
-```
-   [ListType(typeof(Account))]
-   public string AccountId {get; set }
+```c#
+[ListType(typeof(Account))]
+public string AccountId {get; set }
 ```
 
 BizDoc has several built-in types, including Years, Monthes and Users. See BizDoc.Configuration.Generic namespace.
@@ -239,33 +277,32 @@ BizDoc has several built-in types, including Years, Monthes and Users. See BizDo
 ### Report
 
 ```c#
-    public class MyReportDataModel
-    {
-        [Key]
-        public string Number { get; set; }
-        public decimal? Amount { get; set; }
-    }
-    public struct MyReportArgsModel
-    {
-        public DateTime Starting { get; set; }
-    }
-    [Report(title: "My report")]
-    public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
-    {
-        private readonly Store _store;
+public class MyReportDataModel
+{
+    [Key]
+    public string Number { get; set; }
+    public decimal? Amount { get; set; }
+}
+public struct MyReportArgsModel
+{
+    public DateTime Starting { get; set; }
+}
+[Report(title: "My report")]
+public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
+{
+    private readonly Store _store;
 
-        public MyReport(Store store)
+    public MyReport(Store store)
+    {
+        _store = store;
+    }
+
+    public override async Task<IEnumerable<MyReportDataModel>> PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
+        await _store.Documents.Where(d => d.Log.Any(l => l.Time >= args.Starting)).Select(d => new MyReportDataModel
         {
-            _store = store;
-        }
-
-        public override async Task<IEnumerable<MyReportDataModel>> PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
-            await _store.Documents.Where(d => d.Log.Any(l => l.Time >= args.Starting)).Select(d => new MyReportDataModel
-            {
-                Number = d.Number,
-                Amount = d.Value
-            }).ToListAsync();
-    }
+            Number = d.Number,
+            Amount = d.Value
+        }).ToListAsync();
 }
 ```
 
@@ -282,10 +319,10 @@ You map a cube to form model by annotating the CubeMapping attribute.
 You can add views to a cube in the configuration file. 
 
 
-```
-    public class MyCube : CubeBase
-    {
-    }
+```c#
+public class MyCube : CubeBase
+{
+}
 ```
 
 Override cube CanView() methon to control access.
