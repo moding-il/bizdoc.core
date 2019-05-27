@@ -295,11 +295,28 @@ Override cube GetExploreType() methon and return the T type for the requested ax
 
 ### Format email
 
-Create new xslt file. Refer to xsd. In properties, choose 'Copy'.
+Create new xslt file. In file properties, choose 'Copy Always'.
 
-In startup.cs services.AddBizDoc(), set the Template path relative to the project root.
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet version="1.0"
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:bizdoc="https://github.com/moding-il/bizdoc.core/blob/master/message.xsd">
+  <xsl:param name="ApplicationUrl"/>
+  <xsl:param name="SenderAddress"/>
+  <xsl:output method="html" indent="no"/>
+  <xsl:template match="/Message">
+    <html>
+      <body>
+          #<xsl:value-of select="Number"/>
+          ...
+        </body>
+    </html>
+</xsl>
 
-You can pass data to Data node by implementing GetCustomData() on your form object.
+    ```
+In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path, relative to the project root.
+
+You can pass data to CustomData node by overriding the GetCustomData() method on your form object.
 
 ### Create custom Identity Manager
 
