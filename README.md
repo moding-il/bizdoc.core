@@ -314,7 +314,7 @@ public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 
 A cube represent a cross-data summary, which can be visualized as a chart of accumulated values.
 
-A cube decare _Axes_. Each axis represents a Type.
+A cube declare _Axes_. Each axis represents a Type.
 
 You map a cube to form model by annotating the CubeMapping attribute.
 
