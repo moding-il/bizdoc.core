@@ -312,8 +312,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:bizdoc="https://github.co
         </body>
     </html>
 </xsl>
-
-    ```
+```
 In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path, relative to the project root.
 
 You can pass data to CustomData node by overriding the GetCustomData() method on your form object.
