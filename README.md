@@ -221,6 +221,10 @@ interface MyFormModel {
     subject: string;
 }
 ```
+The onBind function of FormComponent<T> interface provide access to message. 
+
+See Angular [reactive forms](https://angular.io/guide/reactive-forms).
+
 Add Template attribute to your form object, providing the value on BizDoc annotation.
 ```c#
 [Form(title: "My form"), Template("app-my-form")]
@@ -368,3 +372,29 @@ You can pass data to CustomData node by overriding the GetCustomData() method on
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
 
+
+### Set prmissions to form sections
+
+On bizdoc.config, find your form node. Edit Permissions node, providing a name, one or more role and expression.
+
+```json
+{
+  "Permissions": {
+    "myField": {
+      "Roles": [
+        "role1"
+      ]
+    }
+  },
+  "Name": "myForm",
+  ...
+}
+```
+In your form component, ue the onBind function to get permissions.
+```typescript
+private privileges: { [name: string]: boolean; };
+onBind(model: MailModel<DummyFormModel>): void {
+    this.privileges = model.privileges;
+}
+```
+Your template can now test privileges, providing the permission name.
