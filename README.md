@@ -185,7 +185,7 @@ See Cube below for more.
 [EvenMapping(...)]
 ```
 
-#### Add user interface 
+#### Designing user interface 
 
 From ./ClientApp PowerShell, type:
 
@@ -221,7 +221,18 @@ interface MyFormModel {
     subject: string;
 }
 ```
-The onBind function of FormComponent<T> interface provide access to message. 
+> Note the BizDoc decoration. 
+> The onBind function of FormComponent<T> interface provide access to message. 
+
+Open my-form.component.html to edit the template.
+
+```html
+<form [formGroup]="form" autocomplete="off">
+  <mat-form-field>
+    <input matInput placeholder="Subject" required formControlName="subject" />
+  </mat-form-field>
+</form>
+```
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms).
 
