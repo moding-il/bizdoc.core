@@ -125,10 +125,31 @@ using BizDoc.Configuration.Annotations;
     }
 ```
 
+#### Mapping database table
+
+You can map form model and sub models to database tables by annotating the class with Table attribute.
+Annotate one or more of the properties with the Key attribute. Use DocumentId to apply it to a key.
+
+```   
+    [Table("MyTable")]
+    public class MyFormModel {
+        [Key, DocumentId]
+        public int BizDocId { get; set; }
+        ...
+    }
+```
+
+
 #### Mapping cube
 
-```   [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
+
+You map a form model to a cube by annotating the CubeMapping attribute.
+
+```   
+    [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
 ```
+
+See Cube below for more.
 
 #### Mapping scheduled tasks
 
@@ -144,9 +165,21 @@ You link a model property to a type by setting it's ListType attribute.
    public string AccountId {get; set }
 ```
 
-BizDoc has several built-in types, including Years, Monthes.
+BizDoc has several built-in types, including Years, Monthes and Users. See BizDoc.Configuration.Generic namespace.
 
 ### Cube
+
+A cube represent a cross-data perspective, which can be later visualized as a chart of accumulated documents.
+
+A cube has Axes. Each exis represent a Type.
+
+#### Mapping cube
+
+You map a cube to form model by annotating the CubeMapping attribute.
+
+```   
+    [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
+```
 
 ## How To
 
