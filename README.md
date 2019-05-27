@@ -348,9 +348,7 @@ Create new xslt file. In file properties, choose 'Copy Always'.
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <xsl:stylesheet version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:bizdoc="https://github.com/moding-il/bizdoc.core/blob/master/message.xsd">
-  <xsl:param name="ApplicationUrl"/>
-  <xsl:param name="SenderAddress"/>
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="https://raw.githubusercontent.com/moding-il/bizdoc.core/master/message.xsd">
   <xsl:output method="html" indent="no"/>
   <xsl:template match="/Message">
     <html>
@@ -369,8 +367,4 @@ You can pass data to CustomData node by overriding the GetCustomData() method on
 
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
-
-### Change cube chart type
-
-bizdoc.json
 
