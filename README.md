@@ -8,8 +8,8 @@ BizDoc is designed as a .Net Core web application, running Angular 7. You author
 
 ### Prerequisites
 
-[Visual Studio](https://visualstudio.microsoft.com/vs/), Net Core.,
-[Node.js](https://nodejs.org/)
+[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, Net Core,
+[Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
 To install BizDoc, open Visual Studio. From Extensions menu, choose Manage Extensions. Select Online and search for [BizDoc Core](https://marketplace.visualstudio.com/items?itemName=Moding.BizDoc-Core).
@@ -174,6 +174,43 @@ See Cube below for more.
     [EvenMapping]
 ```
 
+#### Add user interface 
+
+From ./ClientApp PowerShell, type:
+
+> ng g c myForm
+
+Open ./app/src/myForm/myForm.component.ts
+
+```typescript
+import { Component } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
+import { FormComponent, MailModel, ViewMode } from 'bizdoc.core';
+import { BizDoc } from 'bizdoc.core';
+@Component({
+  selector: 'app-my-form',
+  templateUrl: './my-form.component.html',
+  styleUrls: ['./my-form.component.scss']
+})
+@BizDoc({
+  selector: 'app-my-form'
+})
+/** myForm component*/
+export class MyFormComponent implements FormComponent<MyFormModel> {
+  form = this.fb.group({
+    subject: this.fb.control([], [Validators.required])
+  });
+  mode: ViewMode;
+  constructor(private fb: FormBuilder) {
+  }
+  onBind(model: MailModel<MyFormModel>): void {
+  }
+}
+interface MyFormModel {
+    subject: string;
+}
+```
+
 ### Type
 
 A type represent a source of values, which can be applied to model property.
@@ -187,6 +224,39 @@ You link a model property to a type by setting it's ListType attribute.
 ```
 
 BizDoc has several built-in types, including Years, Monthes and Users. See BizDoc.Configuration.Generic namespace.
+
+### Report
+
+```c#
+    public class MyReportDataModel
+    {
+        [Key]
+        public string Number { get; set; }
+        public decimal? Amount { get; set; }
+    }
+    public struct MyReportArgsModel
+    {
+        public DateTime Starting { get; set; }
+    }
+    [Report(title: "My report")]
+    public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
+    {
+        private readonly Store _store;
+
+        public MyReport(Store store)
+        {
+            _store = store;
+        }
+
+        public override async Task<IEnumerable<MyReportDataModel>> PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
+            await _store.Documents.Where(d => d.Log.Any(l => l.Time >= args.Starting)).Select(d => new MyReportDataModel
+            {
+                Number = d.Number,
+                Amount = d.Value
+            }).ToListAsync();
+    }
+}
+```
 
 ### Cube
 
