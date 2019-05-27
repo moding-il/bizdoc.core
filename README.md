@@ -108,7 +108,7 @@ A form comprises of a backing class, responsible for managing form scope, a mode
 
 You may override scope events to control form flow. Events are OnFlowEnd().
 
-```
+```c#
     using BizDoc.Configuration;
     
     public class MyForm : FormBase<MyFormModel>
@@ -122,16 +122,17 @@ You may override scope events to control form flow. Events are OnFlowEnd().
 
 You can annotate your class with Form attribute to apply configuration properties.
 
-```
-using BizDoc.Configuration.Annotations;
-[Form(title: "My form")]
+```c#
+    using BizDoc.Configuration.Annotations;
+    
+    [Form(title: "My form")]
     public class MyForm : FormBase<MyFormModel> {
     ...
     }
 ```
 #### Declare data model 
 
-```   
+```c#  
     public class MyFormModel {
         public DateTime? Due { get; set; }
         ...
@@ -143,12 +144,22 @@ Annotatate properties to control flow and default layouting.
 Subject, Summary, Value, 
 Required, DataType, MaxLength, Hint, ListType
 
+```c#  
+    using BizDoc.ComponentModel.Annotations;
+
+    public class MyFormModel {
+        [Subject]
+        public string Subject { get; set; }
+        ...
+    }
+```
+
 #### Mapping database table
 
 You can map form model and sub models to database tables by annotating the class with Table attribute.
 Annotate one or more of the properties with the Key attribute. Use DocumentId to apply it to a key.
 
-```   
+```c# 
     [Table("MyTable")]
     public class MyFormModel {
         [Key, DocumentId]
@@ -162,7 +173,7 @@ Annotate one or more of the properties with the Key attribute. Use DocumentId to
 
 You map a form model to a cube by annotating the CubeMapping attribute.
 
-```   
+```c# 
     [CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
 ```
 
@@ -170,7 +181,7 @@ See Cube below for more.
 
 #### Mapping scheduled tasks
 
-```
+```c#
     [EvenMapping]
 ```
 
