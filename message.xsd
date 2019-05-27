@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Message" nillable="true" type="Message" />
+  <xs:complexType name="Message">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Actions" type="Actions" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Form" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Model" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Owner" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Subject" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Summary" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Value" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Comments" type="Comments" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Attachments" type="Attachments" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Received" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Note" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Recipients" type="Recipients" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ThumbnailPhoto" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="By" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="FormId" type="xs:string" />
+    <xs:attribute name="EncryptedId" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Actions">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Action" nillable="true" type="Action" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Action">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Title" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Comments">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="Comment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Comment" />
+  <xs:complexType name="Attachments">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Attachment" nillable="true" type="Attachment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Attachment">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Recipients">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Recipient" nillable="true" type="Recipient" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Recipient">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="User" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Sent" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Replied" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="Pending" type="xs:boolean" use="required" />
+  </xs:complexType>
+</xs:schema>

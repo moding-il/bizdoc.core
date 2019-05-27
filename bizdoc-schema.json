@@ -1,0 +1,835 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "BizDoc Configuration Schema",
+
+  "type": "object",
+
+  "definitions": {
+    "shape": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "type": "string",
+          "enum": [ "Bpmn", "Flow" ]
+        },
+        "Shape": {
+          "type": "string",
+          "enum": [ "SwimLane", "Rectangle", "Document", "Process", "Decision", "OffPageReference", "PaperTap", "Event", "Terminator", "Task", "Message", "PreDefinedProcess", "Activity" ]
+        },
+        "Event": {
+          "type": "object",
+          "properties": {
+            "Event": {
+              "type": "string"
+            },
+            "Trigger": {
+              "type": "string"
+            }
+          },
+          "required": [ "Event" ]
+        },
+        "Activity": { "type": "object" },
+        "Trigger": {
+          "type": "object"
+        },
+        "Lanes": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "Id": { "type": "string" },
+              "Height": { "type": "number" },
+              "Header": {
+                "type": "object",
+                "properties": {
+                  "Annotation": {
+                    "type": "object",
+                    "properties": { "Content": { "type": "string" } }
+                  },
+                  "Width": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "Phases": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "Id": { "type": "string" },
+              "Offset": { "type": "number" },
+              "Header": {
+                "type": "object",
+                "properties": {
+                  "Content": {
+                    "type": "object",
+                    "properties": { "Content": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PhaseSize": { "type": "number" }
+      },
+      "required": [ "Type", "Shape" ]
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fillColor": {
+            "type": "string",
+            "format": "color"
+          },
+          "verticalAlignment": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "segmentOffset": {
+            "type": "number"
+          },
+          "text": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "margin": {
+            "type": "object",
+            "properties": {
+              "top": {
+                "type": "number"
+              },
+              "left": {
+                "type": "number"
+              },
+              "right": {
+                "type": "number"
+              },
+              "bottom": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "top",
+              "left"
+            ]
+          }
+        }
+      }
+    },
+    "decorator": {
+      "type": "object",
+      "properties": {
+        "Shape": {
+          "type": "string"
+        },
+        "Width": {
+          "type": "integer"
+        },
+        "Height": {
+          "type": "integer"
+        },
+        "BorderWidth": {
+          "type": "integer"
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "properties": {
+        "ScrollSettings": {
+          "type": "object",
+          "properties": {
+            "currentZoom": {
+              "type": "number"
+            },
+            "horizontalOffset": {
+              "type": "number"
+            },
+            "verticalOffset": {
+              "type": "number"
+            },
+            "zoomFactor": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "currentZoom",
+            "horizontalOffset",
+            "verticalOffset",
+            "zoomFactor"
+          ]
+        },
+        "Connectors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LineDashArray": {
+                "type": "string"
+              },
+              "Id": {
+                "type": "string"
+              },
+              "TargetDecorator": {
+                "$ref": "#/definitions/decorator"
+              },
+              "SourceDecorator": {
+                "$ref": "#/definitions/decorator"
+              },
+              "LineWidth": {
+                "type": "integer"
+              },
+              "Constraints": {
+                "type": "integer"
+              },
+              "Segments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Type": {
+                      "type": "string"
+                    },
+                    "Points": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/point"
+                      }
+                    }
+                  },
+                  "required": [
+                    "Type"
+                  ]
+                }
+              },
+              "CornerRadius": {
+                "type": "number"
+              },
+              "SourcePoint": {
+                "$ref": "#/definitions/point"
+              },
+              "TargetPoint": {
+                "$ref": "#/definitions/point"
+              },
+              "AddInfo": {
+                "type": "object",
+                "properties": {
+                  "actionName": {
+                    "type": "string"
+                  },
+                  "Case": { "type": "string" }
+                }
+              },
+              "TargetID": {
+                "type": "string"
+              },
+              "SourceID": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "Id",
+              "TargetID",
+              "SourceID"
+            ]
+          }
+        },
+        "Nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Parent": {
+                "type": "string"
+              },
+              "RotateAngle": {
+                "type": "number"
+              },
+              "Width": {
+                "type": "number"
+              },
+              "Height": {
+                "type": "number"
+              },
+              "OffsetX": {
+                "type": "number"
+              },
+              "OffsetY": {
+                "type": "number"
+              },
+              "Id": {
+                "type": "string"
+              },
+              "AddInfo": {
+                "type": "object",
+                "properties": {
+                  "nodeType": { "type": "string" },
+                  "standardTime": { "type": [ "string", "null" ] }
+                },
+                "required": [ "nodeType" ]
+              },
+              "Shape": {
+                "$ref": "#/definitions/shape"
+              },
+              "Ports": {
+                "type": "array",
+                "items": {}
+              },
+              "Pivot": {
+                "$ref": "#/definitions/point"
+              },
+              "BorderWidth": {
+                "type": "integer"
+              },
+              "BorderDashArray": {
+                "type": "string"
+              },
+              "ZOrder": {
+                "type": "integer"
+              },
+              "Constraints": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "Id",
+              "AddInfo",
+              "Shape"
+            ]
+          }
+        }
+      },
+      "required": [
+        "Connectors",
+        "Nodes"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number"
+        },
+        "Y": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "X",
+        "Y"
+      ]
+    },
+    "base": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "ResourceType": {
+          "type": "string"
+        },
+        "Disabled": { "type": "boolean" }
+      },
+      "required": [
+        "Name",
+        "Title"
+      ]
+    },
+    "code": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "properties": {
+            "Type": {
+              "type": "string"
+            },
+            "Disabled": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "Type"
+          ]
+        }
+      ]
+    },
+    "permission": {
+      "type": "object",
+      "properties": {
+        "Roles": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "Expression": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "Folders": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "Columns": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {
+                      "properties": {
+                        "Type": {
+                          "type": "string",
+                          "enum": [ "Date" ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "Icon": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "States": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "Past": {
+                "type": "string"
+              },
+              "Accumulate": {
+                "type": "boolean"
+              },
+              "Color": {
+                "type": "string",
+                "format": "color"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Actions": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Past": {
+                "type": "string"
+              },
+              "Verb": {
+                "type": "string"
+              },
+              "TitleMale": {
+                "type": "string"
+              },
+              "TitleFemale": {
+                "type": "string"
+              },
+              "Adjective": {
+                "type": "string"
+              },
+              "AdjectivePlural": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Roles": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "DataType": {
+                "Type": "string"
+              },
+              "Positions": {
+                "type": "object",
+                "patternProperties": {
+                  "^.*$": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "DataType"
+            ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Forms": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^.*$": {
+                    "type": "object",
+                    "properties": {
+                      "Roles": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                      },
+                      "Expression": { "type": "string" },
+                      "Title": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "Format": {
+                "type": "string"
+              },
+              "Workflow": {
+                "$ref": "#/definitions/workflow"
+              },
+              "Icon": {
+                "type": "string"
+              },
+              "History": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/workflow"
+                }
+              }
+            },
+            "required": [
+              "Format",
+              "Workflow"
+            ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Reports": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Template": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Types": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Assignable": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Nodes": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Palette": {
+                "type": "string"
+              },
+              "Shape": {
+                "$ref": "#/definitions/shape"
+              },
+              "Options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "Shape"
+            ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Cubes": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "YAxis": {
+                "type": "object",
+                "properties": {
+                  "Title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Axes": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {
+                      "properties": {
+                        "Multipule": { "type": "boolean" },
+                        "DataType": {
+                          "type": "string",
+                          "description": "Name of type associated with this axis"
+                        },
+                        "Hidden": { "type": "boolean" }
+                      },
+                      "required": [ "DataType" ]
+                    }
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "Views": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {
+                      "properties": {
+                        "Filter": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "Type": {
+                          "type": "string",
+                          "default": "Column",
+                          "enum": [
+                            "Pie",
+                            "Bar",
+                            "StackingBar",
+                            "Line",
+                            "Column",
+                            "StackingColumn",
+                            "Area",
+                            "Spline",
+                            "Doughnut",
+                            "HalfDoughnut",
+                            "Pivot",
+                            "Polar",
+                            "Radar",
+                            "StepLine"
+                          ]
+                        },
+                        "Series": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "uniqueItems": true
+                          }
+                        },
+                        "XAxis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minItems": 1,
+                            "uniqueItems": true
+                          }
+                        },
+                        "Indices": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "States": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [ "Type", "XAxis" ]
+                    }
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "Indices": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {}
+                  ]
+                }
+              }
+            },
+            "required": [
+              "Axes",
+              "Views"
+            ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Rules": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Utilities": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Template": { "type": "string" }
+            },
+            "required": [ "Template" ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Widgets": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Template": {
+                "type": "string"
+              },
+              "Cols": { "type": "number" },
+              "Rows": { "type": "number" }
+            },
+            "required": [ "Template" ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Guides": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "Available": { "type": "boolean" },
+              "Steps": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {
+                      "properties": {
+                        "Selector": {
+                          "type": "string"
+                        },
+                        "Note": {
+                          "type": "string"
+                        },
+                        "Position": {
+                          "enum": [ "Below", "Above", "Before", "After" ]
+                        },
+                        "Navigate": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "Note"
+                      ]
+                    }
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "Private": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "Steps"
+            ]
+          }
+        ]
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "Folders",
+    "States",
+    "Actions",
+    "Roles",
+    "Forms",
+    "Reports",
+    "Types",
+    "Nodes",
+    "Cubes",
+    "Rules",
+    "Widgets"
+  ]
+}
