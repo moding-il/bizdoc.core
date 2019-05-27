@@ -4,7 +4,9 @@ BizDoc is a developer framework for designing organization forms. It includes a 
 
 ## Setting up
 
-Prerequisite:
+BizDoc is designed as a .Net Core web application running Angular 7. You author a BizDoc implementation by creating a new project, either from Visual Studio or Visual Code. 
+
+###Prerequisite:
 
 [Visual Studio](https://visualstudio.microsoft.com/vs/), Net Core.,
 [Node.js](https://nodejs.org/)
@@ -36,7 +38,7 @@ From From Package Manager Console, type:
 
 BizDoc comprises of two major parts: backend server code objects, and a user interface Angular components. Often, a front-end component such as a form has a backing server object. The two communicate via BizDoc interface.
 
-Each BizDoc object, such as a form or report, is represented by a class that instruct BizDoc what the object role is. The class generally inherits from an underlaying base class, providing methods that BizDoc recognize. Base classes are declared in BizDoc.Configuration namespace.
+Each BizDoc object, such as a form or report, is represented by a class that instruct BizDoc what the object role is. The class generally inherits from an underlaying base class, providing methods that BizDoc recognize. Base classes are declared in BizDoc.Configuration namespace. 
 
 The types supported are:
 Form,
@@ -48,6 +50,8 @@ Action,
 Cube and
 Rule.
 BizDoc manages other types of elements which does not have backend object, such as states, roles, and cube views. You can control these settings by editing the relevent configuration section.
+Read more on objects see objects section below.
+
 
 BizDoc keeps track of objects objects in it's _bizdoc.json_ configuration file. Each object you create in your project is added to the configuration file on first run.
 You may instruct BizDoc to register an object with specific settings by annotating the class with the corresponding attribute. (e.g a form class _MyForm_ may be set a \[Form()\] attribute.
@@ -71,17 +75,33 @@ Consult Angular Material on how to add new components to your project.
 BizDoc database is installed on first run. The BizDoc database objects are created under \[BizDoc\] schema. You are likely to want to create your own database context to gain access to custom database objects. Refer to .Net Core [EF](https://docs.microsoft.com/en-us/ef/core/get-started/index) for more information.
 To access BizDoc objects, use the _Store_ service, using BizDoc.Core.Data namespace. 
 
+##Configuring
+
 BizDoc behaviour is set in _startup.cs_. Two methods are responsible for that: services.AddBizDoc() and app.UseBizDoc().
 BizDoc configuration includes licensing and messaging.
-You will need to configure the SMTP for mailing.
-You will also need to declare the database context using AddDbContext() method, and configure [Hanfire](https://docs.hangfire.io/en/latest/getting-started/aspnet-core-applications.html).
+In addition, you'll need to configure SMTP for mailing.
+You will also need to declare the database context using AddDbContext() method.
+Configure [Hanfire](https://docs.hangfire.io/en/latest/getting-started/aspnet-core-applications.html).
 
-BizDoc has four background services you can optionaly configure: escalate job, which escaltes unattended documents, set by AddEscalateJob() method, mail pending summary set by AddMailWaitingJob(), execute mail job, set by AddMailExecuteJob() method which comes in three configurtions: IMAP, POP3 and Exchange, each has required options. 
+BizDoc has some background services you can optionaly configure. These include: escalate job, which escaltes unattended documents, set by AddEscalateJob() method, mail pending summary set by AddMailWaitingJob(), execute mail job, set by AddMailExecuteJob() method which comes in three configurtions: IMAP, POP3 and Exchange, each has required options. 
 
 You need to set up authentication. BizDoc has three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, and [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). Install the relevant Nuget and add it to services in _startup.cs_.
 
-You may want to implement your own identity manager. To achive that, implement _BizDoc.Core.Identity.IIdentityProvider_ and _BizDoc.Core.Identity.ISignInProvider_ and register each of them separately in _startup.cs_ as scoped service, prior to calling AddBizDoc() method.
+Sometimes the default identity manager will not sufice your organization specifics. In which case, you'll want to implement your own identity manager. See how to below to do that. 
 
 You can set some BizDoc client behaviour from BizDocModule.forRoot() function.
 
-> Open _/ClinetApp/src/app/app.module_ and find the BizDocModule.forRoot() function.
+> Open _/ClinetApp/src/app/app.module_ to edit BizDocModule.forRoot() settings.
+
+## Objects
+
+You control BizDoc is built as objects.
+
+###Create new form
+
+## How To
+
+###Create custom Identity Manager
+
+Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
+Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
