@@ -16,11 +16,11 @@ To install BizDoc, open Visual Studio. From Extensions menu, choose Manage Exten
 
 Install the package. You will need to restart Visual Studio.
 
-Open Visual Studio again and create a New Project. Select BizDoc as the template for your new project.
+Open Visual Studio again and create a New Project. Select BizDoc as the template to your new project.
 
 Run the project to download required dependencies.
 
-Update BizDoc service Nuget. From Package Manager Console, type:
+Update BizDoc Nuget package. From Package Manager Console, type:
 
 > Update-Package [bizdoc.core](https://www.nuget.org/packages/BizDoc.Core/)
 
@@ -30,7 +30,7 @@ Update npm package. From Windows PowerShell, type:
 
 Create a database. Set _connectionString_ in _appsettings.json_. 
 
-From From Package Manager Console, type:
+From Package Manager Console, type:
 
 > Update-Database -Context BizDoc.Core.Data.Store.
 
