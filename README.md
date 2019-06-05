@@ -419,6 +419,37 @@ You can pass data to CustomData node by overriding the GetCustomData() method on
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
 
+### Customize built-in objects
+
+BizDoc offers several built-in objects. These include workflow activities, data sources and widgets. You can extend any of these objects and adjust their behaviour.
+
+Create a new object and inherit from the object you wish to extend.
+
+```c#
+public class MyDepartmentalPerformance: DepartmentalPerformance {
+    private readonly IIdentityContext _identityContext;
+    protected override string[] Group => ... // provide list of identities
+}
+```
+
+Set the Type of the object in bizdoc configuration file to your implementation.
+
+BizDoc built-in objects can be found under the following namespaces:
+BizDoc.Workflow.Activities, BizDoc.Workflow.Actions,
+BizDoc.Configuration.Generic and
+BizDoc.Configuration.Widgets.
+
+### Disable existing objects
+
+Open bizdoc.json configuration and locate the object you wish to disable.
+Add Disabled to the object node.
+
+```json
+{
+    "Disabled": true,
+    ...
+}
+```
 
 ### Set prmissions to form sections
 
