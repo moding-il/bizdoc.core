@@ -12,6 +12,8 @@ BizDoc is designed as a .Net Core web application, running Angular 7. You author
 [Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
+Download latest Net Core from [Microsoft](https://dotnet.microsoft.com/download/dotnet-core/2.2).
+
 To install BizDoc, open Visual Studio. From Extensions menu, choose Manage Extensions. Select Online and search for [BizDoc Core](https://marketplace.visualstudio.com/items?itemName=Moding.BizDoc-Core).
 
 Install the package. You will need to restart Visual Studio.
