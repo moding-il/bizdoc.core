@@ -30,11 +30,7 @@ Update npm package. From Windows PowerShell, type:
 
 > npm i [bizdoc.core@latest](https://www.npmjs.com/package/bizdoc.core)
 
-Create a database. Set _connectionString_ in _appsettings.json_. 
-
-From Package Manager Console, type:
-
-> Update-Database -Context BizDoc.Core.Data.Store.
+Create a database. Set _connectionString_ in _appsettings.json_.  
 
 ## Architecture
 
@@ -65,8 +61,7 @@ You can manually edit this file as text, providing that you confirm with the sch
 
 As mentioned, a BizDoc object may have a fromt-end Angular component. The backend class is coupled with the front-end component by annotating the \[Template()\] attribute with a unique value. The Angular component is then decorated with the @BizDoc() attribute with a matching value. 
 
-BizDoc objects accepts .Net Core services using Dependency Injection (DI). 
-BizDoc provides seeveral built-in services you can aquire: Store, IOptions<SystemOptions>, IDocumentInstance, IWorkflowInstance and more. 
+BizDoc objects accepts .Net Core services using Dependency Injection (DI). It provides several built-in services you can consume.
 
 Browse to _ClientApp\src\app_ to create and update Angular components.
 
@@ -103,6 +98,34 @@ You can set BizDoc client behaviour from BizDocModule.forRoot() function.
 ## Objects
 
 You control BizDoc flow by authoring _objects_. An object is a unit of code that implements one of the basic BizDoc models in BizDoc.Configuration namespace.
+
+### Dependecy Injection
+
+BizDoc objects support Dependency Injection. You can consume any service added at startup in object constructor, including BizDoc services.
+
+The following example uses IWorkflowInstance to get currently running workflow instance.
+```c#
+public class MyForm : FormBase<MyFormModel> {
+    private readonly IWorkflowInstance _workflowInstance;
+    public MyForm(IWorkflowInstance _workflowInstance) {
+        _workflowInstance = workflowInstance;
+    }
+}
+````
+
+BizDoc provide the following services:
+- BizDoc.Core.Data.Store - BizDoc database.
+- BizDoc.Core.Data.IDocumentContext - Create, update, delete documents, document context.
+- BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
+- BizDoc.Core.Identity.IIdentityContext - Current identity.
+- BizDoc.Core.Identity.IProfileManager - User profile.
+- BizDoc.Core.Identity.IIdentityManager - User information from provider.
+- BizDoc.Core.Messaging.IEmailer - Deliver @.
+- BizDoc.Core.Messaging.ISmser - Send SMS.
+- BizDoc.Core.Data.IDocumentFactory - Document manager.
+- BizDoc.Core.Workflow.WorkflowService - Workflow manager
+- IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
+- BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
 
 ### Form
 
@@ -449,7 +472,6 @@ Add Disabled to the object node.
 ```json
 {
     "Disabled": true,
-    ...
 }
 ```
 
