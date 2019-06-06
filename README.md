@@ -502,3 +502,25 @@ Your template can now test privileges, providing the permission name.
 ```html
 <mat-form-field [hidden]='!privileges["myField"]'></mat-form-field>
 ```
+### Store custom user settings
+
+You can use BizDoc _IProfileManager_ service to store application specific settings.
+
+In your object constructor, consume _IProfileManager_ and use Get() and Set() method to retreive and persist your settings.
+```c#
+public class MyForm: FormBase<MyFormModel> {
+    private readonly IProfileManager _profileManager;
+    public MyForm(IProfileManager profileManager) {
+        _profileManager = profileManager;
+    }
+    private void ApplySettings() {
+        var profile = _profileManager[myModel.OwnerId];
+        var settings = profile.Get<MySettings>();
+        settings.MyProperty = false;
+        _profileManager.Persist(profile);
+    }
+    public struct MySettings {
+        public bool MyProperty {get; set; }
+    }
+}
+```
