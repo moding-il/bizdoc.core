@@ -268,6 +268,8 @@ public class MyForm : FormBase<MyFormModel> {
     ...
 }
 ```
+
+You can assign an icon to from configuration from any of the [Material Icons](https://material.io/tools/icons).
 ### Type
 
 A type represent a source of values, which can be applied to model property.
