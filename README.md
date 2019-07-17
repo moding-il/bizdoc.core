@@ -261,6 +261,14 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms).
 
+You can incorporate BizDoc _Select_ and _AutoComplete_ in your template:
+
+```html
+  <mat-form-field>
+    <bizdoc-select formControlName="myProperty" type="users" placeholder="My property"></bizdoc-select>
+  </mat-form-field>
+```
+
 Add Template attribute to your form object, providing the value on BizDoc annotation.
 ```c#
 [Form(title: "My form"), Template("app-my-form")]
