@@ -117,7 +117,7 @@ BizDoc provide the following services:
 - BizDoc.Core.Data.Store - BizDoc database.
 - BizDoc.Core.Data.IDocumentContext - Create, update, delete documents, document context.
 - BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
-- BizDoc.Core.Identity.IIdentityContext - Current identity.
+- BizDoc.Core.Http.IHttpContext - Current identity.
 - BizDoc.Core.Identity.IProfileManager - User profile.
 - BizDoc.Core.Identity.IIdentityManager - User information from provider.
 - BizDoc.Core.Messaging.IEmailer - Deliver @.
