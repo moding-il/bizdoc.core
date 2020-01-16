@@ -107,7 +107,7 @@ The following example uses IWorkflowInstance to get currently running workflow i
 ```c#
 public class MyForm : FormBase<MyFormModel> {
     private readonly IWorkflowInstance _workflowInstance;
-    public MyForm(IWorkflowInstance _workflowInstance) {
+    public MyForm(IWorkflowInstance workflowInstance) {
         _workflowInstance = workflowInstance;
     }
 }
@@ -122,8 +122,9 @@ BizDoc provide the following services:
 - BizDoc.Core.Identity.IIdentityManager - User information from provider.
 - BizDoc.Core.Messaging.IEmailer - Deliver @.
 - BizDoc.Core.Messaging.ISmser - Send SMS.
-- BizDoc.Core.Data.IDocumentFactory - Document manager.
-- BizDoc.Core.Workflow.WorkflowService - Workflow manager
+- BizDoc.Core.Data.DocumentFactory - Document manager.
+- BizDoc.Core.Data.CubeService - Query cube.
+- BizDoc.Core.Workflow.WorkflowService - Workflow manager.
 - IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
 - BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
 
