@@ -373,7 +373,27 @@ Override cube CanView() methon to control access.
 
 A cube may also have one or more _Index_. An index represent a linear data such as budgeted values or target performance.
 
-Cubes are stored in database BizDoc.Cube and BizDoc.Indices tables.
+#### Quering
+
+Use the _CubeService_ to preform quries on cube and indices. 
+
+```c#
+public class MyForm : FormBase<MyFormModel> {
+    private readonly CubeService _cubeService;
+    public MyForm(ICubeService CubeService) {
+        _CubeService = CubeService;
+    }
+
+    public override async Task FlowStartAsync(MyFormModel model) {
+      var usage = await _cubeService.GetUsage("myCube", 2020, 2, Axis.Null, Balance.Open, Axis.FromRange(200, 202));
+      ...
+    }
+}
+```
+
+The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support _*_ and _._ charaters.
+
+Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables.
 
 #### Explore data
 
