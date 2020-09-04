@@ -10,11 +10,11 @@
       "properties": {
         "Type": {
           "type": "string",
-          "enum": [ "Bpmn", "Flow" ]
+          "enum": [ "Text", "Bpmn", "Flow" ]
         },
         "Shape": {
           "type": "string",
-          "enum": [ "SwimLane", "Rectangle", "Document", "Process", "Decision", "OffPageReference", "PaperTap", "Event", "Terminator", "Task", "Message", "PreDefinedProcess", "Activity" ]
+          "enum": [ "SwimLane", "Rectangle", "ManualOperation", "Document", "Process", "Decision", "OffPageReference", "PaperTap", "Event", "Terminator", "Task", "Message", "PreDefinedProcess", "Activity" ]
         },
         "Event": {
           "type": "object",
@@ -71,7 +71,7 @@
         },
         "PhaseSize": { "type": "number" }
       },
-      "required": [ "Type", "Shape" ]
+      "required": [ "Type" ]
     },
     "labels": {
       "type": "array",
@@ -310,7 +310,6 @@
             },
             "required": [
               "Id",
-              "AddInfo",
               "Shape"
             ]
           }
@@ -336,19 +335,59 @@
         "Y"
       ]
     },
+    "privileges": {
+      "type": "object",
+      "properties": {
+        "Privileges": {
+          "type": "object",
+          "description": "Restrict element to authorized roles or a rule expression.",
+          "properties": {
+            "Rule": {
+              "type": "string",
+              "description": "Expression evaluated by RuleEngine service."
+            },
+            "Roles": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of authorized roles."
+            }
+          }
+        }
+      }
+    },
+    "axis": {
+      "description": "Axis name or array of axes names.",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z]([\\-_]{0,1}[a-zA-Z0-9]+)+$",
+            "uniqueItems": true
+          }
+        },
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z]([\\-_]{0,1}[a-zA-Z0-9]+)+$"
+        }
+      ]
+    },
     "base": {
       "type": "object",
       "properties": {
         "Name": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^[A-Za-z]([\\-_]{0,1}[a-zA-Z0-9]+)+$"
         },
         "Title": {
           "type": "string"
         },
+        "Options": {
+          "type": "object"
+        },
         "ResourceType": {
           "type": "string"
-        },
-        "Disabled": { "type": "boolean" }
+        }
       },
       "required": [
         "Name",
@@ -361,7 +400,8 @@
         {
           "properties": {
             "Type": {
-              "type": "string"
+              "type": "string",
+              "description": "Implementation type and assembly."
             },
             "Disabled": {
               "type": "boolean",
@@ -373,40 +413,56 @@
           ]
         }
       ]
-    },
-    "permission": {
-      "type": "object",
-      "properties": {
-        "Roles": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "Expression": { "type": "string" }
-      }
     }
   },
   "properties": {
-    "Folders": {
+    "Currencies": {
       "type": "array",
       "items": {
         "allOf": [
           { "$ref": "#/definitions/base" },
           {
             "properties": {
+              "Symbol": { "type": "string" }
+            }
+          }
+        ]
+      }
+    },
+    "Folders": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          { "$ref": "#/definitions/privileges" },
+          {
+            "properties": {
               "Columns": {
                 "type": "array",
                 "items": {
-                  "allOf": [
-                    { "$ref": "#/definitions/base" },
-                    {
-                      "properties": {
-                        "Type": {
-                          "type": "string",
-                          "enum": [ "Date" ]
-                        }
-                      }
+                  "properties": {
+                    "Name": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z]\\w*$",
+                      "enum": [ "number", "subject", "value", "owner", "sender", "received", "replied", "state" ]
+                    },
+                    "Title": {
+                      "type": "string"
+                    },
+                    "ResourceType": {
+                      "type": "string"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "Date",
+                        "Boolean",
+                        "Decimal",
+                        "Text"
+                      ]
                     }
-                  ]
+                  },
+                  "required": [ "Name" ]
                 },
                 "Icon": {
                   "type": "string"
@@ -428,13 +484,11 @@
               "Past": {
                 "type": "string"
               },
-              "Accumulate": {
-                "type": "boolean"
-              },
               "Color": {
                 "type": "string",
                 "format": "color"
-              }
+              },
+              "Hidden": { "type": "boolean" }
             }
           }
         ]
@@ -482,6 +536,11 @@
               "DataType": {
                 "Type": "string"
               },
+              "Rank": {
+                "Type": "number",
+                "minimum": -128,
+                "maximum": 127
+              },
               "Positions": {
                 "type": "object",
                 "patternProperties": {
@@ -506,10 +565,26 @@
       "items": {
         "allOf": [
           { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
           {
             "properties": {
-              "Permissions": {
-                "type": "object",
+              "Format": {
+                "type": "string"
+              },
+              "Template": {
+                "type": "string"
+              },
+              "Position": {
+                "type": "string",
+                "enum": [ "Require", "Ask", "None" ]
+              },
+              "Workflow": {
+                "$ref": "#/definitions/workflow"
+              },
+              "Icon": {
+                "type": "string"
+              },
+              "Rules": {
                 "patternProperties": {
                   "^.*$": {
                     "type": "object",
@@ -518,20 +593,11 @@
                         "type": "array",
                         "items": { "type": "string" }
                       },
-                      "Expression": { "type": "string" },
+                      "Rule": { "type": "string" },
                       "Title": { "type": "string" }
                     }
                   }
                 }
-              },
-              "Format": {
-                "type": "string"
-              },
-              "Workflow": {
-                "$ref": "#/definitions/workflow"
-              },
-              "Icon": {
-                "type": "string"
               },
               "History": {
                 "type": "array",
@@ -554,11 +620,14 @@
       "items": {
         "allOf": [
           { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
           {
             "properties": {
               "Template": {
                 "type": "string"
-              }
+              },
+              "Icon": { "type": "string" },
+              "ArgumentsTemplate": { "type": "string" }
             }
           }
         ]
@@ -574,6 +643,30 @@
             "properties": {
               "Assignable": {
                 "type": "boolean"
+              },
+              "Groups": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "Name": { "type": "string" },
+                    "Title": { "type": "string" },
+                    "items": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "Patterns": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Expression": { "type": "string" },
+                    "Name": { "type": "string" },
+                    "Title": { "type": "string" }
+                  }
+                }
               }
             }
           }
@@ -593,9 +686,6 @@
               },
               "Shape": {
                 "$ref": "#/definitions/shape"
-              },
-              "Options": {
-                "type": "object"
               }
             },
             "required": [
@@ -611,6 +701,7 @@
       "items": {
         "allOf": [
           { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
           {
             "properties": {
               "YAxis": {
@@ -621,6 +712,10 @@
                   }
                 }
               },
+              "CurrencyCode": { "type": "string" },
+              "Template": {
+                "type": "string"
+              },
               "Axes": {
                 "type": "array",
                 "items": {
@@ -628,7 +723,22 @@
                     { "$ref": "#/definitions/base" },
                     {
                       "properties": {
-                        "Multipule": { "type": "boolean" },
+                        "Sensitive": {
+                          "type": "boolean",
+                          "description": "Anomaly notification group"
+                        },
+                        "SelectionMode": {
+                          "description": "User interaction in filters",
+                          "enum": [ "Single", "Pattern", "Multiple" ]
+                        },
+                        "Combination": {
+                          "type": "boolean",
+                          "description": "Is an account segment"
+                        },
+                        "Indexable": {
+                          "type": "boolean",
+                          "description": "Meaningful in Indices queries. Set false for cube-only axes"
+                        },
                         "DataType": {
                           "type": "string",
                           "description": "Name of type associated with this axis"
@@ -641,6 +751,46 @@
                 },
                 "additionalProperties": false
               },
+              "Patterns": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/definitions/base" },
+                    {
+                      "properties": {
+                        "Roles": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "Axes": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^[A-Za-z][\\w]+$": {
+                              "type": [ "array", "string", "number" ],
+                              "pattern": "^[\\w\\*\\#\\.\\-\\,\\;]+$",
+                              "description": "*., digits and letters",
+                              "items": {
+                                "type": [ "string", "number" ],
+                                "pattern": "^[\\w\\*\\#\\.\\-]+$"
+                              }
+                            }
+                          },
+                          "minProperties": 1,
+                          "description": ""
+                        },
+                        "Rule": {
+                          "type": "string",
+                          "description": "Expression evaluated by RuleEngine service."
+                        }
+                      },
+                      "required": [ "Roles", "Axes" ]
+                    }
+                  ]
+                },
+                "additionalProperties": false
+              },
               "Views": {
                 "type": "array",
                 "items": {
@@ -648,11 +798,29 @@
                     { "$ref": "#/definitions/base" },
                     {
                       "properties": {
-                        "Filter": {
-                          "type": "array",
-                          "items": { "type": "string" }
+                        "Icon": { "type": "string" },
+                        "Filters": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^[A-Za-z][\\w]*$": {
+                              "type": [ "array", "string", "number" ],
+                              "pattern": "^[\\w\\*\\#\\.]+$",
+                              "items": {
+                                "type": [ "string", "number" ],
+                                "pattern": "^[\\w\\*\\#\\.]+$"
+                              }
+                            }
+                          }
                         },
                         "Type": {
+                          "type": "string",
+                          "default": "Chart",
+                          "enum": [
+                            "Pivot",
+                            "Chart"
+                          ]
+                        },
+                        "ChartType": {
                           "type": "string",
                           "default": "Column",
                           "enum": [
@@ -660,47 +828,44 @@
                             "Bar",
                             "StackingBar",
                             "Line",
+                            "StepLine",
                             "Column",
                             "StackingColumn",
                             "Area",
                             "Spline",
+                            "SplineArea",
                             "Doughnut",
                             "HalfDoughnut",
-                            "Pivot",
                             "Polar",
                             "Radar",
-                            "StepLine"
+                            "StepArea"
                           ]
                         },
                         "Series": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "uniqueItems": true
-                          }
+                          "$ref": "#/definitions/axis"
                         },
                         "XAxis": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "minItems": 1,
-                            "uniqueItems": true
-                          }
+                          "$ref": "#/definitions/axis"
                         },
                         "Indices": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "States": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
+                          "description": "Cube index name or array of indices names.",
+                          "anyOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^[A-Za-z]([\\-_]{0,1}[a-zA-Z0-9]+)+$",
+                                "uniqueItems": true
+                              }
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^[A-Za-z]([\\-_]{0,1}[a-zA-Z0-9]+)+$"
+                            }
+                          ]
                         }
                       },
-                      "required": [ "Type", "XAxis" ]
+                      "required": [ "XAxis" ]
                     }
                   ]
                 },
@@ -711,7 +876,8 @@
                 "items": {
                   "allOf": [
                     { "$ref": "#/definitions/base" },
-                    {}
+                    {
+                    }
                   ]
                 }
               }
@@ -741,11 +907,14 @@
       "items": {
         "allOf": [
           { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
           {
             "properties": {
-              "Template": { "type": "string" }
-            },
-            "required": [ "Template" ]
+              "Template": {
+                "type": "string"
+              },
+              "Icon": { "type": "string" }
+            }
           }
         ]
       },
@@ -756,6 +925,7 @@
       "items": {
         "allOf": [
           { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
           {
             "properties": {
               "Template": {
@@ -763,8 +933,7 @@
               },
               "Cols": { "type": "number" },
               "Rows": { "type": "number" }
-            },
-            "required": [ "Template" ]
+            }
           }
         ]
       },
@@ -777,7 +946,7 @@
           { "$ref": "#/definitions/base" },
           {
             "properties": {
-              "Available": { "type": "boolean" },
+              "Disabled": { "type": "boolean" },
               "Steps": {
                 "type": "array",
                 "items": {
@@ -830,6 +999,7 @@
     "Nodes",
     "Cubes",
     "Rules",
-    "Widgets"
+    "Widgets",
+    "Currencies"
   ]
 }
