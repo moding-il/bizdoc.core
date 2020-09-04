@@ -218,13 +218,27 @@ public class MyFormModel {
 
 #### Mapping cube
 
-You map a form model to a cube by annotating the CubeMapping attribute.
+You map a form model to a cube by annotating the `CubeMapping` attribute.
 
 ```c#
-[CubeMapping(typeof(MyCube), nameof(Amount), new string[] { nameof(Balance), nameof(Year) })]
+[CubeMapping(nameof(Amount), new [] { nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance) })]
+public class Line {
+  public DateTime Date { get; set; }
+  [JsonIgnore, ListType(typeof(Years))]
+  public short Year => (short)Date.Year;
+  [JsonIgnore, ListType(typeof(Months))]
+  public byte Month => (byte)Date.Month/*.ToString("d2")*/;
+  [JsonIgnore, ListType(typeof(Quarters))]
+  public byte? Quarter => Date.Quarter();
+
+  [ListType(typeof(Balances)), ValueResolver(typeof(StateAxisResolver<Balance?>))]
+  public Balance? Balance { get; set; }
+}
 ```
 
-See Cube below for more.
+> Mapping should match the ordinal if the _Axes_ for the _cube_ in the configuration file.
+
+The `StateAxisResolver` above finds the Balance in _bizdoc.config_ by the document _state_.
 
 #### Mapping scheduled tasks
 
@@ -404,11 +418,13 @@ public class MyForm : FormBase<MyFormModel> {
     }
 
     public override async Task FlowStartAsync(MyFormModel model) {
-      var usage = await _cubeService.GetUsage("myCube", 2020, 2, Axis.Null, Balance.Open, Axis.FromRange(200, 202));
+      var usage = await _cubeService.GetUsage("myCube", 2020, Axis.FromArray(1, 2), Axis.Null, Balance.Opend);
       ...
     }
 }
 ```
+
+The above retrieves the usage for myCube, year 2020 1st-2nd querters of all Opened balance.
 
 The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support _*_ and _._ charaters.
 
@@ -476,7 +492,7 @@ interface DataModel {
 In you form template, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
 
 ```html
-<ng-container [ngSwitch]="data.mode">
+<ng-container [ngSwitch]="mode">
   <div *ngSwithCase='"preview"'>
     <span bizdocCompareName="from,to">{{data.model.from}} - {{data.model.to}}</span>
     <table bizdocCompareGroup="lines">
@@ -585,16 +601,12 @@ You can gain programatic access to rules in the onBind() method.
 
 ```typescript
 private _privileges: { [name: string]: boolean; };
-onBind(model: MailModel<MyFormModel>): void {
-    this._privileges = model.roles;
+onBind(data: MailModel<MyFormModel>): void {
+    this._privileges = data.rules;
 }
 ```
 
- In addition to roles, a rule may also be assigned an _Expression_ which evaluates to true/false.
-
-```html
-<mat-form-field [hidden]='!privileges["myField"]'></mat-form-field>
-```
+In addition to roles, a rule may be assigned an _Expression_, which has to evaluates to true. See _rules_ above on how to endorse new rules.
 
 ### Store custom user settings
 
