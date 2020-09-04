@@ -14,6 +14,8 @@ and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
 Download latest Net Core from [Microsoft](https://dotnet.microsoft.com/download/dotnet-core/2.2).
 
+### Installation
+
 To install BizDoc, open Visual Studio. From Extensions menu, choose Manage Extensions. Select Online and search for [BizDoc Core](https://marketplace.visualstudio.com/items?itemName=Moding.BizDoc-Core).
 
 Install the package. You will need to restart Visual Studio.
@@ -30,7 +32,7 @@ Update npm package. From Windows PowerShell, type:
 
 > npm i [bizdoc.core@latest](https://www.npmjs.com/package/bizdoc.core)
 
-Create a database. Set _connectionString_ in _appsettings.json_.  
+Create a database and set it's _connectionString_ in _appsettings.json_.  
 
 ## Architecture
 
@@ -95,7 +97,8 @@ Setup in _startup.cs_.
 
 ```
 
-You'll need to set up authentication. BizDoc has three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, and [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). Install the relevant Nuget and add it to services in _startup.cs_.
+Set up authentication from either of the three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). 
+Install the relevant Nuget and add it to services in _startup.cs_.
 
 ```c#
     services.AddBizDoc().
@@ -105,6 +108,7 @@ You'll need to set up authentication. BizDoc has three configurations: [AspNetId
               options.Password.RequireLowercase = false;
               options.Password.RequireUppercase = false;
               options.Password.RequireDigit = false;
+              ...
           });
 ```
 
@@ -113,6 +117,10 @@ Sometimes the default identity manager will not sufice your organization specifi
 You can set BizDoc client behaviour from BizDocModule.forRoot() function.
 
 > Open _/ClinetApp/src/app/app.module_ to edit BizDocModule.forRoot() settings.
+
+```typescript
+  imports: [BizDocModule.forRoot({...})]
+```
 
 ## Objects
 
@@ -135,30 +143,37 @@ public class MyForm : FormBase<MyFormModel> {
 
 BizDoc provide the following services:
 
-- BizDoc.Core.Data.Store - BizDoc database.
-- BizDoc.Core.Data.IDocumentContext - Create, update, delete documents, document context.
-- BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
 - BizDoc.Core.Http.IHttpContext - Current identity.
+- BizDoc.Core.Data.Store - BizDoc database.
+- BizDoc.Core.Data.DocumentFactory - Document manager.
+- BizDoc.Core.Data.IDocumentContext - Create, update, delete documents, document context.
+- BizDoc.Core.Data.CubeService - Query cube.
+- BizDoc.Core.Workflow.WorkflowService - Workflow manager.
+- BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
 - BizDoc.Core.Identity.IProfileManager - User profile.
 - BizDoc.Core.Identity.IIdentityManager - User information from provider.
 - BizDoc.Core.Messaging.IEmailer - Deliver @.
 - BizDoc.Core.Messaging.ISmser - Send SMS.
-- BizDoc.Core.Data.DocumentFactory - Document manager.
-- BizDoc.Core.Data.CubeService - Query cube.
-- BizDoc.Core.Workflow.WorkflowService - Workflow manager.
-- BizDoc.Core.Messaging.INotificationManager - inject text notifiction to user(s).
+- BizDoc.Core.Messaging.NotificationManager - inject text notifiction to user(s).
 - IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
 - BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
 
+> The `IDocumentContext` and `IWorkflowInstance` services are only available in BizDoc objects.
+
 ### Form
 
-A form comprises of a backing class, responsible for managing form scope, a model, which represent form structure, and an Angular component, managing user interaction.
+A form is comprised of:
 
-You may override scope events to control form flow. Events are OnFlowEnd().
+- A backing class, responsible for managing evets in form lifetime.
+- A model, which represent form structure.
+- An Angular component, responsible for displaying model data and responding to user interaction.
+
+Override backend methods to respond to form events, such as FlowEndAsync().
 
 ```c#
 using BizDoc.Configuration;
 
+[Form(title: "My form")]
 public class MyForm : FormBase<MyFormModel>
 {
     public override Task FlowEndAsync(MyFormModel model)
@@ -168,29 +183,21 @@ public class MyForm : FormBase<MyFormModel>
 }
 ```
 
-You can annotate your class with Form attribute to apply configuration properties.
-
-```c#
-using BizDoc.Configuration.Annotations;
-
-[Form(title: "My form")]
-public class MyForm : FormBase<MyFormModel> {
-    ...
-}
-```
+The above `Form` annotation i used to apply configuration properties.
 
 #### Declare data model
 
-```c#  
+```c#
+[Temlate("app-my-form")]
 public class MyFormModel {
     public DateTime? Due { get; set; }
     ...
 }
 ```
 
-Annotatate properties to control flow and default layouting.
+Properties can be applied attributes to control how the model is read by BizDoc, and control layouting.
 
-Subject, Summary, Value, Required, DataType, MaxLength, Hint, ListType
+Attribues are: Subject, Summary, Value, Required, DataType, MaxLength, Hint and ListType.
 
 ```c#  
 using BizDoc.ComponentModel.Annotations;
@@ -211,7 +218,7 @@ Annotate one or more of the properties with the Key attribute. Use DocumentId to
 [Table("MyTable")]
 public class MyFormModel {
     [Key, DocumentId]
-    public int BizDocId { get; set; }
+    public int Id { get; set; }
     ...
 }
 ```
@@ -236,7 +243,7 @@ public class Line {
 }
 ```
 
-> Mapping should match the ordinal if the _Axes_ for the _cube_ in the configuration file.
+> Mapping should match the ordinal of the _Axes_ declared for the _cube_ in the configuration file.
 
 The `StateAxisResolver` above finds the Balance in _bizdoc.config_ by the document _state_.
 
@@ -270,10 +277,10 @@ import { BizDoc } from 'bizdoc.core';
 /** myForm component*/
 export class MyFormComponent implements FormComponent<MyFormModel> {
   form = this.fb.group({
-    subject: this.fb.control([], [Validators.required])
+    subject: this._fb.control([], [Validators.required])
   });
   mode: ViewMode;
-  constructor(private fb: FormBuilder) {
+  constructor(private _fb: FormBuilder) {
   }
   onBind(model: MailModel<MyFormModel>): void {
   }
@@ -283,8 +290,9 @@ interface MyFormModel {
 }
 ```
 
-> Note the BizDoc decoration.
-> The onBind function of FormComponent&lt;T&gt; interface provide access to message.
+> The `@BizDoc` decorator _selector_ has to match the `Template` attribute of the form model on the server code.
+
+The onBind function of FormComponent&lt;T&gt; interface provide access to message.
 
 Open my-form.component.html to edit the template.
 
@@ -298,7 +306,7 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms).
 
-You can incorporate BizDoc _Select_ and _AutoComplete_ in your template:
+You can incorporate BizDoc _Select_ and _Autocomplete_ in your template:
 
 ```html
   <mat-form-field>
@@ -306,16 +314,7 @@ You can incorporate BizDoc _Select_ and _AutoComplete_ in your template:
   </mat-form-field>
 ```
 
-Add Template attribute to your form object, providing the value on BizDoc annotation.
-
-```c#
-[Form(title: "My form"), Template("app-my-form")]
-public class MyForm : FormBase<MyFormModel> {
-    ...
-}
-```
-
-You can assign an icon to from configuration from any of the [Material Icons](https://material.io/tools/icons).
+You can assign an icon to the from from any of the [Material Icons](https://material.io/tools/icons).
 
 ### Type
 
@@ -330,34 +329,25 @@ public class Account
     public string Id { get; set; }
     public string Name { get; set; }
 }
-public class Accounts : TypeBase<string, string>
+public class Accounts : TypeBase<string>
 {
-    private readonly CustomStore customStore;
+    private readonly CustomStore _store;
 
     public Accounts(CustomStore customStore)
     {
-        this.customStore = customStore;
+        _store = customStore;
     }
-    public override Task<Dictionary<string, string>> GetValuesAsync(string args)
+    public override Task<Dictionary<string, string>> GetValuesAsync(Void args)
     {
-        try
-        {
-            return customStore.Accounts.ToDictionaryAsync(a => a.Id, a => a.Name);
-
-        }
-        catch (Exception e)
-        {
-
-            throw;
-        }
+        return _store.Accounts.ToDictionaryAsync(a => a.Id, a => a.Name);
     }
 }
 ```
 
-You link a model property to a type by setting it's ListType attribute.
+Link a model property to a type by setting it's ListType attribute.
 
 ```c#
-[ListType(typeof(Account))]
+[ListType(typeof(Accounts))]
 public string AccountId {get; set }
 ```
 
@@ -369,8 +359,9 @@ BizDoc has several built-in types, including Years, Monthes and Users. See BizDo
 public class MyReportDataModel
 {
     [Key]
-    public string Number { get; set; }
-    public decimal? Amount { get; set; }
+    public int Id { get; set; }
+    public string Product { get; set; }
+    public decimal? Price { get; set; }
 }
 public struct MyReportArgsModel
 {
@@ -379,8 +370,18 @@ public struct MyReportArgsModel
 [Report(title: "My report")]
 public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 {
-    public override async Task<IEnumerable<MyReportDataModel>> PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
-        await ...ToListAsync();
+  private readonly CustomStore _store;
+  public MyReport(CustomStore store) {
+    _store = store;
+  }
+
+  public override async Task<IEnumerable<MyReportDataModel>> 
+    PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
+      await _store.Lines.Select(l=> new MyReportDataModel {
+        Product = l.Product,
+        Price  l.Price,
+        ...
+      }).ToListAsync();
 }
 ```
 
@@ -408,7 +409,7 @@ A cube may also have one or more _Index_. An index represent a linear data such 
 
 #### Quering
 
-Use the _CubeService_ to preform quries on cube and indices. 
+Use the `CubeService` to preform quries on cube and indices.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -551,7 +552,7 @@ Create a new object and inherit from the object you wish to extend.
 ```c#
 public class MyDepartmentalPerformance: DepartmentalPerformance {
     private readonly IIdentityContext _identityContext;
-    protected override string[] Group => ... // provide list of identities
+    protected override async Task<string[]> UsersAsync() => ... // provide list of identities
 }
 ```
 
@@ -593,8 +594,8 @@ BizDoc has an administrative utility for assigning _roles_ to _rules_. Rules are
 In your form component template, test privileges by providing the permission name.
 
 ```html
-<input bizdocDisabled=myField />
-<div bizdocHidden=myField></div>
+<input bizdocDisabled="myField" />
+<div bizdocHidden="myField"></div>
 ```
 
 You can gain programatic access to rules in the onBind() method.
@@ -634,8 +635,10 @@ public class MyForm: FormBase<MyFormModel> {
 
 ## References
 
-BizDoc relay on [Hanfire](https://docs.hangfire.io/) for background tasking.
+BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background tasking. You can add your long-running or period tasks using it's infrastructure. Adminstrative access available through /hangfire url.
 
-[Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting.
+BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add your own charts, consider using this library. Licesing reqired.
 
-[CoreWf](https://github.com/UiPath-Open/corewf) as workflow engine.
+Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
+
+> Product updates are relesed as `npm` and `Nuget` packages.
