@@ -83,11 +83,30 @@ In addition, you'll need to configure SMTP for outgoing mailing.
 
 You will also need to declare the database context using AddDbContext() method.
 
-Configure [Hanfire](https://docs.hangfire.io/en/latest/getting-started/aspnet-core-applications.html).
+BizDoc has some background services you can optionaly configure. These include: escalate job, which escaltes unattended documents, set by AddEscalate() method, mail pending summary set by AddMailWaiting(), execute mail job, set by AddMailExecute() method which comes in three configurtions: IMAP, POP3 and Exchange, which require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
 
-BizDoc has some background services you can optionaly configure. These include: escalate job, which escaltes unattended documents, set by AddEscalate() method, mail pending summary set by AddMailWaiting(), execute mail job, set by AddMailExecute() method which comes in three configurtions: IMAP, POP3 and Exchange.
+Setup database provider by installing the Nuget for it, from either [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
+
+Setup in _startup.cs_.
+
+```c#
+    services.AddBizDoc().
+      UseSqlServer(connectionString);
+
+```
 
 You'll need to set up authentication. BizDoc has three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, and [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). Install the relevant Nuget and add it to services in _startup.cs_.
+
+```c#
+    services.AddBizDoc().
+       UseSqlServer(connectionString).
+       AddAspIdentity(options =>
+          {
+              options.Password.RequireLowercase = false;
+              options.Password.RequireUppercase = false;
+              options.Password.RequireDigit = false;
+          });
+```
 
 Sometimes the default identity manager will not sufice your organization specifics. In which case, you'll want to implement your own identity manager. See how to below.
 
@@ -452,6 +471,33 @@ interface DataModel {
 
 ## How To
 
+### Add version compare
+
+In you form template, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
+
+```html
+<ng-container [ngSwitch]="data.mode">
+  <div *ngSwithCase='"preview"'>
+    <span bizdocCompareName="from,to">{{data.model.from}} - {{data.model.to}}</span>
+    <table bizdocCompareGroup="lines">
+      <tr *ngFor='let line of data.model.lines' [bizdocCompareContext]='line'>
+        <td bizdocCompareName="product">{{line.product}}</td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+```
+
+You may also access version data from the onBind() function.
+
+```typescript
+onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
+    if(version && version.subject !== data.model.subject) {
+      ...
+    }
+}
+```
+
 ### Format email
 
 Create new xslt file. In file properties, choose 'Copy Always'.
@@ -507,17 +553,17 @@ Add Disabled to the object node.
 
 ```json
 {
-    "Disabled": true,
+    "Disabled": true
 }
 ```
 
-### Set prmissions to form sections
+### Set rules to form sections
 
-On bizdoc.config, find your form node. Edit Permissions node, providing a name, one or more role and expression.
+BizDoc has an administrative utility for assigning _roles_ to _rules_. Rules are declared per form in _bizdoc.config_.
 
 ```json
 {
-  "Permissions": {
+  "Rules": {
     "myField": {
       "Roles": [
         "role1"
@@ -528,16 +574,23 @@ On bizdoc.config, find your form node. Edit Permissions node, providing a name, 
 }
 ```
 
-In your form component, ue the onBind function to get permissions.
+In your form component template, test privileges by providing the permission name.
+
+```html
+<input bizdocDisabled=myField />
+<div bizdocHidden=myField></div>
+```
+
+You can gain programatic access to rules in the onBind() method.
 
 ```typescript
-private privileges: { [name: string]: boolean; };
+private _privileges: { [name: string]: boolean; };
 onBind(model: MailModel<MyFormModel>): void {
-    this.privileges = model.privileges;
+    this._privileges = model.roles;
 }
 ```
 
-Your template can now test privileges, providing the permission name.
+ In addition to roles, a rule may also be assigned an _Expression_ which evaluates to true/false.
 
 ```html
 <mat-form-field [hidden]='!privileges["myField"]'></mat-form-field>
@@ -566,3 +619,11 @@ public class MyForm: FormBase<MyFormModel> {
     }
 }
 ```
+
+## References
+
+BizDoc relay on [Hanfire](https://docs.hangfire.io/) for background tasking.
+
+[Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting.
+
+[CoreWf](https://github.com/UiPath-Open/corewf) as workflow engine.
