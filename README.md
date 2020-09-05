@@ -89,7 +89,7 @@ Setup in _startup.cs_.
 
 ```
 
-Set up authentication from either of the three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/). 
+Set up authentication from either of the three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/).
 Install the relevant Nuget and add it to services in _startup.cs_.
 
 ```c#
@@ -138,30 +138,60 @@ public class MyForm : FormBase<MyFormModel> {
 
 BizDoc provide the following services:
 
-- BizDoc.Core.Http.IHttpContext - Current identity.
-- BizDoc.Core.Data.Store - BizDoc database.
-- BizDoc.Core.Data.DocumentFactory - Document manager.
-- BizDoc.Core.Data.IDocumentContext - Current document.
-- BizDoc.Core.Workflow.WorkflowService - Workflow manager.
-- BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
-- BizDoc.Core.Data.CubeService - Query cube.
-- BizDoc.Core.Identity.IProfileManager - User profile.
-- BizDoc.Core.Identity.IIdentityManager - User information.
-- BizDoc.Core.Messaging.IEmailer - Deliver @.
-- BizDoc.Core.Messaging.ISmser - Send SMS.
-- BizDoc.Core.Messaging.NotificationManager - Send text notifiction to a user.
-- IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
-- BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
+* BizDoc.Core.Http.IHttpContext - Current identity.
+* BizDoc.Core.Data.Store - BizDoc database.
+* BizDoc.Core.Data.DocumentFactory - Document manager.
+* BizDoc.Core.Data.IDocumentContext - Current document.
+* BizDoc.Core.Workflow.WorkflowService - Workflow manager.
+* BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
+* BizDoc.Core.Data.CubeService - Query cube.
+* BizDoc.Core.Identity.IProfileManager - User profile.
+* BizDoc.Core.Identity.IIdentityManager - User information.
+* BizDoc.Core.Messaging.IEmailer - Deliver @.
+* BizDoc.Core.Messaging.ISmser - Send SMS.
+* BizDoc.Core.Messaging.NotificationManager - Send text notifiction to a user.
+* IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
+* BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
 
 > The `IDocumentContext` and `IWorkflowInstance` services are only available within BizDoc objects.
 
 ### Form
 
-A form is comprised of:
+A form is comprised of three parts:
 
-- Data model class\(s\), representing form structure.
-- Backing class, responsible for managing evets in form lifetime.
-- An Angular component, responsible for displaying data and responding to user events.
+* A data model class\(s\), representing form structure.
+* Backing class, drived from FormBase, responsible for managing events in form lifetime.
+* An Angular component, responsible for displaying form data and responding to user interaction.
+
+#### Declare data model
+
+```c#
+public class MyFormModel {
+    public string Subject { get; set; }
+    public DateTime? Due { get; set; }
+    ...
+}
+```
+
+You can decorate properties with attributes, controlling how the model is read by BizDoc, and controling default layout.
+
+Attribues include: Subject, Summary, Value, Required, DataType, MaxLength, Hint and ListType.
+
+```c#  
+using BizDoc.ComponentModel.Annotations;
+
+[Temlate("app-my-form")]
+public class MyFormModel {
+    [Subject]
+    public string Subject { get; set; }
+    ...
+}
+```
+
+The above instructs BizDoc to use the Subject proerty as the document title.
+The Template annotation names the Angular component for this form.
+
+#### Declare baking class
 
 Override backend methods, such as FlowEndAsync(), to respond to form events.
 
@@ -178,38 +208,12 @@ public class MyForm : FormBase<MyFormModel>
 }
 ```
 
-The above `Form` annotation is used to apply a *title* to form configuration. See the configuratino file for more.
+The above Form annotation is used to apply a title to form configuration. See the configuratino file for more.
 
-#### Declare data model
-
-```c#
-[Temlate("app-my-form")]
-public class MyFormModel {
-    public DateTime? Due { get; set; }
-    ...
-}
-```
-
-You can decorate properties with attributes, controlling how the model is read by BizDoc, and controling default layout.
-
-Attribues include: Subject, Summary, Value, Required, DataType, MaxLength, Hint and ListType.
-
-```c#  
-using BizDoc.ComponentModel.Annotations;
-
-public class MyFormModel {
-    [Subject]
-    public string Subject { get; set; }
-    ...
-}
-```
-
-The above instructs BizDoc to use the Subject proerty as the *Document* title.
-
-#### Mapping database table
+##### Mapping database table
 
 You can map form model and sub models to database tables by annotating the class with Table, Key and Line attributes.
-Assign the DocumentId attribute to instruct BizDoc to set it's value from the *Document* identity.
+Assign the DocumentId attribute to instruct BizDoc to set it's value from the document identity.
 
 ```c#
 [Table("MyTable")]
@@ -220,9 +224,9 @@ public class MyFormModel {
 }
 ```
 
-#### Mapping cube
+##### Mapping a cube
 
-You map a form model to a cube by annotating the `CubeMapping` attribute.
+Map a form model to a cube by annotating the `CubeMapping` attribute.
 
 ```c#
 [CubeMapping(nameof(Amount), new [] { nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance) })]
@@ -239,11 +243,12 @@ public class Line {
   public Balance? Balance { get; set; }
 }
 ```
+
 The `StateAxisResolver` above finds the Balance in _bizdoc.config_ by the document _state_ *Options*.
 
 > Mapping should match the ordinal and types of the _Axes_ declared for the _cube_ in the configuration file.
 
-#### Mapping scheduled tasks
+##### Mapping scheduled tasks
 
 ```c#
 [EvenMapping(...)]
@@ -258,10 +263,7 @@ From ./ClientApp PowerShell, type:
 Open ./app/src/myForm/myForm.component.ts
 
 ```typescript
-import { Component } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { FormComponent, MailModel, ViewMode } from 'bizdoc.core';
-import { BizDoc } from 'bizdoc.core';
+import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
 @Component({
   selector: 'app-my-form',
   templateUrl: './my-form.component.html',
@@ -270,7 +272,6 @@ import { BizDoc } from 'bizdoc.core';
 @BizDoc({
   selector: 'app-my-form'
 })
-/** myForm component*/
 export class MyFormComponent implements FormComponent<MyFormModel> {
   form = this.fb.group({
     subject: this._fb.control([], [Validators.required])
@@ -286,9 +287,14 @@ interface MyFormModel {
 }
 ```
 
+The above code declares an interface that matches the data model on the server-side, and a component implementing the FormComponent\<T\> interface.
+
 > The `@BizDoc` decorator _selector_ has to match the `Template` attribute of the form model on the server code.
 
-The onBind function of FormComponent&lt;T&gt; interface provide access to message.
+Access form data from the onBind function of the FormComponent&lt;T&gt; interface.
+
+You can inject BizDoc angular services in your component constructor to gain access to BizDoc infrastructure.
+Services include `SessionService`, `CubeService` and `DataSourceService`.
 
 Open my-form.component.html to edit the template.
 
@@ -300,9 +306,9 @@ Open my-form.component.html to edit the template.
 </form>
 ```
 
-See Angular [reactive forms](https://angular.io/guide/reactive-forms).
+See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc _Select_ and _Autocomplete_ in your template, where the *type* matches a TypeBase class declared in the configuration:
+You can incorporate BizDoc _Select_ and _Autocomplete_, _Account-Picker_ and _Trace_ in your template.
 
 ```html
   <mat-form-field>
@@ -310,7 +316,9 @@ You can incorporate BizDoc _Select_ and _Autocomplete_ in your template, where t
   </mat-form-field>
 ```
 
-Assign an icon to the from from any of the [Material Icons](https://material.io/tools/icons).
+In the above example, the *type* attribute matches a TypeBase class declared in the configuration types section.
+
+You can change form configuration properties in the configuration file. For example, you can assign an icon to the from from any of the [Material Icons](https://material.io/tools/icons).
 
 ### Type
 
@@ -321,7 +329,6 @@ For example, the type Account can retreive accounts from your database.
 [Table("Accounts")]
 public class Account
 {
-    [System.ComponentModel.DataAnnotations.Key]
     public string Id { get; set; }
     public string Name { get; set; }
 }
@@ -329,10 +336,8 @@ public class Accounts : TypeBase<string>
 {
     private readonly CustomStore _store;
 
-    public Accounts(CustomStore customStore)
-    {
-        _store = customStore;
-    }
+    public Accounts(CustomStore customStore) => _store = customStore;
+
     public override Task<Dictionary<string, string>> GetValuesAsync(Void args) =>
         _store.Accounts.ToDictionaryAsync(a => a.Id, a => a.Name);
 }
@@ -347,7 +352,7 @@ public string AccountId {get; set }
 
 BizDoc has several built-in types, including Years, Quarters, Months and Users. See BizDoc.Configuration.Generic namespace for others.
 
-You can control objects such as a Type behaviour by setting it's Options.
+You can control objects such as a Type behaviour by setting it's Options in the configuration file.
 
 ```json
 Types: [
@@ -386,7 +391,7 @@ public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
     _store = store;
   }
 
-  public override async Task<IEnumerable<MyReportDataModel>> 
+  public override async Task<IEnumerable<MyReportDataModel>>
     PopulateAsync(MyReportArgsModel args, IProgress<int> progress) =>
       await _store.Lines.Select(l=> new MyReportDataModel {
         Product = l.Product,
@@ -464,7 +469,7 @@ public class MyForm : FormBase<MyFormModel> {
     }
 
     public override async Task FlowStartAsync(MyFormModel model) {
-      var usage = await _cubeService.GetUsage("myCube", 2020, Axis.FromArray(1, 2), null, Balance.Opend);
+      var usage = await _cubeService.GetUsage("myCube", 2020, Axis.FromArray(1, 2), default, Balance.Opend);
       ...
     }
 }
@@ -487,7 +492,7 @@ First, implement the CubeBase.IExplore&lt;T&gt; QueryAsync(). Then override the 
 ```c#
 public class MyCube : CubeBase, CubeBase.IExplore<PO> {
   public override GetExploreType(params string[] axes) {
-      if (axes.ElementAt(4).Equals(Blance.PO.ToString())
+      if (axes.ElementAt(4 /* position of the balance axis */).Equals(Balance.PO.ToString())
         return typeof(PO);
       return base.GetExploreType();
   }
@@ -500,9 +505,9 @@ A _Widget_ data on dashboard.
 
 ```c#
 [Template("app-my-widget")]
-public class MyWidget : WidgetBase<PersonalActivity.DataModel, PersonalActivity.ArgsModel>
+public class MyWidget : WidgetBase<PersonalActivity.DataModel>
 {
-    public override Task<DataModel> GetAsync(ArgsModel args)
+    public override Task<DataModel> GetAsync(Void args)
     {
         ...
     }
@@ -516,12 +521,10 @@ public class MyWidget : WidgetBase<PersonalActivity.DataModel, PersonalActivity.
 }
 ```
 
-Add a new compoenent to your widget in ./ClientApp.
+Add a component that matches your widget template in ./ClientApp.
 
 ```typescript
-import { Component } from '@angular/core';
-import { WidgetComponent } from 'bizdoc.base';
-import { BizDoc } from 'bizdoc.core';
+import { WidgetComponent, BizDoc } from 'bizdoc.core';
 
 @Component({
   selector: 'app-my-widget',
@@ -541,13 +544,13 @@ interface DataModel {
 }
 ```
 
-The above component implements the WidgetComponent\<T\> interface onBind().
+The above component implements the WidgetComponent\<T\> interface onBind() function, receiving data from the GetAsync() method on the server-side object.
 
 ## How To
 
-### Add version compare
+### Enable version compare
 
-In you form template, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
+BizDoc logs changes made to document model during workflow. Changes can then be viewed from trace. To enable the form to show a colorful version compare, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
 
 ```html
 <ng-container [ngSwitch]="mode">
@@ -572,7 +575,7 @@ onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
 }
 ```
 
-### Format email
+### Format email delivered
 
 Create new xslt file. In file properties, choose 'Copy Always'.
 
@@ -635,7 +638,7 @@ Add Disabled to the object node.
 }
 ```
 
-### Set rules to form sections
+### Set privileges to form fields and sections
 
 BizDoc has an administrative utility for assigning _roles_ to _rules_. Rules are declared per form in _bizdoc.config_.
 
@@ -656,15 +659,17 @@ In your form component template, test privileges by providing the permission nam
 
 ```html
 <input bizdocDisabled="myField" />
+...
 <div bizdocHidden="myField"></div>
 ```
 
-You can gain programatic access to rules in the onBind() method.
+You can gain programatic access to rules from the onBind() method.
 
 ```typescript
-private _privileges: { [name: string]: boolean; };
 onBind(data: MailModel<MyFormModel>): void {
-    this._privileges = data.rules;
+    if (!data.rules['myField']) {
+      ...
+    }
 }
 ```
 
@@ -679,17 +684,19 @@ In your object constructor, consume _IProfileManager_ and use Get() and Set() me
 ```c#
 public class MyForm: FormBase<MyFormModel> {
     private readonly IProfileManager _profileManager;
-    public MyForm(IProfileManager profileManager) {
+    private readonly IHttpContext _httpContext;
+    public MyForm(IHttpContext httpContext, IProfileManager profileManager) {
         _profileManager = profileManager;
+        _httpContext = httpContext;
     }
     private void ApplySettings() {
-        var profile = _profileManager[myModel.OwnerId];
+        var profile = _profileManager[_httpContext.UserId];
         var settings = profile.Get<MySettings>();
-        settings.MyProperty = false;
+        settings.Like = false;
         _profileManager.Persist(profile);
     }
     public struct MySettings {
-        public bool MyProperty {get; set; }
+        public bool Like {get; set; }
     }
 }
 ```
