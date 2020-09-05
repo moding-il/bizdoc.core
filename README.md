@@ -308,7 +308,7 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc _Select_ and _Autocomplete_, _Account-Picker_ and _Trace_ in your template.
+You can incorporate BizDoc `Select` and `Autocomplete`, `Account-Picker` and `Trace` in your template.
 
 ```html
   <mat-form-field>
@@ -316,7 +316,9 @@ You can incorporate BizDoc _Select_ and _Autocomplete_, _Account-Picker_ and _Tr
   </mat-form-field>
 ```
 
-In the above example, the *type* attribute matches a TypeBase class declared in the configuration types section.
+In the above example, the *type* attribute matches a TypeBase class declared in the configuration.
+
+
 
 You can change form configuration properties in the configuration file. For example, you can assign an icon to the from from any of the [Material Icons](https://material.io/tools/icons).
 
@@ -401,9 +403,26 @@ public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 }
 ```
 
-A report can have an Angular component responding to it, or leave BizDoc to reflect it's columns and arguments.  
+A report may have an Angular component responding to it. If no component is registered using the _Template_ annotation, BizDoc interpetates the model columns and the arguments as fields.  
 
-BizDoc built-in reports can be customized by setting it's Options in the configuration.
+```typescript
+import {ReportComponent, BizDoc, ReportRef} from 'bizdoc.core';
+
+@Component({...})
+@BizDoc({...})
+export class MyReport implements ReportComponent<MyReportModel, MyReportArgs> {
+  constructor(@Inject(ReportRef) private _ref: ReportRef) { }
+  onBind(data: MyReportModel[]) {
+    ...
+  }
+}
+interface MyReportModel { ... }
+interface MyReportArgs { ... }
+```
+
+The ReportRef above enables the report to access running context functionality, such as progress events of the server-side code.
+
+BizDoc built-in reports can be customized by setting the Options in the configuration.
 
 ```json
 Reports: [{
@@ -428,7 +447,7 @@ A cube represent a cross-data summary, which can be visualized as a chart or a p
 A cube declares _Axes_. Each axis maps to a _Type_ holding the axis possible values.
 You can use one of the built-in types or declare a type of your own, for example, a type that pulls accounts from a 3rd party app using SQL.
 
-You may choose to use the \[BizDoc\].\[Segments\] database to store possible values. In which case, you can set up a type for each segment in the configuration types section.
+You may choose to use the _BizDoc.Segments_ database to store possible values. In which case, you can set up a type for each segment in the configuration file types section.
 
 ```json
 { "Types":[{
@@ -443,9 +462,9 @@ You may choose to use the \[BizDoc\].\[Segments\] database to store possible val
 
 You map a cube to form data model by annotating the `CubeMapping` attribute as explained above.
 
-A cube uses _views_ to decide what cut to show of the data. A view typecly has X-Axis and Series.
+#### Backing object
 
-> Open _bizdoc.json_ and find Cubes section. Reorder, modify and add axes and views to your cube.
+Create a class that drives from CubeBase.
 
 ```c#
 public class MyCube : CubeBase
@@ -453,13 +472,89 @@ public class MyCube : CubeBase
 }
 ```
 
-Override base methods, such as the CanView() methon, to control access.
+Override base methods, such as the CanView() methon, to control aspects of the cube.
 
-A cube may also have one or more _Index_. An index represent a linear data such as budgeted values or target performance.
+#### Configuring
+
+A cube uses _views_ to decide what cut to show of the data. A view typecly has X-Axis and Series.
+
+```json
+  "Cubes": [
+    {
+      "Axes": [
+        {
+          "DataType": "years",
+          "Name": "year",
+          "Title": "Year"
+        },
+        {
+          "DataType": "quarters",
+          "Name": "quarter",
+          "Title": "Quarter"
+        },
+        ...
+      ],
+      "Views": [
+        {
+          "XAxis": [
+            "year",
+            "month"
+          ],
+          "Series": "balance",
+          "Indices": "budget",
+          "ChartType": "StackingColumn",
+          "Name": "balance",
+          "Title": "Balance"
+        }
+      ],
+      "Patterns": [
+        {
+          "Roles": [
+            "System"
+          ],
+          "Axes": {
+            "year": "20*"
+          },
+          "Name": "y2",
+          "Title": "20`"
+        }
+      ],
+      "Indices": [
+        {
+          "Name": "budget",
+          "Title": "Budget"
+        }
+      ],
+      "Name": "myCube",
+      "Title": "My cube"
+    }]
+```
+
+A cube may have one or more _Index_. An index represent a linear data such as budgeted values or target performance.
+Patterns are maintained either by editing the file or using an administrative utility.
+
+> Open _bizdoc.json_ and find Cubes section. Reorder, modify and add axes and views to your cube.
+
+
+#### Explore data
+
+You can extend the default drill down cpabilities by implementing a custom dill down, into 3rd party app.
+
+First, implement the CubeBase.IExplore&lt;T&gt; QueryAsync(). Then override the GetExploreType() methon and return the relevant type for the requested axes.
+
+```c#
+public class MyCube : CubeBase, CubeBase.IExplore<PO> {
+  public override GetExploreType(params string[] axes) {
+      if (axes.ElementAt(4 /* position of the balance axis */).Equals(Balance.PO.ToString())
+        return typeof(PO);
+      return base.GetExploreType();
+  }
+}
+```
 
 #### Quering
 
-Use the `CubeService` to preform quries on cube and indices.
+Use the `CubeService` to preform quries on cubes and indices.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -479,25 +574,9 @@ The above retrieves the usage for myCube, year 2020 1st-2nd querters of all Open
 
 The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support _*_ and _._ charaters.
 
-Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_.
+Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table.
 
 If you manipulate tables data to reflect 3rd party information, make sure you use records that were not created by BizDoc.
-
-#### Explore data
-
-You can extend the default drill down cpabilities by implementing a custom dill down, into 3rd party app.
-
-First, implement the CubeBase.IExplore&lt;T&gt; QueryAsync(). Then override the GetExploreType() methon and return the relevant type for the requested axes.
-
-```c#
-public class MyCube : CubeBase, CubeBase.IExplore<PO> {
-  public override GetExploreType(params string[] axes) {
-      if (axes.ElementAt(4 /* position of the balance axis */).Equals(Balance.PO.ToString())
-        return typeof(PO);
-      return base.GetExploreType();
-  }
-}
-```
 
 ### Widget
 
