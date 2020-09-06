@@ -191,7 +191,7 @@ public class MyFormModel {
 The above instructs BizDoc to use the Subject proerty as the document title.
 The Template annotation names the Angular component for this form.
 
-#### Declare baking class
+#### Declare baking object
 
 Override backend methods, such as FlowEndAsync(), to respond to form events.
 
@@ -245,6 +245,20 @@ public class Line {
 ```
 
 The `StateAxisResolver` above finds the Balance in _bizdoc.config_ by the document _state_ *Options*.
+
+```json
+"States": [
+{
+  "Past": "Opened",
+  "Color": "green",
+  "Name": "open",
+  "Title": "Open",
+  "ResourceType": "BizDoc.Core.Resources.Strings",
+  "Options": {
+    "Axis": "Open"
+  }
+}]
+```
 
 > Mapping should match the ordinal and types of the _Axes_ declared for the _cube_ in the configuration file.
 
@@ -308,17 +322,26 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select` and `Autocomplete`, `Account-Picker` and `Trace` in your template.
+You can incorporate BizDoc `Select` and `Autocomplete`, `AccountPicker` and `Trace` in your template.
 
 ```html
-  <mat-form-field>
-    <bizdoc-select formControlName="myProperty" type="users" placeholder="My property"></bizdoc-select>
-  </mat-form-field>
+<mat-form-field>
+  <bizdoc-select formControlName="myProperty" type="users" placeholder="My property"></bizdoc-select>
+</mat-form-field>
 ```
 
-In the above example, the *type* attribute matches a TypeBase class declared in the configuration.
+In the above example, the *type* attribute matches a TypeBase class declared in the configuration file.
 
+The `AccountPicker` allows the user to pick *combination* of _segments_. An axis is considered a segment if it's *combination* is set to true.
 
+```html
+<mat-form-field>
+  <bizdoc-account-picker formControlName="myProperty" placeholder="My property"
+  (optionSelected)='accountPicked($event)' [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-select>
+</mat-form-field>
+```
+
+By default, combinations are driven from the _BizDoc.Combinations_ table. You can override CombinationsAsync() of the cube backend to provide combination from a different table, like a 3rd party app.
 
 You can change form configuration properties in the configuration file. For example, you can assign an icon to the from from any of the [Material Icons](https://material.io/tools/icons).
 
@@ -403,7 +426,7 @@ public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 }
 ```
 
-A report may have an Angular component responding to it. If no component is registered using the _Template_ annotation, BizDoc interpetates the model columns and the arguments as fields.  
+A report may have an Angular component mapping to it, in which case the component should implement the IReportComponent\<T\>.
 
 ```typescript
 import {ReportComponent, BizDoc, ReportRef} from 'bizdoc.core';
@@ -421,6 +444,8 @@ interface MyReportArgs { ... }
 ```
 
 The ReportRef above enables the report to access running context functionality, such as progress events of the server-side code.
+
+> If no component is registered using the _Template_ annotation, BizDoc interpetates the model properties as columns and the arguments as fields.
 
 BizDoc built-in reports can be customized by setting the Options in the configuration.
 
@@ -479,62 +504,60 @@ Override base methods, such as the CanView() methon, to control aspects of the c
 A cube uses _views_ to decide what cut to show of the data. A view typecly has X-Axis and Series.
 
 ```json
-  "Cubes": [
-    {
-      "Axes": [
-        {
-          "DataType": "years",
-          "Name": "year",
-          "Title": "Year"
+"Cubes": [
+  {
+    "Axes": [
+      {
+        "DataType": "years",
+        "Name": "year",
+        "Title": "Year"
+      },
+      {
+        "DataType": "quarters",
+        "Name": "quarter",
+        "Title": "Quarter"
+      }
+    ],
+    "Views": [
+      {
+        "XAxis": [
+          "year",
+          "month"
+        ],
+        "Series": "balance",
+        "Indices": "budget",
+        "ChartType": "StackingColumn",
+        "Name": "balance",
+        "Title": "Balance"
+      }
+    ],
+    "Patterns": [
+      {
+        "Roles": [
+          "System"
+        ],
+        "Axes": {
+          "year": "20*"
         },
-        {
-          "DataType": "quarters",
-          "Name": "quarter",
-          "Title": "Quarter"
-        },
-        ...
-      ],
-      "Views": [
-        {
-          "XAxis": [
-            "year",
-            "month"
-          ],
-          "Series": "balance",
-          "Indices": "budget",
-          "ChartType": "StackingColumn",
-          "Name": "balance",
-          "Title": "Balance"
-        }
-      ],
-      "Patterns": [
-        {
-          "Roles": [
-            "System"
-          ],
-          "Axes": {
-            "year": "20*"
-          },
-          "Name": "y2",
-          "Title": "20`"
-        }
-      ],
-      "Indices": [
-        {
-          "Name": "budget",
-          "Title": "Budget"
-        }
-      ],
-      "Name": "myCube",
-      "Title": "My cube"
-    }]
+        "Name": "y2",
+        "Title": "20`"
+      }
+    ],
+    "Indices": [
+      {
+        "Name": "budget",
+        "Title": "Budget"
+      }
+    ],
+    "Name": "myCube",
+    "Title": "My cube"
+  }]
 ```
 
 A cube may have one or more _Index_. An index represent a linear data such as budgeted values or target performance.
 Patterns are maintained either by editing the file or using an administrative utility.
 
 > Open _bizdoc.json_ and find Cubes section. Reorder, modify and add axes and views to your cube.
-
 
 #### Explore data
 
@@ -574,7 +597,15 @@ The above retrieves the usage for myCube, year 2020 1st-2nd querters of all Open
 
 The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support _*_ and _._ charaters.
 
-Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table.
+#### Define cube anomely
+
+By default, anomaly is calculated as the value of all cube records that map to the document *entries* dedected from all of the cube *indices*, where axis marked as *sensitive* are included.
+
+If you wish to refine how anomely is calculated, override the cube CalculateAnomalyAsync() method. A negative value is considered an anomaly.
+
+#### Database
+
+Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table. Two more tables are _BizDoc.Combinations_ and _BizDoc.Segments_.
 
 If you manipulate tables data to reflect 3rd party information, make sure you use records that were not created by BizDoc.
 
