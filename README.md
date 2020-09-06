@@ -468,7 +468,7 @@ interface MyReportArgs { ... }
 The ReportRef above enables the report to access running context functionality, such as progress events of the server-side code.
 
 > If no component is registered using the _Template_ annotation, BizDoc treats the model properties as columns and the arguments as fields.
-> Use Display and DataType attributes to change layout.
+> Use Display and DataType attributes to control layouting.
 
 BizDoc built-in reports can be customized by setting the Options in the configuration.
 
@@ -626,9 +626,23 @@ By default, anomaly is calculated as the value of all cube records that map to t
 
 If you wish to refine how anomely is calculated, override the cube CalculateAnomalyAsync() method. A negative value is considered an anomaly.
 
+```c#
+public class MyCube : CubeBase
+{
+  public override Task<decimal> CalculateAnomalyAsync(params Axis[] axes)
+  {
+    return ...;
+  }
+}
+```
+
 #### Database
 
-Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table. Two more tables are _BizDoc.Combinations_ and _BizDoc.Segments_.
+Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table.
+
+> As these tables can get significantly large, consider adding indexes on the axes that your code acccess.
+
+The tables _BizDoc.Combinations_ and _BizDoc.Segments_ are used for default implementation for account segments.
 
 If you manipulate tables data to reflect 3rd party information, make sure you use records that were not created by BizDoc.
 
@@ -678,6 +692,35 @@ interface DataModel {
 ```
 
 The above component implements the WidgetComponent\<T\> interface onBind() function, receiving data from the GetAsync() method on the server-side object.
+
+### Rule
+
+A _rule_ declares a programmatic value. For example, the _anomaly_ rule returns the cube anomaly for the document being processed. Rules can then be evaluated in a workflow *condition* or object *privileges*.
+
+A rule inherits from RuleBase.
+
+```c#
+public class ValueRule : RuleBase<decimal?>
+{
+    private readonly IDocumentContext _documentContext;
+    public ValueRule(IDocumentContext documentContext) => _documentContext = documentContext;
+
+    public override decimal? GetValue() => _documentContext.Document.Value;
+}
+```
+
+In configuration file.
+
+```json
+{
+  "Type": "BizDoc.Configuration.Reports.CubeUsage",
+  "Name": "usage",
+  "Privileges": {
+    "Rule": "devEnvOnly",
+    "Roles": ["System"]
+  }
+}
+```
 
 ## How To
 
@@ -740,24 +783,36 @@ Register each of them separately in _startup.cs_ as scoped service for the respe
 
 ### Customize built-in objects
 
-BizDoc offers several built-in objects. These include workflow activities, data sources and widgets. You can extend any of these objects and adjust their behaviour.
-
-Create a new object and inherit from the object you wish to extend.
+BizDoc comes with several built-in objects. You can extend these objects behaviour by creating an  object that inherits from the built-in object.
 
 ```c#
-public class MyDepartmentalPerformance: DepartmentalPerformance {
-    private readonly IIdentityContext _identityContext;
-    protected override async Task<string[]> UsersAsync() => ... // provide list of identities
+public class MyDepartmentsCompare: DepartmentsCompareBase {
+  private readonly IIdentityContext _identityContext;
+  protected override async Task<string[]> GetUsersAsync(string groupId) => ... // provide list of identities
 }
 ```
 
-Set the Type of the object in bizdoc configuration file to your implementation.
+In BizDoc configuration file, disable the built-in object, and set the Type of the new object to your implementation.
+
+```json
+Widgets: [{
+  "Type": "BizDoc.Configuration.Widgets.DepartmentsCompare",
+  "Disabled": true,
+  "Name": "_departmentsCompare"
+},
+{
+  "Type": "MyProject.MyDepartmentsCompare, MyProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "Name": "myDepartmentsCompare"
+}
+]
+```
 
 BizDoc built-in objects can be found under the following namespaces:
 BizDoc.Workflow.Activities,
-BizDoc.Workflow.Types,
 BizDoc.Workflow.Actions,
-BizDoc.Configuration.Generic and
+BizDoc.Configuration.Types,
+BizDoc.Configuration.Rules,
+BizDoc.Configuration.Reports and
 BizDoc.Configuration.Widgets.
 
 ### Internationalization
@@ -789,7 +844,7 @@ In Angular app.module:
 TranslationService.Set('es', {myField: 'My Field {0}'});
 ```
 
-Consume using translation _pipe_.
+Consume using translation _pipe_, which accepts parameters.
 
 ```html
 <div>{{'myField' | translate : '!'}}</div>
@@ -875,6 +930,8 @@ BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background tasking. You 
 
 BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add your own charts, consider using this library. Licesing reqired.
 
+If you use the currency exchange rate job, register at <http://data.fixer.io>.
+
 Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
 
-> Product updates are relesed as `npm` and `Nuget` packages.
+> Product updates are relesed pariodically as npm and Nuget packages.
