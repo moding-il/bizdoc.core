@@ -35,20 +35,28 @@ From command-line, create the database schema.
 
 ## Architecture
 
-BizDoc can be broken into two major parts: backend server objects, controllers and configuration; and user interface, built as Angular components. Commonly, a front-end *component* has a backing server *object*. For example, BizDoc object such as a *form*, has a class that manages its lifetime events, wich inherits from an underlaying base class. Core communication between the front-end and the backend is provided by BizDoc infrasructure.
+BizDoc can be broken into two major parts: backend server objects, controllers and configuration; and front-end user interface, built as Angular components.
+Commonly, a front-end *component* has a backing server *object*. For example, BizDoc object such as a *form*, will have a class that manages it's lifetime events. Core communication between the front-end and the backend is done through BizDoc infrasructure.
 
 BizDoc objects can be one of:
 
-* Form,
-* Type,
-* Report,
-* Widget,
-* Utility,
-* Action,
-* Cube,
+* Form
+* Type
+* Report
+* Widget
+* Utility
+* Action
+* Cube
 * Rule.
 
-BizDoc also manages other types of elements, which does'nt have backend class, such as *states* and *roles*. Control these settings by editing the relevent section in the *configuration file*.
+BizDoc also facilitates unmanaged objects, which does'nt have a backend class. Including:
+
+* Currencies
+* Folders - Set columns.
+* States - Document statuses.
+* Roles - Declare a role per _type_, add *patterns* and *groups*, and assign positions
+
+Control these settings by editing the relevent section in the configuration file.
 
 BizDoc registers objects in _bizdoc.json_ configuration file. Upon run, if objects classes are found in your project they are added to the configuration file.
 You may instruct BizDoc to register an object with specific settings by annotating the class with the respective attribute, as explained below.
@@ -106,13 +114,19 @@ Install the relevant Nuget and add it to services in _startup.cs_.
 
 > Sometimes, the default identity managers will not answer all your organization needs. In which case, you can implement your own identity manager. See below how to create a custom identity manager.
 
-BizDoc has optional services you can add. These include: escalate job, which escaltes unattended documents, set by AddEscalate() method, mail pending summary set by AddMailWaiting(), execute mail job, set by AddMailExecute() method which comes in three configurtions: IMAP, POP3 and Exchange. Exchange require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
+BizDoc offers additional services. These include:
+
+* AddEscalateJob() - Escaltes unattended documents
+* AddSummaryMailJob() - Pending documents, notifications and chat summary
+* AddMailExecuteJob() - Analize returning emails for action and forward document workflow. Feature comes in three configurtions: IMAP, POP3 and Exchange. Exchange require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
+* AddExchangeRateJob() - Update currency exchange rate
+* AddSwagger() - Support Swagger
 
 To set BizDoc client app behaviour, update BizDocModule.forRoot() in your *app.module.ts* file.
 
 ```typescript
   imports: [BizDocModule.forRoot({
-    currencyCode: 'EUR',
+    currencyCode: 'EUR'
     ...
   })]
 ```
@@ -125,7 +139,7 @@ You control BizDoc flow by authoring _objects_. An object is a unit of code that
 
 BizDoc objects support Dependency Injection. You consume services added in your startup.cs file in the object constructor, including BizDoc services.
 
-The following example uses `IWorkflowInstance` to access the current running workflow instance.
+The following example uses the `IWorkflowInstance` service to access the currently running workflow instance.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -136,7 +150,7 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ````
 
-BizDoc provide the following services:
+BizDoc provides the following services:
 
 * BizDoc.Core.Http.IHttpContext - Current identity.
 * BizDoc.Core.Data.Store - BizDoc database.
@@ -153,38 +167,39 @@ BizDoc provide the following services:
 * IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
 * BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
 
-> The `IDocumentContext` and `IWorkflowInstance` services are only available within BizDoc objects.
+> `IDocumentContext` and `IWorkflowInstance` are only available within BizDoc objects.
 
 ### Form
 
-A form is comprised of three parts:
+Forms are the core of BizDoc.
+A _form_ object has three parts:
 
-* A data model class\(s\), representing form structure.
+* A data model, representing form structure.
 * Backing class, drived from FormBase, responsible for managing events in form lifetime.
-* An Angular component, responsible for displaying form data and responding to user interaction.
+* An Angular component, responsible for displaying data and responding to user interaction.
 
 #### Declare data model
 
 ```c#
 public class MyFormModel {
-    public string Subject { get; set; }
-    public DateTime? Due { get; set; }
-    ...
+  public string Subject { get; set; }
+  public DateTime? Due { get; set; }
+  ...
 }
 ```
 
 You can decorate properties with attributes, controlling how the model is read by BizDoc, and controling default layout.
 
-Attribues include: Subject, Summary, Value, Required, DataType, MaxLength, Hint and ListType.
+Attribues include: Subject, Summary, Value, Currenc, Required, DataType, MaxLength, Display, Hint and ListType.
 
 ```c#  
 using BizDoc.ComponentModel.Annotations;
 
 [Temlate("app-my-form")]
 public class MyFormModel {
-    [Subject]
-    public string Subject { get; set; }
-    ...
+  [Subject]
+  public string Subject { get; set; }
+  ...
 }
 ```
 
@@ -201,26 +216,28 @@ using BizDoc.Configuration;
 [Form(title: "My form")]
 public class MyForm : FormBase<MyFormModel>
 {
-    public override Task FlowEndAsync(MyFormModel model)
-    {
-        ...
-    }
+  public override Task FlowEndAsync(MyFormModel model)
+  {
+    ...
+  }
 }
 ```
 
 The above Form annotation is used to apply a title to form configuration. See the configuratino file for more.
 
-##### Mapping database table
+##### Mapping database tables
 
-You can map form model and sub models to database tables by annotating the class with Table, Key and Line attributes.
+You can map form model and sub models to database tables by annotating the class with Table, Key, DocumentId and Line attributes.
 Assign the DocumentId attribute to instruct BizDoc to set it's value from the document identity.
 
 ```c#
 [Table("MyTable")]
-public class MyFormModel {
-    [Key, DocumentId]
-    public int Id { get; set; }
-    ...
+public class MyFormLine {
+  [Key, DocumentId]
+  public int FormId { get; set; }
+  [Line] // unique
+  public short Line { get; set; }
+  ...
 }
 ```
 
@@ -260,12 +277,17 @@ The `StateAxisResolver` above finds the Balance in _bizdoc.config_ by the docume
 }]
 ```
 
-> Mapping should match the ordinal and types of the _Axes_ declared for the _cube_ in the configuration file.
+> Mapping should match the ordinal and types of the _Axes_ declared for the cube in the configuration file.
 
 ##### Mapping scheduled tasks
 
+Schedule an event using model properties.
+
 ```c#
-[EvenMapping(...)]
+[ScheduleMapping(nameof(EventDate))]
+public class Line {
+  public DateTime EventDate {get; set;}
+}
 ```
 
 #### Designing user interface
@@ -308,7 +330,7 @@ The above code declares an interface that matches the data model on the server-s
 Access form data from the onBind function of the FormComponent&lt;T&gt; interface.
 
 You can inject BizDoc angular services in your component constructor to gain access to BizDoc infrastructure.
-Services include `SessionService`, `CubeService` and `DataSourceService`.
+Services include `SessionService`, `CubeService`, `DataSourceService` and `TranslationService`.
 
 Open my-form.component.html to edit the template.
 
@@ -368,7 +390,7 @@ public class Accounts : TypeBase<string>
 }
 ```
 
-Link a *Type* to model property by setting it's ListType attribute.
+Link a *Type* to a form data model property by setting it's ListType attribute.
 
 ```c#
 [ListType(typeof(Accounts))]
@@ -445,7 +467,8 @@ interface MyReportArgs { ... }
 
 The ReportRef above enables the report to access running context functionality, such as progress events of the server-side code.
 
-> If no component is registered using the _Template_ annotation, BizDoc interpetates the model properties as columns and the arguments as fields.
+> If no component is registered using the _Template_ annotation, BizDoc treats the model properties as columns and the arguments as fields.
+> Use Display and DataType attributes to change layout.
 
 BizDoc built-in reports can be customized by setting the Options in the configuration.
 
@@ -736,6 +759,41 @@ BizDoc.Workflow.Types,
 BizDoc.Workflow.Actions,
 BizDoc.Configuration.Generic and
 BizDoc.Configuration.Widgets.
+
+### Internationalization
+
+BizDoc configuration _ResourceType_ attribute.
+
+```json
+"Folders": [
+  {
+    "Icon": "drafts",
+    "Name": "df",
+    "Title": "Drafts",
+    "ResourceType": "BizDoc.Core.Resources.Strings"
+  }]
+```
+
+In code:
+
+```c#
+[Form(Title = "MyForm", ResourceType = typeof(Properties.Resources))]
+public class MyForm : FormBase<MyFormModel> {
+    "Disabled": true
+}
+```
+
+In Angular app.module:
+
+```typescript
+TranslationService.Set('es', {myField: 'My Field {0}'});
+```
+
+Consume using translation _pipe_.
+
+```html
+<div>{{'myField' | translate : '!'}}</div>
+```
 
 ### Disable existing objects
 
