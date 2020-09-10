@@ -90,7 +90,7 @@ Setup in _startup.cs_.
 
 ```
 
-Set up authentication from either of the three configurations: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity/) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices/) which uses Microsoft Active Directory, or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta/).
+Set up authentication from one of: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) which uses Microsoft Active Directory, [Office365](https://www.nuget.org/packages/BizDoc.Core.Office) or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta).
 Install the relevant Nuget and add it to services in _startup.cs_.
 
 ```c#
@@ -132,8 +132,6 @@ An object is a unit of code that implements one of BizDoc base classes. Base cla
 
 BizDoc objects support Dependency Injection. You consume services added in your startup.cs file in the object constructor, including BizDoc services.
 
-The following example uses the `IWorkflowInstance` service to access the currently running workflow instance.
-
 ```c#
 public class MyForm : FormBase<MyFormModel> {
     private readonly IWorkflowInstance _workflowInstance;
@@ -143,28 +141,61 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ````
 
+The above code uses the `IWorkflowInstance` service to access the currently running workflow instance.
+
 BizDoc provides the following services:
 
-* BizDoc.Core.Http.IHttpContext - Current identity.
-* BizDoc.Core.Data.Store - BizDoc database.
-* BizDoc.Core.Data.DocumentFactory - Document manager.
-* BizDoc.Core.Data.IDocumentContext - Current document.
-* BizDoc.Core.Workflow.WorkflowService - Workflow manager.
-* BizDoc.Core.Workflow.IWorkflowInstance - Start, resume and access workflow.
-* BizDoc.Core.Data.CubeService - Query cube.
-* BizDoc.Core.Identity.IProfileManager - User profile.
-* BizDoc.Core.Identity.IIdentityManager - User information.
-* BizDoc.Core.Messaging.IEmailer - Deliver @.
-* BizDoc.Core.Messaging.ISmser - Send SMS.
-* BizDoc.Core.Messaging.NotificationManager - Send text notifiction to a user.
-* IOptions<BizDoc.Core.Configuration.Models.SystemOptions> - Configuration.
-* BizDoc.Core.Tasks.ScheduledTasks - Delayed execution.
+| Name |Usage | Namespace
+| --- | --- | ---
+| IHttpContext | Current identity | BizDoc.Core.Http
+| Store | BizDoc database | BizDoc.Core.Data
+| DocumentFactory | Document manager | BizDoc.Core.Data
+| IDocumentContext | Current document | BizDoc.Core.Data
+| WorkflowService | Workflow manager | BizDoc.Core.Workflow
+| IWorkflowInstance | Start, resume and access workflow | BizDoc.Core.Workflow
+| CubeService | Query cube | BizDoc.Core.Data
+| IProfileManager | User profile | BizDoc.Core.Identity
+| IIdentityManager | User information | BizDoc.Core.Identity
+| IEmailer | Deliver @ | BizDoc.Core.Messaging
+| ISmser | Send SMS | BizDoc.Core.Messaging
+| NotificationManager | Send text notifiction to a user | BizDoc.Core.Messaging
+| IOptions\<SystemOptions\> | Configuration| BizDoc.Core.Configuration.Models
+| ScheduledTasks | Delayed execution | BizDoc.Core.Tasks
 
 > `IDocumentContext` and `IWorkflowInstance` are only available within BizDoc objects.
 
-### Form
+You can inject BizDoc angular services in your client-side component constructor to gain access to BizDoc infrastructure.
 
-Forms are the core of BizDoc.
+```typescript
+export class MyFormComponent implements OnInit {
+  constructor(private _cube: CubeService) {
+  }
+  ngOnInit() {
+    this._cube.series(...);
+  }
+}
+```
+
+Services include:
+
+| Name | Usage
+--- | ---
+| `SessionService` | Session info, including logged user and profile of BizDoc configuration
+| `CubeService` | Query cube
+| `DataSourceService` | Retrieve server _type_ values
+| `TranslationService` | Support internationalization
+| `GuideService` | Start a tour
+| `CubeInfo` | Open cube
+| `MapInfo` | Open map
+| `DocumentInfo` | Preview a document
+| `AttachmentInfo` | Preview attachment
+
+Using the `MapInfo` requires configuring the *maps* in BizDocModule.forRoot({maps: {apiKey: ...}}).
+
+_Guides_ are declared in BizDocModule.forRoot({guides: ...}).
+
+### Forms
+
 A _form_ object consists of three parts:
 
 * A data model, representing form structure
@@ -268,8 +299,6 @@ The `StateAxisResolver` finds the Balance in the configuration file that matches
     "Axis": "Open"
   }
 }]
-
-
 ```
 
 > Mapping should match the types and ordinal of the cube _Axes_ declared in the configuration file.
@@ -323,19 +352,6 @@ The above code declares an interface that matches the data model on the server-s
 > The `@BizDoc` decorator _selector_ must match the `Template` attribute of the form model on the server code.
 
 Access form data from the onBind function of the FormComponent&lt;T&gt; interface.
-
-You can inject BizDoc angular services in your component constructor to gain access to BizDoc infrastructure.
-Services include:
-
-* `SessionService`,
-* `CubeService`,
-* `DataSourceService`,
-* `TranslationService`,
-* `GuideService`,
-* `CubeInfo`,
-* `MapInfo`,
-* `DocumentInfo`,
-* `AttachmentInfo`.
 
 Open my-form.component.html to edit the template.
 
@@ -393,7 +409,7 @@ Commonly, in addition to form data, preview mode display document trace.
 
 You can change form configuration properties in the configuration file. For example, you can assign an icon from any of the [Material Icons](https://material.io/tools/icons).
 
-### Type
+### Types
 
 A _type_ represents a source of values, which can be applied to model property.
 For example, the type Account can retrieve accounts from your database.
@@ -459,9 +475,9 @@ Or, you can manage the values within the configuration file.
 }
 ```
 
-### Report
+### Reports
 
-A report component has a data model, a backing class and an arguments class.
+A _report_ component has a data model, a backing class and an arguments class.
 
 ```c#
 public class MyReportDataModel
@@ -537,10 +553,12 @@ Reports: [{
 
 A cube represents a cross-data summary, which can be visualized as a chart or a pivot.
 
-A cube declares _Axes_. Each axis maps to a _Type_ holding the axis possible values.
+#### Axes
+
+A cube declares _Axes_. Each axis maps to a _Type_ holding the axis values.
 You can use one of the built-in types or declare new ones. For example, you can add a type that pulls accounts from a 3rd party app.
 
-You may choose to use the _BizDoc.Segments_ database table for this purpose. In which case, the built-in _Segments_ type can be set in the configuration file for each segment in the Types section.
+You may choose to use the _BizDoc.Segments_ database table for this purpose. In which case, a built-in _Segments_ type can be set in the configuration file in Types section.
 
 ```json
 {
@@ -554,7 +572,7 @@ You may choose to use the _BizDoc.Segments_ database table for this purpose. In 
 }
 ```
 
-You map a cube to form data model by annotating the _CubeMapping_ attribute as explained above in the *Form* section.
+You map a cube to form data model by annotating the _CubeMapping_ attribute as explained above in the [Form](#mapping-a-cube) section.
 
 #### Backing object
 
@@ -570,7 +588,7 @@ Override base methods, such as the CanView() method, to control aspects of the c
 
 #### Configuring
 
-A cube uses _views_ to show a cut of the data. A view typically has X-Axis and Series.
+A cube uses _views_ to show a cut of the data. A view typically has X-Axis and Series, and can show as either chart or pivot.
 
 ```json
 "Cubes": [
@@ -648,11 +666,11 @@ public class MyCube : CubeBase, CubeBase.IExplore<PO> {
 }
 ```
 
-> The implementation of the QueryAsync should handle different Axis types, such as range and patterns.
+> The implementation of the QueryAsync should be able to handle different Axis values, including range, arrays and patterns.
 
 #### Querying
 
-Use the `CubeService` to preform queries on cubes and indices. It maintains clear syntax and avoid SQL phrasing in your project.
+Use the `CubeService` to preform queries on _cubes_ and _indices_. It maintains clear syntax and avoid SQL phrasing in your project.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -688,19 +706,12 @@ public class MyCube : CubeBase
 }
 ```
 
-#### Database
+### Widgets
 
-Cubes are stored in database _BizDoc.Cube_ and _BizDoc.Indices_ tables, where _BizDoc.Cube_ reflect document data stored in _BizDoc.Entries_ table.
+A _widget_ represents a component displayed in user dashboard, commonly showing relevant data summary.
+Widgets have a backing object and an Angular component responding to it.
 
-> As these tables graw significantly large, consider adding indexes on the axes your code access.
-
-The tables _BizDoc.Combinations_ and _BizDoc.Segments_ are used for default implementation for account segments.
-
-If you manipulate tables data to reflect 3rd party information, make sure you use records that were not created by BizDoc.
-
-### Widget
-
-A _Widget_ data on dashboard.
+The backing object derived from WidgetBase.
 
 ```c#
 [Template("app-my-widget")]
@@ -717,7 +728,7 @@ public class MyWidget : WidgetBase<PersonalActivity.DataModel>
 }
 ```
 
-Add a component that matches your widget template in ./ClientApp.
+The Angular component imlements WidgetComponent\<T\> and has a _BizDoc_ annotation matching the backing object template.
 
 ```typescript
 import { WidgetComponent, BizDoc } from 'bizdoc.core';
@@ -740,9 +751,9 @@ interface DataModel {
 }
 ```
 
-The above component implements the WidgetComponent\<T\> interface onBind() function, receiving data from the GetAsync() method on the server-side object.
+The onBind() function receives data from the GetAsync() method of the server-side object.
 
-### Rule
+### Rules
 
 A _rule_ declares a programmatic value. For example, the _anomaly_ rule returns the cube anomaly for the document being processed. Rules can then be evaluated in a workflow *condition* or object *privileges*.
 
@@ -979,9 +990,32 @@ public class MyForm: FormBase<MyFormModel> {
 
 ## Database
 
-BizDoc databse schema is _BizDoc_ schema.
+BizDoc databse tables are created and maintained in the _BizDoc_ schema.
+You may access BizDoc storage using the `Store` service. If you wish to access the _cube_, we recommand using the `CubeService` as explained in the [Cube](#querying) section.
 
-_Documents_ _Recipients_
+| Table       | Usage |
+----          | ---   |
+| Documents | Data model records
+| Recipients | Document recipients
+| Events | Events of documents
+| Comments | Comments of documents
+| Entries | Reflects axes data extracted from document data model
+| Log | Documents log of one of: _ActionTaken_, _Submit_, _Escalate_, _ModelChange_ or _StateChange_ found in _BizDoc.Core.Data.Models.Log namespace.
+| Devices | (Internal registry of user devices)
+| Chats | Conversations (when applicable)
+| Cube | Reflects document data from _Entries_ table and data from 3rd party app
+| Indices | Indices for cube
+| Segments | Account segments code names
+| Combinations | Account segments combinations
+| Sequences | Unique form sequence
+
+You can access document models using the Document GetModel\<TModel\>() method. This practice does require you retrieve the documents first and is not intended for large queries.
+
+> As _Cube_ and _Indices_ tables grow significantly large, consider adding indexes on the axes you use.
+
+If you add 3rd party information to _Cube_ table, use separate records than the ones BizDoc create.
+
+_Segments_ and _Combinations_ tables are used by Segments _type_ and `AccountPicker` by default. You may map a segment axis to any _type_, as explained in [Cube](#axes) section, and override _cube_ CombinationsAync() method to retrieve combinations from a source of your choice.
 
 ## References
 
