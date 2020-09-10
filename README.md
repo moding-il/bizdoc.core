@@ -325,7 +325,17 @@ The above code declares an interface that matches the data model on the server-s
 Access form data from the onBind function of the FormComponent&lt;T&gt; interface.
 
 You can inject BizDoc angular services in your component constructor to gain access to BizDoc infrastructure.
-Services include `SessionService`, `CubeService`, `DataSourceService` and `TranslationService`.
+Services include:
+
+* `SessionService`,
+* `CubeService`,
+* `DataSourceService`,
+* `TranslationService`,
+* `GuideService`,
+* `CubeInfo`,
+* `MapInfo`,
+* `DocumentInfo`,
+* `AttachmentInfo`.
 
 Open my-form.component.html to edit the template.
 
@@ -339,11 +349,11 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker` and `Trace` in your template.
+You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `TimePicker`, `AddressInput` and `Trace` in your template.
 
 ```html
 <mat-form-field>
-  <bizdoc-select formControlName="myProperty" type="users" placeholder="My property"></bizdoc-select>
+  <bizdoc-select type="users" placeholder="My property"></bizdoc-select>
 </mat-form-field>
 ```
 
@@ -353,7 +363,7 @@ The `AccountPicker` allows the user to pick _combinations_ of _segments_. An axi
 
 ```html
 <mat-form-field>
-  <bizdoc-account-picker formControlName="myProperty" placeholder="My property"
+  <bizdoc-account-picker placeholder="My property"
   (optionSelected)='accountPicked($event)' [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-select>
 </mat-form-field>
 ```
@@ -375,7 +385,7 @@ A form may be visible for editing, previewing or version compare. Template can h
 </ng-container>
 ```
 
-Commonly, in addition to form data, in preview mode the document trace is shown.
+Commonly, in addition to form data, preview mode display document trace.
 
 ```html
 <bizdoc-trace [model]=data></bizdoc-trace>
@@ -966,6 +976,12 @@ public class MyForm: FormBase<MyFormModel> {
     }
 }
 ```
+
+## Database
+
+BizDoc databse schema is _BizDoc_ schema.
+
+_Documents_ _Recipients_
 
 ## References
 
