@@ -164,35 +164,44 @@ BizDoc provides the following services:
 
 > `IDocumentContext` and `IWorkflowInstance` are only available within BizDoc objects.
 
-You can inject BizDoc angular services in your client-side component constructor to gain access to BizDoc infrastructure.
+#### Angular DI
 
-```typescript
-export class MyFormComponent implements OnInit {
-  constructor(private _cube: CubeService) {
-  }
-  ngOnInit() {
-    this._cube.series(...);
-  }
-}
-```
+In an Angular app, you can inject BizDoc Angular services to access BizDoc infrastructure.
 
 Services include:
 
 | Name | Usage
 --- | ---
-| `SessionService` | Session info, including logged user and profile of BizDoc configuration
-| `CubeService` | Query cube
-| `DataSourceService` | Retrieve server _type_ values
-| `TranslationService` | Support internationalization
-| `GuideService` | Start a tour
-| `CubeInfo` | Open cube
-| `MapInfo` | Open map
-| `DocumentInfo` | Preview a document
-| `AttachmentInfo` | Preview attachment
+| SessionService | Session info, including logged user and profile of BizDoc configuration
+| CubeService | Query cube
+| DataSourceService | Retrieve server _type_ values
+| TranslationService | Support internationalization
+| GuideService | Start a tour guide
+| CubeInfo | Open cube
+| MapInfo | Open map
+| DocumentInfo | Preview a document
+| AttachmentInfo | Preview attachment
 
-Using the `MapInfo` requires configuring the *maps* in BizDocModule.forRoot({maps: {apiKey: ...}}).
+> Using the `MapInfo` requires configuring the *maps* in BizDocModule.forRoot({maps: {apiKey: ...}}) in your app.module.ts file.
 
-_Guides_ are declared in BizDocModule.forRoot({guides: ...}).
+_Guides_ opens a step-by-step tour, explaining the user what are the options, for example, in a complex form. Guides are declared in BizDocModule.forRoot({guides: ...}).
+
+```typescript
+class MyClass {
+  constructor(private _cube: CubeInfo) {
+  }
+  open() {
+    this._cube.open({
+      company: 201
+    }, {
+     xAxis: 'month',
+     serie: 'balance'
+    })
+  }
+}
+```
+
+The above example uses `CubeInfo` to show a matrix of cube axes with company 201 from your code.
 
 ### Forms
 
@@ -620,12 +629,12 @@ A cube uses _views_ to show a cut of the data. A view typically has X-Axis and S
     ],
     "Patterns": [
       {
-        "Roles": [
-          "System"
-        ],
         "Axes": {
           "year": "20*"
         },
+        "Roles": [
+          "System"
+        ],
         "Name": "y2",
         "Title": "20`"
       }
@@ -641,10 +650,41 @@ A cube uses _views_ to show a cut of the data. A view typically has X-Axis and S
   }]
 ```
 
-A cube may have one or more _Index_. An index represents a linear data such as budgeted values or target performance.
-Patterns are maintained either by editing the file or using an administrative utility.
+An _Index_ represents a linear data such as budgeted values or target performance.
 
 > Open _bizdoc.json_ and find Cubes section. Add, modify and reorder axes and views of your cube.
+
+#### Understanding patterns
+
+A _Pattern_ is a set of axis assigned to one or more user roles and rule.
+Use patterns to restrict access to accounts. Axes can be assigned in the form of range, array or mask.
+
+For example, to restrict view to years 20` for companies 201 and 202 to system role users, add the following:
+
+```json
+    "Patterns": [
+      {
+        "Axes": {
+          "year": "20*",
+          "company": [201, 202]
+        },
+        "Roles": [
+          "System"
+        ],
+        "Name": "y2",
+        "Title": "20`"
+      }
+    ]
+```
+
+In addition to roles, a pattern can be set a _rule_. See [Rules](#rules) section on how to add an expression.
+
+The Usage reports use patterns to selectivly show data relevant to the user.
+. You can test if the user can view a cirtain set of axes using the AuthorizedAsync() method of the CubeService service.
+
+> Patterns does not imply to cube charts. Use other measure of restriction such as setting the Privileges attribute in cube configuration or overriding the CanView() method of your cube.
+
+Patterns can be modified using an administrative utility or by manually editing the configuration file.
 
 #### Explore data
 
@@ -689,6 +729,8 @@ public class MyForm : FormBase<MyFormModel> {
 The above retrieves the usage for myCube, year 2020 1st-2nd quarters of all Opened balance.
 
 The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support **\*** and **.** characters.
+
+To show cube from your Angular app client code, see [Angular DI](#dependency-injection) example.
 
 #### Define cube anomaly
 
@@ -1000,7 +1042,7 @@ You may access BizDoc storage using the `Store` service. If you wish to access t
 | Events | Events of documents
 | Comments | Comments of documents
 | Entries | Reflects axes data extracted from document data model
-| Log | Documents log of one of: _ActionTaken_, _Submit_, _Escalate_, _ModelChange_ or _StateChange_ found in _BizDoc.Core.Data.Models.Log namespace.
+| Log | Documents log of one of: _ActionTaken_, _Submit_, _Escalate_, _ModelChange_ or _StateChange_ found in BizDoc.Core.Data.Models.Log namespace.
 | Devices | (Internal registry of user devices)
 | Chats | Conversations (when applicable)
 | Cube | Reflects document data from _Entries_ table and data from 3rd party app
