@@ -659,7 +659,7 @@ An _Index_ represents a linear data such as budgeted values or target performanc
 A _Pattern_ is a set of axis assigned to one or more user roles and rule.
 Use patterns to restrict access to accounts. Axes can be assigned in the form of range, array or mask.
 
-For example, to restrict view to years 20` for companies 201 and 202 to system role users, add the following:
+For example, to restrict view to years 20` for companies 201 and 202 to system role, add the following:
 
 ```json
     "Patterns": [
@@ -676,6 +676,8 @@ For example, to restrict view to years 20` for companies 201 and 202 to system r
       }
     ]
 ```
+
+Mask accepts a dot (.) for any character, asterisk (*) for more than one character and hashtag (#) for replacing a character with a character at this position in the base account code. Hashtags patterns enable drilling up from a base code.
 
 In addition to roles, a pattern can be set a _rule_. See [Rules](#rules) section on how to add an expression.
 
@@ -782,7 +784,6 @@ import { WidgetComponent, BizDoc } from 'bizdoc.core';
 @BizDoc({
   selector: 'app-my-widget'
 })
-/** component*/
 export class MyWidget implements WidgetComponent<DataModel[]> {
   onBind(data: DataModel[]) {
     ...
