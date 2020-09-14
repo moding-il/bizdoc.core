@@ -796,6 +796,7 @@
                 "items": {
                   "allOf": [
                     { "$ref": "#/definitions/base" },
+                    { "$ref": "#/definitions/privileges" },
                     {
                       "properties": {
                         "Icon": { "type": "string" },

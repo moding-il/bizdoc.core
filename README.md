@@ -291,6 +291,7 @@ public class Line {
 
   [ListType(typeof(Balances)), ValueResolver(typeof(StateAxisResolver<Balance?>))]
   public Balance? Balance { get; set; }
+  public decimal Amount { get; set; }
 }
 ```
 
@@ -650,23 +651,24 @@ A cube uses _views_ to show a cut of the data. A view typically has X-Axis and S
   }]
 ```
 
-An _Index_ represents a linear data such as budgeted values or target performance.
+An _index_ represents a linear data such as budgeted values or target performance.
 
-> Open _bizdoc.json_ and find Cubes section. Add, modify and reorder axes and views of your cube.
+> Open _bizdoc.json_ and find Cubes section. Add, modify and reorder axes and views in your cube.
 
 #### Understanding patterns
 
-A _Pattern_ is a set of axis assigned to one or more user roles and rule.
+A _pattern_ is a set of axis assigned to one or more user roles and rule.
 Use patterns to restrict access to accounts. Axes can be assigned in the form of range, array or mask.
 
-For example, to restrict view to years 20` for companies 201 and 202 to system role, add the following:
+For example, to restrict view to years 20` for companies 201 and 202 and regions 11 through 99 to system role, add a configuration similar to this:
 
 ```json
     "Patterns": [
       {
         "Axes": {
           "year": "20*",
-          "company": [201, 202]
+          "company": [201, 202],
+          "region": "11-99"
         },
         "Roles": [
           "System"
@@ -677,14 +679,14 @@ For example, to restrict view to years 20` for companies 201 and 202 to system r
     ]
 ```
 
-Mask accepts a dot (.) for any character, asterisk (*) for more than one character and hashtag (#) for replacing a character with a character at this position in the base account code. Hashtags patterns enable drilling up from a base code.
+Mask accepts a dot (.) for a single character, asterisk (*) for more than one character and hashtag (#) for replacing a character with a character at that position in the base account. Hashtags patterns enable drilling up from a base code.
 
 In addition to roles, a pattern can be set a _rule_. See [Rules](#rules) section on how to add an expression.
 
 The Usage reports use patterns to selectivly show data relevant to the user.
 . You can test if the user can view a cirtain set of axes using the AuthorizedAsync() method of the CubeService service.
 
-> Patterns does not imply to cube charts. Use other measure of restriction such as setting the Privileges attribute in cube configuration or overriding the CanView() method of your cube.
+> Patterns does not imply to cube charts. Use other measure of restriction such as setting the Privileges attribute in cube views configuration.
 
 Patterns can be modified using an administrative utility or by manually editing the configuration file.
 
@@ -730,9 +732,9 @@ public class MyForm : FormBase<MyFormModel> {
 
 The above retrieves the usage for myCube, year 2020 1st-2nd quarters of all Opened balance.
 
-The _Axis_ struct can be utilized to specify range, collection, pattern or combination of them. Patterns support **\*** and **.** characters.
+The _Axis_ struct can be utilized to specify range, array, mask or combination of them. Masks support asterisk (*) and dot (.) characters.
 
-To show cube from your Angular app client code, see [Angular DI](#dependency-injection) example.
+To show cube from your Angular app client code, see [Angular DI](#angular-di) example.
 
 #### Define cube anomaly
 
