@@ -4,7 +4,7 @@ BizDoc is a developer framework for designing organization forms. It includes a 
 
 ## Setting up
 
-BizDoc is a .Net Core web application, running Angular 10. To author a new BizDoc environment, create a new project from _BizDoc template_,.
+BizDoc is a .Net Core web application, running Angular 10. To author a new BizDoc environment, create a new project from _BizDoc_ template.
 
 ### Prerequisites
 
@@ -18,7 +18,7 @@ To install BizDoc, open Visual Studio and choose *Extensions* menu, *Manage Exte
 
 Install the package and restart Visual Studio.
 
-Create a *New Project*, choose *BizDoc* as the template of the project.
+Create a new project and choose *BizDoc* as the template.
 
 Update BizDoc Nuget package from Package Manager Console:
 
@@ -28,7 +28,7 @@ Update npm package from PowerShell command-line:
 
 > npm i [bizdoc.core@latest](https://www.npmjs.com/package/bizdoc.core)
 
-Create a database of your choice and set it's _connectionString_ in _appsettings.json_.  
+Create a database of your choice and set it's _connectionString_ in appsettings.json.  
 From command-line, create the database schema.
 
 > dotnet ef database update -context BizDoc.Core.Data.Store
@@ -57,9 +57,9 @@ In addition to the managed objects above, BizDoc facilitates unmanaged objects w
 * Roles - Declare a role per _type_ and assign *positions*.
 * Currencies
 
-BizDoc registers objects in _bizdoc.json_ configuration file. Upon run, if objects are found in your project assembly, they are added to the configuration file.
+BizDoc registers objects in bizdoc.json configuration file. Upon run, if objects are found in your project assembly, they are added to the configuration file.
 
-> Open _bizdoc.json_ and review your app configuration. This file is updated by BizDoc, updated by administrative utilities, or - can be edited manually.
+> Open bizdoc.json and review your app configuration. This file is updated by BizDoc, updated by administrative utilities, or - can be edited manually.
 
 You can manually edit the configuration file, providing the changes confirm with the attached JSON schema.
 
@@ -375,7 +375,7 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `TimePicker`, `AddressInput` and `Trace` in your template.
+You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
 
 ```html
 <mat-form-field>
@@ -653,7 +653,7 @@ A cube uses _views_ to show a cut of the data. A view typically has X-Axis and S
 
 An _index_ represents a linear data such as budgeted values or target performance.
 
-> Open _bizdoc.json_ and find Cubes section. Add, modify and reorder axes and views in your cube.
+> Open bizdoc.json and find Cubes section. Add, modify and reorder axes and views in your cube.
 
 #### Understanding patterns
 
@@ -798,6 +798,10 @@ interface DataModel {
 
 The onBind() function receives data from the GetAsync() method of the server-side object.
 
+> Widgets, as other objects, accepts *options* that can determine their behavior, refer to BizDoc.Configuration.Widgets namespace to inspect core widget properties.
+
+Core widgets can be overridden, and more than one widget with the same Angular template can be configured in the configuration file. See [how to](#customize-built-in-objects) example.
+
 ### Rules
 
 A _rule_ declares a programmatic value. For example, the _anomaly_ rule returns the cube anomaly for the document being processed. Rules can then be evaluated in a workflow *condition* or object *privileges*.
@@ -856,7 +860,7 @@ onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
 }
 ```
 
-### Formatting delivered emails
+### Format delivered emails
 
 Format delivered emails to include custom form information using XSLT.
 
