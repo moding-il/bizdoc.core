@@ -561,7 +561,7 @@ Reports: [{
 
 ### Cube
 
-A cube represents a cross-data summary, which can be visualized as a chart or a pivot.
+A cube represents a cross-data accumulation, which can be visualized in several ways using _views_.
 
 #### Axes
 
@@ -594,11 +594,11 @@ public class MyCube : CubeBase
 }
 ```
 
-Override base methods, such as the CanView() method, to control aspects of the cube.
+Override base methods, such as the CanView() method, to control aspects of cube behaviors.
 
 #### Configuring
 
-A cube uses _views_ to show a cut of the data. A view typically has X-Axis and Series, and can show as either chart or pivot.
+A cube uses _views_ to show a cut of the data. A view typically has an X axis and series, and can present data as either chart, grid or pivot.
 
 ```json
 "Cubes": [
@@ -684,7 +684,7 @@ Mask accepts a dot (.) for a single character, asterisk (*) for more than one ch
 In addition to roles, a pattern can be set a _rule_. See [Rules](#rules) section on how to add an expression.
 
 The Usage reports use patterns to selectivly show data relevant to the user.
-. You can test if the user can view a cirtain set of axes using the AuthorizedAsync() method of the CubeService service.
+. You can test if the user can view a cirtain set of axes using the Authorize() method of the CubeService service.
 
 > Patterns does not imply to cube charts. Use other measure of restriction such as setting the Privileges attribute in cube views configuration.
 
