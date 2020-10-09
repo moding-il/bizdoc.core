@@ -860,6 +860,23 @@ onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
 }
 ```
 
+### Enable navigation in forms
+
+You can communicate with the form container by injecting _FormRef_.
+
+```typescript
+export class MyFormComponent implements FormComponent<MyModel> {
+  constructor(@Optional() @Inject(FormRef) private _formRef: FormRef) {
+    this._formRef.navigating$.subscribe(page => {
+      ...
+    });
+  }
+  page() {
+    this._formRef.navigate('page1');
+  }
+}
+```
+
 ### Format delivered emails
 
 Format delivered emails to include custom form information using XSLT.
