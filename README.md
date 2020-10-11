@@ -55,6 +55,7 @@ In addition to the managed objects above, BizDoc facilitates unmanaged objects w
 * Folders - Set columns.
 * States - Document statuses.
 * Roles - Declare a role per _type_ and assign *positions*.
+* Guides - User guide which can be associated with any *form*, *report* or *utility*. Guides can also be started using the `GuideService` in Angular.
 * Currencies
 
 BizDoc registers objects in bizdoc.json configuration file. Upon run, if objects are found in your project assembly, they are added to the configuration file.
@@ -876,6 +877,16 @@ export class MyFormComponent implements FormComponent<MyModel> {
   }
 }
 ```
+
+This code pattern is recommended if your form open a line portal, and the user should be able to navigate back to the form header.
+
+### Providing user guide
+
+BizDoc can present a guided tour to the user, explaining fields of a form or report.
+
+_Guides_ are maintained in bizdoc.json configuration, and can be set either from configuration file for a form or report or by setting the _guide_ property of `FormRef`.
+
+For instance, a form my provide dfferent guide for line view and for header view. Or, a guide to preview mode or edit mode.
 
 ### Format delivered emails
 
