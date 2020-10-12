@@ -177,15 +177,13 @@ Services include:
 | CubeService | Query cube
 | DataSourceService | Retrieve server _type_ values
 | TranslationService | Support internationalization
-| GuideService | Start a tour guide
+| GuideService | Start a  step-by-step tour guide on user options
 | CubeInfo | Open cube
 | MapInfo | Open map
 | DocumentInfo | Preview a document
 | AttachmentInfo | Preview attachment
 
 > Using the `MapInfo` requires configuring the *maps* in BizDocModule.forRoot({maps: {apiKey: ...}}) in your app.module.ts file.
-
-_Guides_ opens a step-by-step tour, explaining the user what are the options, for example, in a complex form. Guides are declared in BizDocModule.forRoot({guides: ...}).
 
 ```typescript
 class MyClass {
@@ -880,13 +878,31 @@ export class MyFormComponent implements FormComponent<MyModel> {
 
 This code pattern is recommended if your form open a line portal, and the user should be able to navigate back to the form header.
 
-### Providing user guide
+### Providing a user guide
 
-BizDoc can present a guided tour to the user, explaining fields of a form or report.
+BizDoc can present the user a guide on how to fill a form or how to use a report.
 
-_Guides_ are maintained in bizdoc.json configuration, and can be set either from configuration file for a form or report or by setting the _guide_ property of `FormRef`.
+_Guides_ are maintained in bizdoc.json configuration, and can be assigned to either form or report.
 
-For instance, a form my provide dfferent guide for line view and for header view. Or, a guide to preview mode or edit mode.
+```json
+"Guides": [
+  {
+    "Name": "purchase",
+    "Title": "Purchase",
+    "Steps": [
+      {
+        "Content": "Purchase form help!"
+      },
+      {
+        "Selector": "[data-help=type]",
+        "Content": "Type help!"
+      }
+    ]
+  }
+]
+```
+
+You can also set a guide in Angular code, using the injectable `FormRef`. For instance, if a form provides dfferent guide for line view and header view, or a guide to user in preview mode or edit mode.
 
 ### Format delivered emails
 
