@@ -389,13 +389,14 @@ The `AccountPicker` allows the user to pick _combinations_ of _segments_. An axi
 ```html
 <mat-form-field>
   <bizdoc-account-picker placeholder="My property"
-  (optionSelected)='accountPicked($event)' [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-select>
+  (optionSelected)='accountPicked($event)'
+  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-select>
 </mat-form-field>
 ```
 
 By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
 
-#### Supporting view mode
+#### Supporting view modes
 
 A form may be visible for editing, previewing or version compare. Template can handle different modes using a NgSwitch:
 
@@ -430,6 +431,9 @@ public class Account
     public string Id { get; set; }
     public string Name { get; set; }
 }
+/// <summary>
+/// Accounts data source
+/// <summary>
 public class Accounts : TypeBase<string>
 {
     private readonly CustomStore _store;
@@ -717,15 +721,19 @@ Use the `CubeService` to preform queries on _cubes_ and _indices_. It maintains 
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
-    private readonly CubeService _cubeService;
-    public MyForm(ICubeService CubeService) {
-        _CubeService = CubeService;
-    }
+  private readonly CubeService _cubeService;
+  public MyForm(ICubeService CubeService) {
+      _CubeService = CubeService;
+  }
 
-    public override async Task FlowStartAsync(MyFormModel model) {
-      var usage = await _cubeService.GetUsage("myCube", 2020, Axis.FromArray(1, 2), default /* skip months axis */, Balance.Opend);
+  public override async Task FlowStartAsync(MyFormModel model) {
+    var usage = await _cubeService.GetUsage("myCube",
+      2020 /* year axis */,
+      Axis.FromArray(1, 2) /* month axis */,
+      default /* skip months axis */,
+      Balance.Opend);
       ...
-    }
+  }
 }
 ```
 
@@ -866,7 +874,7 @@ You can communicate with the form container by injecting _FormRef_.
 ```typescript
 export class MyFormComponent implements FormComponent<MyModel> {
   constructor(@Optional() @Inject(FormRef) private _formRef: FormRef) {
-    this._formRef.navigating$.subscribe(page => {
+    this._formRef.navigating().subscribe(page => {
       ...
     });
   }
