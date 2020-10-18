@@ -55,7 +55,7 @@ In addition to the managed objects above, BizDoc facilitates unmanaged objects w
 * Folders - Set columns.
 * States - Document statuses.
 * Roles - Declare a role per _type_ and assign *positions*.
-* Guides - User guide which can be associated with any *form*, *report* or *utility*. Guides can also be started using the `GuideService` in Angular.
+* Guides - User guide which can be associated with any *form*, *report*, *widget*, cube *view*, or *utility*. Guides can also be started using the `GuideService` in Angular.
 * Currencies
 
 BizDoc registers objects in bizdoc.json configuration file. Upon run, if objects are found in your project assembly, they are added to the configuration file.
@@ -175,7 +175,8 @@ Services include:
 --- | ---
 | SessionService | Session info, including logged user and profile of BizDoc configuration
 | CubeService | Query cube
-| DataSourceService | Retrieve server _type_ values
+| DataSourceService | Retrieve _Type_ values
+| AccountService |  Get user(s) info
 | TranslationService | Support internationalization
 | GuideService | Start a  step-by-step tour guide on user options
 | CubeInfo | Open cube
@@ -183,7 +184,7 @@ Services include:
 | DocumentInfo | Preview a document
 | AttachmentInfo | Preview attachment
 
-> Using the `MapInfo` requires configuring the *maps* in BizDocModule.forRoot({maps: {apiKey: ...}}) in your app.module.ts file.
+> Using the `MapInfo` requires configuring the maps in BizDocModule.forRoot({maps: {apiKey: ...}}) in your app.module.ts file.
 
 ```typescript
 class MyClass {
@@ -546,6 +547,8 @@ The ReportRef above enables the report to access running context functionality, 
 
 BizDoc built-in reports can be customized by setting the Options in the configuration.
 
+BizDoc commonly returns code values. To show the value, use one of the buit-in pipes. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`.
+
 ```json
 Reports: [{
   "Type": "BizDoc.Configuration.Reports.CubeChartUsage",
@@ -895,7 +898,7 @@ _Guides_ are maintained in bizdoc.json configuration, and can be assigned to eit
 ```json
 "Guides": [
   {
-    "Name": "purchase",
+    "Name": "myPurchaseGuide",
     "Title": "Purchase",
     "Steps": [
       {
@@ -903,12 +906,26 @@ _Guides_ are maintained in bizdoc.json configuration, and can be assigned to eit
       },
       {
         "Selector": "[data-help=type]",
-        "Content": "Type help!"
+        "Content": "Type help!",
+        "Position": "End"
       }
     ]
   }
 ]
 ```
+
+You can set a guide to any of report, utility, widget or cube view in the configuration file.
+
+```json
+"Forms": [
+  {
+    "Name": "purchase",
+    "Title": "Purchase",
+    "Guide": "myPurchaseGuide"
+  }
+]
+```
+
 
 You can also set a guide in Angular code, using the injectable `FormRef`. For instance, if a form provides dfferent guide for line view and header view, or a guide to user in preview mode or edit mode.
 
