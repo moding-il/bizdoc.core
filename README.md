@@ -375,7 +375,7 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
+You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `AxesPicker`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
 
 ```html
 <mat-form-field>
@@ -391,9 +391,33 @@ The `AccountPicker` allows the user to pick _combinations_ of _segments_. An axi
 <mat-form-field>
   <bizdoc-account-picker placeholder="My property"
   (optionSelected)='accountPicked($event)'
-  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-select>
+  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-account-picker>
 </mat-form-field>
 ```
+
+The `AxesPicker` allows the user to pick _combinations_ of _segments_ by projection *rules* set in the configuration file.
+
+```html
+  <bizdoc-axes-picker [formGroup]="form"><bizdoc-axes-picker>
+```
+
+```json
+Cubes: [{
+  "Name": "myCube",
+  "Rules": [
+    {
+      "Condition": {
+        "compnay": "company1"
+      },
+      "Projection": {
+        "region": ["100-200"]
+      }
+    }
+  ]
+}]
+```
+
+The rules are *axis* like expression, and can declare range, array of values or mask.
 
 By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
 
