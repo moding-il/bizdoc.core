@@ -395,6 +395,8 @@ The `AccountPicker` allows the user to pick _combinations_ of _segments_. An axi
 </mat-form-field>
 ```
 
+By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
+
 The `AxesPicker` allows the user to pick _combinations_ of _segments_ by projection *rules* set in the configuration file.
 
 ```html
@@ -404,7 +406,7 @@ The `AxesPicker` allows the user to pick _combinations_ of _segments_ by project
 ```json
 Cubes: [{
   "Name": "myCube",
-  "Rules": [
+  "Constraints": [
     {
       "Condition": {
         "compnay": "company1"
@@ -417,9 +419,7 @@ Cubes: [{
 }]
 ```
 
-The rules are *axis* like expression, and can declare range, array of values or mask.
-
-By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
+_Conditions_ and _Projections_ are *axis* like expression, and can declare range, array of values or a mask.
 
 #### Supporting view modes
 
