@@ -99,7 +99,7 @@
           "type": "object",
           "properties": {
             "Activity": {
-              "enum": [ "Task", "SubProcess" ]
+              "enum": [ "None", "Task", "SubProcess" ]
             },
             "SubProcess": {
               "type": "object",
@@ -132,7 +132,7 @@
               ]
             }
           },
-          "required": ["Type"]
+          "required": [ "Type" ]
         },
         "Data": { "type": "string" },
         "Lanes": {
@@ -461,7 +461,6 @@
         "pattern": "^[A-Za-z][\\w]*$",
         "uniqueItems": true
       },
-      "$ref": "#/properties/Cubes/items/allOf/0/allOf/0/links/0/href",
       "pattern": "^[A-Za-z][\\w]*$"
     },
     "axis_value": {
@@ -474,7 +473,12 @@
           "items": {
             "type": [ "string", "integer" ],
             "pattern": "^[a-zA-Z0-9*\\#\\.]+([\\-]{0,1}[a-zA-Z0-9\\*\\#\\.]+)?$",
-            "uniqueItems": true
+            "uniqueItems": true,
+            "links": [
+              {
+
+              }
+            ]
           }
         }
       },
@@ -501,10 +505,12 @@
         "Name",
         "Title"
       ],
-      "links": [ {
-        "rel": "self",
-        "href": "{Name}"
-                 } ]
+      "links": [
+        {
+          "href": "{Name}",
+          "rel": "self"
+        }
+      ]
     },
     "code": {
       "allOf": [

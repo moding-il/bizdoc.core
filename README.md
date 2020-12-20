@@ -950,7 +950,6 @@ You can set a guide to any of report, utility, widget or cube view in the config
 ]
 ```
 
-
 You can also set a guide in Angular code, using the injectable `FormRef`. For instance, if a form provides dfferent guide for line view and header view, or a guide to user in preview mode or edit mode.
 
 ### Format delivered emails
