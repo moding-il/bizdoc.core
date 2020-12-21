@@ -154,6 +154,7 @@ BizDoc provides the following services:
 | IDocumentContext | Current document | BizDoc.Core.Data
 | WorkflowService | Workflow manager | BizDoc.Core.Workflow
 | IWorkflowInstance | Start, resume and access workflow | BizDoc.Core.Workflow
+| SourceService | Retreive data source | BizDoc.Core.Data
 | CubeService | Query cube | BizDoc.Core.Data
 | IProfileManager | User profile | BizDoc.Core.Identity
 | IIdentityManager | User information | BizDoc.Core.Identity
