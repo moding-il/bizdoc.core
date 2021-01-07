@@ -376,7 +376,7 @@ Open my-form.component.html to edit the template.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `AxesPicker`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
+You can incorporate BizDoc `Select`, `Autocomplete`, `CombinationPicker`, `CombinationPool`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
 
 ```html
 <mat-form-field>
@@ -386,22 +386,22 @@ You can incorporate BizDoc `Select`, `Autocomplete`, `AccountPicker`, `AxesPicke
 
 In the above example, the *type* attribute matches a TypeBase class declared in the configuration file.
 
-The `AccountPicker` allows the user to pick _combinations_ of _segments_. An axis is considered a segment if its *Combination* attribute is set to true.
+The `CombinationPicker` and `CombinationPool` tags allows the user to pick _combinations_ of _segments_. An axis is considered a segment if its *Combination* attribute is set to true.
 
 ```html
 <mat-form-field>
-  <bizdoc-account-picker placeholder="My property"
+  <bizdoc-combination-picker placeholder="My property"
   (optionSelected)='accountPicked($event)'
-  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-account-picker>
+  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-combination-picker>
 </mat-form-field>
 ```
 
 By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
 
-The `AxesPicker` allows the user to pick _combinations_ of _segments_ by projection *rules* set in the configuration file.
+The `CombinationPool` tag allows the user to pick _combinations_ of _segments_ by projection *rules* set in the configuration file.
 
 ```html
-  <bizdoc-axes-picker [formGroup]="form"><bizdoc-axes-picker>
+  <bizdoc-combination-pool [formGroup]="form"><bizdoc-combination-pool>
 ```
 
 ```json
@@ -1157,7 +1157,7 @@ You can access document models using the Document GetModel\<TModel\>() method. T
 
 If you add 3rd party information to _Cube_ table, use separate records than the ones BizDoc create.
 
-_Segments_ and _Combinations_ tables are used by Segments _type_ and `AccountPicker` by default. You may map a segment axis to any _type_, as explained in [Cube](#axes) section, and override _cube_ CombinationsAync() method to retrieve combinations from a source of your choice.
+_Segments_ and _Combinations_ tables are used by Segments _type_, `CombinationPicker` and `CombinationPool` by default. You may map a segment axis to any _type_, as explained in [Cube](#axes) section, and override _cube_ CombinationsAync() method to retrieve combinations from a source of your choice.
 
 ## References
 
