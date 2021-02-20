@@ -1,18 +1,18 @@
 # bizdoc.core
 
-BizDoc is a developer framework for designing organization forms. It includes a mailbox -like user interface, a workflow engine, and set of business intelligence feature.
+BizDoc is a framework for developing form-flow solusion. It includes a workflow engine, a mailbox -like user interface, and set of built-in components for data analysis.
 
 ## Setting up
 
-BizDoc is a .Net Core web application, running Angular 10. To author a new BizDoc environment, create a new project from _BizDoc_ template.
+BizDoc is built as a .Net Core web application, running Angular 11. To author a new BizDoc environment, create a new project from _BizDoc_ template.
 
 ### Prerequisites
 
-[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [Net Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1),
+[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 5.0](https://dotnet.microsoft.com/download/dotnet/5.0),
 Latest [Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
-### Installation
+### Installing
 
 To install BizDoc, open Visual Studio and choose *Extensions* menu, *Manage Extensions*. Select *Online* and search for [BizDoc Core](https://marketplace.visualstudio.com/items?itemName=Moding.BizDoc-Core).
 
@@ -28,62 +28,58 @@ Update npm package from PowerShell command-line:
 
 > npm i [bizdoc.core@latest](https://www.npmjs.com/package/bizdoc.core)
 
-Create a database of your choice and set it's _connectionString_ in appsettings.json.  
-From command-line, create the database schema.
+Create a database of your choice and set it's _connectionString_ in appsettings.json.
+To manually create database objects, run from command-line:
 
 > dotnet ef database update -context BizDoc.Core.Data.Store
 
 ## Architecture
 
-BizDoc can be broken into two major parts: a. backend server objects, controllers and configuration; b. front-end user interface, built as Angular components and services.
-Commonly, a front-end *component* has a backing server *object*. For example, BizDoc object such as a *form*, will have a class that manages it's lifetime events. Core communication between the front-end and the backend is done through BizDoc infrastructure.
+BizDoc can be broken into two major parts: a. backend server objects, responsible for the business logic. b. front-end user interface, built as Angular components.
+Commonly, a front-end component has a backing server object. For example, BizDoc *form* object will have a backend class that manages its lifetime events, and a corresponding front-end Angular component. Communication between the front-end and the backend is done through BizDoc APIs.
 
-BizDoc objects can be one of:
+BizDoc manages to following objects:
 
-* Form
-* Action - Workflow user option
-* Node - Workflow item.
-* Report - Retrive data and present it, commonly as a table.
-* Type - Data source for list of values. Can declare *patterns* and *groups*.
-* Utility - Unit of work.
+* Form - Application details.
+* Report - Retreive and present data.
 * Widget - Dashboard item.
-* Cube - Charting index.
-* Rule - Condition.
+* Utility - An administrative procedure.
+* Type - Data source for list of values.
+* Cube - Index to form's data.
+* FlowAction - Workflow user option.
+* FlowNode - Workflow item.
+* Rule - Server-side JS expression.
 
-In addition to the managed objects above, BizDoc facilitates unmanaged objects which doesn't have a backend object, including:
+In addition to the managed objects above, BizDoc facilitates unmanaged objects which doesn't have a backend object but rather only configuration:
 
 * Folders - Set columns.
 * States - Document statuses.
-* Roles - Declare a role per _type_ and assign *positions*.
-* Guides - User guide which can be associated with any *form*, *report*, *widget*, cube *view*, or *utility*. Guides can also be started using the `GuideService` in Angular.
-* Currencies
+* Roles - Job description in the organization.
+* Guides - User guide.
+* Currencies - Facilitating exchange rate.
 
-BizDoc registers objects in bizdoc.json configuration file. Upon run, if objects are found in your project assembly, they are added to the configuration file.
+BizDoc configure its objects in bizdoc.json file. Upon run, Objects found in any of your project assembly are registered in the configuration file.
 
-> Open bizdoc.json and review your app configuration. This file is updated by BizDoc, updated by administrative utilities, or - can be edited manually.
+> Open bizdoc.json and review your app configuration. This file is updated by BizDoc, by administrative utilities, or - can be edited manually.
 
-You can manually edit the configuration file, providing the changes confirm with the attached JSON schema.
+If a BizDoc object has a front-end Angular component, the two is coupled by annotating the back-end class with the \[Template()\] attribute, and decorating the Angular component with the @BizDoc() attribute with a matching value.
 
-BizDoc objects may have a front-end Angular component, in which case, the backend class is coupled with the front-end component by annotating it with the \[Template()\] attribute. The Angular component needs to be decorated with the @BizDoc() attribute with a matching value.
+BizDoc objects accepts .Net Core services using Dependency Injection (DI). In addition to .Net services, BizDoc provides built-in services for accessing its functionality.
 
-BizDoc objects accepts .Net Core services using Dependency Injection (DI). It provides several built-in services you can consume.
+BizDoc maintains _Roles_. A _role_ is declared per _type_ and assigned _positions_ to type keys. In addition to type keys, role can be assigned positions per *pattern* and *group*.
 
-BizDoc user interface is aligned with Material Design guidelines, using the [Angular Material](https://material.angular.io/) library. Consult Angular Material documentation on how to use components.
+BizDoc database can be one of SqlServer, MySQl or Oracle. The BizDoc database objects are created under the \[BizDoc\] schema.
+Commonly, developer create his/her own database context to access custom database objects. Refer to .Net Core [EF](https://docs.microsoft.com/en-us/ef/core/get-started/index) on how to create and maintain Entity Framework context.
 
-BizDoc database can be one of SqlServer, MySQl or Oracle. The BizDoc database objects are created in the \[BizDoc\] schema.
-Commonly, developers create their own database context to access database tables. Refer to .Net Core [EF](https://docs.microsoft.com/en-us/ef/core/get-started/index) on how to create and maintain Entity Framework contexts.
-To access BizDoc database objects using EF, use the `Store` service, from *BizDoc.Core.Data* namespace.
+BizDoc user interface is aligned with Material Design guidelines from the [Angular Material](https://material.angular.io/) library.
 
 ## Configuration
 
-BizDoc behavior is set in _startup.cs_. You first register BizDoc services using AddBizDoc(), and then consume it using UseBizDoc().
-BizDoc configuration includes licensing and messaging.
+BizDoc server-side behavior is set in _startup.cs_. You first register BizDoc services using AddBizDoc(), and then consume it using UseBizDoc().
 
-Configure SMTP for outgoing mailing.
+BizDoc configuration at this point includes licensing, SMTP and more.
 
-Setup database provider by installing the Nuget for it, from either [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
-
-Setup in _startup.cs_.
+Setup database provider by installing the relevant Nuget, from either [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
 
 ```c#
     services.AddBizDoc().
@@ -106,17 +102,17 @@ Install the relevant Nuget and add it to services in _startup.cs_.
           });
 ```
 
-> Sometimes, the default identity managers will not answer all your organization needs. In which case, you can implement your own identity manager. See below how to create a custom identity manager.
+> If the available default identity managers donen't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#custom).
 
-BizDoc offers additional services. These include:
+BizDoc offers additional services:
 
-* AddEscalateJob() - Escalates unattended documents
-* AddSummaryMailJob() - Pending documents, notifications and chat summary
-* AddMailExecuteJob() - Analyze returning emails for action and forward document workflow. Feature comes in three configurations: IMAP, POP3 and Exchange. Exchange require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
-* AddExchangeRateJob() - Update currency exchange rate
+* AddEscalate() - Escalate unattended documents
+* AddSummaryMail() - Send @ of pending documents, notifications and chat summary
+* AddMailExecute() - Analyze @ and forward document workflow. Three posible configurations: IMAP, POP3 and Exchange. Exchange require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
+* AddExchangeRate() - Update currency exchange rate
 * AddSwagger() - Support Swagger
 
-You can set BizDoc client app behavior by updating the BizDocModule.forRoot() in your *app.module.ts* file.
+You can set BizDoc client app behavior by updating the BizDocModule.forRoot() in your _app.module.ts_ file.
 
 ```typescript
   imports: [BizDocModule.forRoot({
@@ -131,7 +127,7 @@ An object is a unit of code that implements one of BizDoc base classes. Base cla
 
 ### Dependency Injection
 
-BizDoc objects support Dependency Injection. You consume services added in your startup.cs file in the object constructor, including BizDoc services.
+BizDoc objects support Dependency Injection. Object may consume services added in your startup.cs or one of BizDoc services.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -142,50 +138,49 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ````
 
-The above code uses the `IWorkflowInstance` service to access the currently running workflow instance.
+The above code uses the `IWorkflowInstance` service to access the currently running workflow.
 
 BizDoc provides the following services:
 
 | Name |Usage | Namespace
 | --- | --- | ---
-| IHttpContext | Current identity | BizDoc.Core.Http
-| Store | BizDoc database | BizDoc.Core.Data
-| DocumentFactory | Document manager | BizDoc.Core.Data
-| IDocumentContext | Current document | BizDoc.Core.Data
-| WorkflowService | Workflow manager | BizDoc.Core.Workflow
-| IWorkflowInstance | Start, resume and access workflow | BizDoc.Core.Workflow
-| SourceService | Retreive data source | BizDoc.Core.Data
-| CubeService | Query cube | BizDoc.Core.Data
-| IProfileManager | User profile | BizDoc.Core.Identity
-| IIdentityManager | User information | BizDoc.Core.Identity
+| IHttpContext | Current user identity and geo position | BizDoc.Core.Http
+| Store | DbContext to BizDoc database | BizDoc.Core.Data
+| DocumentFactory | Create, update and delete document | BizDoc.Core.Data
+| IDocumentContext | Currently handled document | BizDoc.Core.Data
+| IWorkflowInstance | Start and resume document workflow | BizDoc.Core.Workflow
+| IWorkflowContext | Currently running workflow context | BizDoc.Core.Workflow
+| SourceService | Retreive data source (Type object values) | BizDoc.Core.Data
+| CubeService | Query cube and currencies | BizDoc.Core.Data
+| IProfileManager | Access user profile | BizDoc.Core.Identity
+| IIdentityManager | Retreive user information | BizDoc.Core.Identity
 | IEmailer | Deliver @ | BizDoc.Core.Messaging
 | ISmser | Send SMS | BizDoc.Core.Messaging
-| NotificationManager | Send text notifiction to a user | BizDoc.Core.Messaging
-| IOptions\<SystemOptions\> | Configuration| BizDoc.Core.Configuration.Models
-| ScheduledTasks | Delayed execution | BizDoc.Core.Tasks
+| NotificationManager | Send notifiction to a user | BizDoc.Core.Messaging
+| IOptions\<SystemOptions\> | Access configuration | BizDoc.Core.Configuration.Models
+| ScheduledTasks | Enqueue delayed execution | BizDoc.Core.Tasks
 
-> `IDocumentContext` and `IWorkflowInstance` are only available within BizDoc objects.
+> Note that `IDocumentContext` and `IWorkflowInstance` are only available within BizDoc objects and not in other classes, such as Controllers.
 
 #### Angular DI
 
-In an Angular app, you can inject BizDoc Angular services to access BizDoc infrastructure.
+In an Angular app, you can access BizDoc infrastructure by injecting BizDoc services.
 
 Services include:
 
 | Name | Usage
 --- | ---
-| SessionService | Session info, including logged user and profile of BizDoc configuration
+| SessionService | Session info, including logged user and configuration
 | CubeService | Query cube
 | DataSourceService | Retrieve _Type_ values
 | AccountService |  Get user(s) info
-| TranslationService | Support internationalization
-| GuideService | Start a  step-by-step tour guide on user options
-| CubeInfo | Open cube
-| MapInfo | Open map
+| TranslationService | Add and read internationalization resources, used in conjection with _translate_ pipe
+| GuideService | Start a step-by-step tour guide
+| MailboxService | Mail related functions
+| CubeInfo | Open visual cube
+| MapInfo | Open visual map
 | DocumentInfo | Preview a document
-| AttachmentInfo | Preview attachment
-
-> Using the `MapInfo` requires configuring the maps in BizDocModule.forRoot({maps: {apiKey: ...}}) in your app.module.ts file.
+| AttachmentInfo | Preview an attachment
 
 ```typescript
 class MyClass {
@@ -204,13 +199,15 @@ class MyClass {
 
 The above example uses `CubeInfo` to show a matrix of cube axes with company 201 from your code.
 
+> Using the `MapInfo` requires you configure the _maps_ in BizDocModule.forRoot({maps: {apiKey: ...}}), in your app.module.ts file.
+
 ### Forms
 
 A _form_ object consists of three parts:
 
-* A data model, representing form structure
-* Backing class, derived from FormBase, responsible for managing form lifetime
-* And an Angular component, displaying data and responding to user interaction.
+* A data model, representing form properties,
+* A backing class, derived from FormBase, responsible for managing form lifetime events,
+* And an Angular component, displaying form data and responding to user interaction.
 
 #### Declare data model
 
@@ -222,14 +219,13 @@ public class MyFormModel {
 }
 ```
 
-You can decorate properties with attributes to control how the model is handled by BizDoc. These include: Subject, Summary, Value, Currency, Required, DataType, MaxLength, Display, Hint and ListType.
+You may annotate your model with attributes to instruct BizDoc how to handle it. Attributes include: Subject, Summary, Value, Currency, ExchageRate, Required, Hint and ListType. In addition, model may be annotated with .Net attributes such as DataType, MaxLength and Display.
 
-To use the model Purpose property as the document title, use the Subject attribute.
+For examle, to use the model *Purpose* property as the document title, annotate it with the `Subject` attribute.
 
 ```c#  
 using BizDoc.ComponentModel.Annotations;
 
-[Template("app-my-form")]
 public class MyFormModel {
   [Subject]
   public string Purpose { get; set; }
@@ -238,11 +234,10 @@ public class MyFormModel {
 }
 ```
 
-The Template annotation name the Angular component for this form.
-
 #### Declare baking object
 
-Create a class that drives from FormBase\<T\>. Override base methods, such as FlowEndAsync(), to respond to form events.
+Create a class that derived from FormBase\<T\>.
+Override base to respond to form events.
 
 ```c#
 using BizDoc.Configuration;
@@ -257,17 +252,19 @@ public class MyForm : FormBase<MyFormModel>
 }
 ```
 
-The above class has a _Form_ annotation, instructing BizDoc to set a title to form when registering it in the configuration file.
+The above class uses the `Form` attribute to instruct BizDoc to set a title to form when registering it in the configuration file. Tille an other properties can later be applied by editiong the bizdoc.json configuration file.
+For example, you can assign an icon from any of the [Material Icons](https://material.io/tools/icons).
 
 ##### Mapping database tables
 
-You can map form model and sub models to database tables by annotating the class with Table, Key, DocumentId and Line attributes.
-Assign the DocumentId attribute to instruct BizDoc to set its value from the document identity, and the Line attribute to set am ordinal on model collections.
+If you wish to store form data as database tables, in addition to the internal BizDoc representation, annotate the class with `Table` attribute.
+
+Assign the `DocumentId` attribute to instruct BizDoc to set its value from the document identity, and the `Line` attribute to set am ordinal of a sub-model collections.
 
 ```c#
 [Table("MyTableLine")]
 public class MyFormLine {
-  [Key, DocumentId]
+  [DocumentId]
   public int FormId { get; set; }
   [Line]
   public short Line { get; set; }
@@ -275,12 +272,15 @@ public class MyFormLine {
 }
 ```
 
+> Use NotMapped attribute on properties you do not wish to store.
+
 ##### Mapping a cube
 
-Map a form model to a cube by annotating any of your data model classes with the `CubeMapping` attribute.
+Map a form model to a cube by annotating your data model class with the `CubeMapping` attribute.
+This creates an index from the properties, which can later be accesed from various reports and widgets.
 
 ```c#
-[CubeMapping(nameof(Amount), new [] { nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance) })]
+[CubeMapping(nameof(Amount), nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance))]
 public class Line {
   public DateTime Date { get; set; }
   [JsonIgnore, ListType(typeof(Years))]
@@ -296,7 +296,7 @@ public class Line {
 }
 ```
 
-The `StateAxisResolver` finds the Balance in the configuration file that matches the document _state_. Set the *Axis* attribute in the state *Options*.  
+The `StateAxisResolver` above finds the Balance in the configuration file that matches the document _state_. Set the *Axis* attribute in the state *Options*.  
 
 ```json
 "States": [
@@ -312,11 +312,11 @@ The `StateAxisResolver` finds the Balance in the configuration file that matches
 }]
 ```
 
-> Mapping should match the types and ordinal of the cube _Axes_ declared in the configuration file.
+> Mapping should match the ordinal of the _Axes_ declared in the configuration file.
 
 ##### Mapping scheduled tasks
 
-Schedule an event using model properties.
+Schedule an event using model properties. This allows displaying documents on a calendar.
 
 ```c#
 [ScheduleMapping(nameof(EventDate))]
@@ -325,16 +325,19 @@ public class Line {
 }
 ```
 
-#### Designing user interface
+#### Designing the User Interface
 
-Open PowerShell in ./ClientApp folder and type:
+A BizDoc form front-end is an Angular component.
+
+To create an Angular component run the following from command-line in ./ClientApp folder:
 
 > ng g c myForm
 
-Open ./app/src/myForm/myForm.component.ts
+Open ./app/src/my-Form/my-form.component.ts and replace the content of the file with the following:
 
 ```typescript
 import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
+
 @Component({
   selector: 'app-my-form',
   templateUrl: './my-form.component.html',
@@ -344,7 +347,7 @@ import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
   selector: 'app-my-form'
 })
 export class MyFormComponent implements FormComponent<MyFormModel> {
-  form = this.fb.group({
+  readonly form = this.fb.group({
     subject: this._fb.control([], [Validators.required])
   });
   mode: ViewMode;
@@ -358,13 +361,13 @@ interface MyFormModel {
 }
 ```
 
-The above code declares an interface that matches the data model on the server-side, and a component implementing the FormComponent\<T\> interface.
+The above code declares an interface that matches the data model on the server-side, with the same Subject property.The interface is then placed in the component implementation of the FormComponent\<T\> interface.
 
-> The `@BizDoc` decorator _selector_ must match the `Template` attribute of the form model on the server code.
+> Note the the client-side model property names use camel casing, and subject maps to servder-side Subject.
 
-Access form data from the onBind function of the FormComponent&lt;T&gt; interface.
+Access form data from the onBind function. Store model in private property or assign it to FormGroup using patchValue() function.
 
-Open my-form.component.html to edit the template.
+Open my-form.component.html and replace the content of the file with the following:
 
 ```html
 <form [formGroup]="form" autocomplete="off">
@@ -374,9 +377,11 @@ Open my-form.component.html to edit the template.
 </form>
 ```
 
+The formGroup maps the the form declared in the .ts file, while the input maps the the subject form control.
+
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on how to handle forms and validations.
 
-You can incorporate BizDoc `Select`, `Autocomplete`, `CombinationPicker`, `CombinationPool`, `TimePicker`, `AddressInput`, `Trace` and `IdentityName` in your template.
+You can embed BizDoc components in your form. Components include `Select`, `Autocomplete`, `CombinationPicker`, `CombinationPool`, `TimePicker` and `AddressInput`.
 
 ```html
 <mat-form-field>
@@ -384,21 +389,20 @@ You can incorporate BizDoc `Select`, `Autocomplete`, `CombinationPicker`, `Combi
 </mat-form-field>
 ```
 
-In the above example, the *type* attribute matches a TypeBase class declared in the configuration file.
+In the above example, the *type* attribute matches a predefined object declared in the configuration file Types.
 
-The `CombinationPicker` and `CombinationPool` tags allows the user to pick _combinations_ of _segments_. An axis is considered a segment if its *Combination* attribute is set to true.
+The `CombinationPicker` and `CombinationPool` tags allows the user to pick _combinations_ of _segments_. An axis is considered a segment if its *Combination* attribute is set to true in the configuration file.
 
 ```html
 <mat-form-field>
   <bizdoc-combination-picker placeholder="My property"
-  (optionSelected)='accountPicked($event)'
-  [exploreSettings]='{series: "balance", xAxis: "month"}'></bizdoc-combination-picker>
+  (optionSelected)='accountPicked($event)'></bizdoc-combination-picker>
 </mat-form-field>
 ```
 
-By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() in the cube backend to populate combinations from a different source, such as a 3rd party app.
+By default, combinations are stored in _BizDoc.Combinations_ table. You can override CombinationsAsync() method of the cube backend object to populate combinations from a different source.
 
-The `CombinationPool` tag allows the user to pick _combinations_ of _segments_ by projection *rules* set in the configuration file.
+The `CombinationPool` tag allows the user to pick _combinations_ of _segments_ by projection *constraints*, set in the configuration file.
 
 ```html
   <bizdoc-combination-pool [formGroup]="form"><bizdoc-combination-pool>
@@ -420,7 +424,7 @@ Cubes: [{
 }]
 ```
 
-_Conditions_ and _Projections_ are *axis* like expression, and can declare range, array of values or a mask.
+_Conditions_ and _Projections_ receive *axis expression*, and can represent a range, an array or a mask.
 
 #### Supporting view modes
 
@@ -429,7 +433,7 @@ A form may be visible for editing, previewing or version compare. Template can h
 ```html
 <ng-container [ngSwitch]="mode">
   <div *ngSwitchCase='"compose"'>
-    <!-- form comes here -->
+    <!-- editing mode -->
   </div>
   <div *ngSwitchDefault>
     <!-- preview and version mode -->
@@ -437,17 +441,44 @@ A form may be visible for editing, previewing or version compare. Template can h
 </ng-container>
 ```
 
-Commonly, in addition to form data, preview mode display document trace.
+Commonly, in addition to form data, preview mode display document trace or flow diagram, passing the data received in the onBind() function.
 
 ```html
 <bizdoc-trace [model]=data></bizdoc-trace>
+...
+<bizdoc-flow [model]=data></bizdoc-trace>
 ```
 
-You can change form configuration properties in the configuration file. For example, you can assign an icon from any of the [Material Icons](https://material.io/tools/icons).
+#### Mapping Server object To Angular Component
+
+The _Template_ annotation on the server-side object maps to the Angular component using the Template attribute.
+
+```c#  
+using BizDoc.ComponentModel.Annotations;
+
+[Template("app-my-form")]
+public class MyFormModel {
+  ...
+  public IList<MyFormModelLine> Lines { get; set; }
+}
+```
+
+The corresponding Angular component will use the _@BizDoc_ decorator, passing the same value *app-my-form*.
+
+```typescript
+import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
+
+@BizDoc({
+  selector: 'app-my-form'
+})
+export class MyFormComponent implements FormComponent<MyFormModel> {
+  ...
+}
+```
 
 ### Types
 
-A _type_ represents a source of values, which can be applied to model property.
+A _type_ represents a source of key-value pairs.
 For example, the type Account can retrieve accounts from your database.
 
 ```c#
@@ -471,16 +502,18 @@ public class Accounts : TypeBase<string>
 }
 ```
 
-Link a *Type* to a form data model property by setting it's ListType attribute.
+Type can be linked to a form model property by setting its ListType attribute.
 
 ```c#
 [ListType(typeof(Accounts))]
 public string AccountId {get; set }
 ```
 
-BizDoc has several built-in types, including Years, Quarters, Months and Users. See BizDoc.Configuration.Types namespace for others.
+#### Built-In Types
 
-You can control objects such as a Type behavior by setting it's Options in the configuration file.
+BizDoc has several built-in types, including Years, Quarters, Months and Users. See BizDoc.Configuration.Types namespace for the complete list.
+
+You can control Type object behavior by setting its Options in the configuration file.
 
 ```json
 Types: [
@@ -497,7 +530,7 @@ Types: [
 
 The code above queries a database for products.
 
-Or, you can manage the values within the configuration file.
+Alternatively, you can manage the values within the configuration file.
 
 ```json
 {
@@ -514,9 +547,25 @@ Or, you can manage the values within the configuration file.
 }
 ```
 
+Another built-in type is Segments, which retrive values from the _BizDoc.Segments_ datablase table, accepting SegmentId as an option.
+
+```json
+{
+  "Types":[{
+    "Type": "BizDoc.Configuration.Types.Segments",
+    "Name": "segment1",
+    "Options": {
+      "SegmentId": "segment1"
+    }
+  }]
+}
+```
+
+> You can make your own object configurable by adding public properties to it, and setting the properties from the configuration Option.
+
 ### Reports
 
-A _report_ component has a data model, a backing class and an arguments class.
+A _report_ component consists of a data model, a backing class, and an arguments class.
 
 ```c#
 public class MyReportDataModel
@@ -548,7 +597,9 @@ public class MyReport : ReportBase<MyReportArgsModel, MyReportDataModel>
 }
 ```
 
-A report object may have an Angular component handling it, in which case, the component should implement the IReportComponent\<T\>. You can also customize the arguments by implementing IArgumentComponent\<T\> and annotating the arguments model with the Template attribute.
+The above PopulateAsync method accepts MyReportArgsModel and returns a dictionary of MyReportDataModel retrieved from database.
+
+A report object may have an Angular component presenting it. In which case, the component should implement the IReportComponent\<T\>.
 
 ```typescript
 import {ReportComponent, BizDoc, ReportRef} from 'bizdoc.core';
@@ -565,14 +616,19 @@ interface MyReportModel { ... }
 interface MyReportArgs { ... }
 ```
 
-The ReportRef above enables the report to access running context functionality, such as progress events of the server-side code.
+The ReportRef above enables the report to access executing context, such as progress report events of the server-side.
 
-> If no component is registered using the _Template_ annotation, BizDoc treats the model properties as columns and the arguments as fields.
+If no Angular component is registered for the report, BizDoc treats the model properties as columns and the arguments as fields.
+
 > Use Display and DataType attributes to control layouting.
 
-BizDoc built-in reports can be customized by setting the Options in the configuration.
+You can also customize the arguments pane by implementing IArgumentComponent\<T\> and annotating the arguments model with the Template attribute.
 
-BizDoc commonly returns code values. To show the value, use one of the buit-in pipes. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`.
+Use the buit-in pipes to display value of a key. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`.
+
+#### Customizing built-in Reports
+
+BizDoc built-in reports can be customized by setting the Options of it in the configuration.
 
 ```json
 Reports: [{
@@ -590,16 +646,19 @@ Reports: [{
 }]
 ```
 
+To find out which reports accepts which options, use the Object Browser to view its declration.
+
 ### Cube
 
-A cube represents a cross-data accumulation, which can be visualized in several ways using _views_.
+A _cube_ is the mechanizm for indexing forms data. Data can then be visualized in using cube _views_ or one of the built-in reports and widgets.
 
 #### Axes
 
-A cube declares _Axes_. Each axis maps to a _Type_ holding the axis values.
-You can use one of the built-in types or declare new ones. For example, you can add a type that pulls accounts from a 3rd party app.
+A cube declares columns called _Axes_. Each axis maps to a _Type_ representing axis values.
 
-You may choose to use the _BizDoc.Segments_ database table for this purpose. In which case, a built-in _Segments_ type can be set in the configuration file in Types section.
+You can use one of the built-in types or declare new axis. For example, you can add a type that pulls accounts from a 3rd party app.
+
+Alternatively, you can choose to use the _BizDoc.Segments_ database table to store values. In which case, a built-in _Segments_ type can be set in the configuration file:
 
 ```json
 {
@@ -615,9 +674,9 @@ You may choose to use the _BizDoc.Segments_ database table for this purpose. In 
 
 You map a cube to form data model by annotating the _CubeMapping_ attribute as explained above in the [Form](#mapping-a-cube) section.
 
-#### Backing object
+#### Backing Cube Object
 
-Create a class that drives from CubeBase.
+Create a class and inherit from CubeBase.
 
 ```c#
 public class MyCube : CubeBase
@@ -629,7 +688,7 @@ Override base methods, such as the CanView() method, to control aspects of cube 
 
 #### Configuring
 
-A cube uses _views_ to show a cut of the data. A view typically has an X axis and series, and can present data as either chart, grid or pivot.
+A cube uses _views_ to show a segment of its data. A view typically has an X axis and series, and can present data as either chart, grid or pivot.
 
 ```json
 "Cubes": [
@@ -659,18 +718,6 @@ A cube uses _views_ to show a cut of the data. A view typically has an X axis an
         "Title": "Balance"
       }
     ],
-    "Patterns": [
-      {
-        "Axes": {
-          "year": "20*"
-        },
-        "Roles": [
-          "System"
-        ],
-        "Name": "y2",
-        "Title": "20`"
-      }
-    ],
     "Indices": [
       {
         "Name": "budget",
@@ -682,16 +729,16 @@ A cube uses _views_ to show a cut of the data. A view typically has an X axis an
   }]
 ```
 
-An _index_ represents a linear data such as budgeted values or target performance.
+An _index_ represents a linear data such as budgeted values or target performance. Index data are stored in _BizDoc.Indices_ table.
 
-> Open bizdoc.json and find Cubes section. Add, modify and reorder axes and views in your cube.
+> Open bizdoc.json and find Cubes section. Add, modify and reorder axes and views.
 
-#### Understanding patterns
+#### Understanding Patterns
 
-A _pattern_ is a set of axis assigned to one or more user roles and rule.
-Use patterns to restrict access to accounts. Axes can be assigned in the form of range, array or mask.
+A cube may have _patterns_, which represents a set of axes values which are assigned permissions to one or more user roles and _rules_.
+Use patterns to restrict access to cube data. Axes can be assigned a range, an array or a mask.
 
-For example, to restrict view to years 20` for companies 201 and 202 and regions 11 through 99 to system role, add a configuration similar to this:
+For example, to restrict view to years 20` for companies 201 and 202 and regions 11 through 99 to system role, add the following configuration:
 
 ```json
     "Patterns": [
@@ -710,25 +757,27 @@ For example, to restrict view to years 20` for companies 201 and 202 and regions
     ]
 ```
 
-Mask accepts a dot (.) for a single character, asterisk (*) for more than one character and hashtag (#) for replacing a character with a character at that position in the base account. Hashtags patterns enable drilling up from a base code.
+Mask value accepts a dot (.) for a single character, asterisk (*) for more than one character and hashtag (#) for replacing an individual character with a character at the same position in the base account.
+Hashtags patterns enable drilling up from a base code.
 
-In addition to roles, a pattern can be set a _rule_. See [Rules](#rules) section on how to add an expression.
+In addition to roles, a pattern can be set a _rule_ expression. See [Rules](#rules) section on how to add an expression.
 
-The Usage reports use patterns to selectivly show data relevant to the user.
-. You can test if the user can view a cirtain set of axes using the Authorize() method of the CubeService service.
+The built-in CubePatternUsage report use patterns to selectivly show data relevant to the user.
 
-> Patterns does not imply to cube charts. Use other measure of restriction such as setting the Privileges attribute in cube views configuration.
+You can test if the user has privileges to a cirtain set of axes using the Authorize() method of the CubeService service.
 
-Patterns can be modified using an administrative utility or by manually editing the configuration file.
+By default, the CanView() method of the cube uses patterns to restrict access to cube data.
+
+Patterns can be modified using a designated administration utility or, by manually editing the configuration file.
 
 #### Explore data
 
-You can extend the default drill down capabilities by implementing a custom dill down, into 3rd party app.
+If you use the cube to store 3rd party app data, such as POs from ERP, you can provide drill down to the 3rd party app by implementing the IBrowsable.
 
-First, implement the CubeBase.IExplore&lt;T&gt; QueryAsync(). Then override the GetExploreType() method and return the relevant type for the requested axes.
+First, override the GetExploreType() method and return the relevant type for the requested axes. Then, implement the CubeBase.IBrowsable&lt;T&gt; QueryAsync() to populate 3rd party data.
 
 ```c#
-public class MyCube : CubeBase, CubeBase.IExplore<PO> {
+public class MyCube : CubeBase, CubeBase.IBrowsable<PO> {
   private const byte BALANCE_AXIS_POSITION = 4;
   public override async Task<IEnumerable<PO>> QueryAsync(params Axis[] axes) {
     ...
@@ -741,11 +790,11 @@ public class MyCube : CubeBase, CubeBase.IExplore<PO> {
 }
 ```
 
-> The implementation of the QueryAsync should be able to handle different Axis values, including range, arrays and patterns.
+> The implementation of the QueryAsync should be able to handle different Axis values, including range, arrays and patterns. Use the CubeService.FormatAxisPhrase() method.
 
 #### Querying
 
-Use the `CubeService` to preform queries on _cubes_ and _indices_. It maintains clear syntax and avoid SQL phrasing in your project.
+Use the `CubeService` to preform queries on _cubes_, _indices_ and currencies.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -765,17 +814,18 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ```
 
-The above retrieves the usage for myCube, year 2020 1st-2nd quarters of all Opened balance.
+The above retrieves the usage for myCube, year 2020 1st through 2nd quarters of all Opened balance.
 
-The _Axis_ struct can be utilized to specify range, array, mask or combination of them. Masks support asterisk (*) and dot (.) characters.
+The _Axis_ struct can be utilized to specify a range, an array, a mask or - combination of them. Use Join() method to concat several conditions as one.
 
-To show cube from your Angular app client code, see [Angular DI](#angular-di) example.
+To show cube from your Angular app client code, use `CubeService`. See [Angular DI](#angular-di) example.
 
 #### Define cube anomaly
 
-By default, anomaly is calculated as the value of all cube records that map to the document *entries* deducted from all of the cube *indices*, where axis marked as *sensitive* are included.
+By default, anomaly is calculated as the value of all cube records that map to the document *entries* deducted from all cube *indices*.
+Only axes marked *sensitive* are inspected.
 
-If you wish to refine how anomaly is calculated, override the cube CalculateAnomalyAsync() method. A negative value is considered an anomaly.
+If you wish to refine how anomaly is calculated, override the cube CalculateAnomalyAsync() method. A negative value is considered an anomaly, whereas a positive or zero  indicates no anomaly.
 
 ```c#
 public class MyCube : CubeBase
@@ -809,7 +859,8 @@ public class MyWidget : WidgetBase<PersonalActivity.DataModel>
 }
 ```
 
-The Angular component imlements WidgetComponent\<T\> and has a _BizDoc_ annotation matching the backing object template.
+And an Angular component imlementing WidgetComponent\<T\>.
+Liek other components, widget Angular component needs to have a _BizDoc_ annotation matching the backing object template.
 
 ```typescript
 import { WidgetComponent, BizDoc } from 'bizdoc.core';
@@ -835,11 +886,12 @@ The onBind() function receives data from the GetAsync() method of the server-sid
 
 > Widgets, as other objects, accepts *options* that can determine their behavior, refer to BizDoc.Configuration.Widgets namespace to inspect core widget properties.
 
-Core widgets can be overridden, and more than one widget with the same Angular template can be configured in the configuration file. See [how to](#customize-built-in-objects) example.
+Core widgets can be overridden, and more than one widget with the same Angular template can be configured in the configuration file. See [how to](#customizing-built-in-objects) example.
 
 ### Rules
 
-A _rule_ declares a programmatic value. For example, the _anomaly_ rule returns the cube anomaly for the document being processed. Rules can then be evaluated in a workflow *condition* or object *privileges*.
+A _rule_ declares a programmatic value. For example, the Anomaly rule returns the cube anomaly for the currently processed document.
+Rules can then be evaluated in scenarios like a workflow If condition or object _privileges_.
 
 A rule inherits from RuleBase.
 
@@ -870,7 +922,8 @@ In configuration file.
 
 ### Enable version compare
 
-BizDoc logs changes made to document model during workflow. Changes can then be viewed from trace. To enable the form to show a colorful version compare, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
+BizDoc logs changes made to document model during workflow. Changes can then be viewed from trace.
+To enable the form to show version compare, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
 
 ```html
 <ng-container [ngSwitch]="mode">
@@ -885,7 +938,7 @@ BizDoc logs changes made to document model during workflow. Changes can then be 
 </ng-container>
 ```
 
-You can access version data programmatically from the onBind() function.
+You can also access version data programmatically from the onBind() function.
 
 ```typescript
 onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
@@ -912,7 +965,7 @@ export class MyFormComponent implements FormComponent<MyModel> {
 }
 ```
 
-This code pattern is recommended if your form open a line portal, and the user should be able to navigate back to the form header.
+This code pattern is recommended if your form opens a line portal, and the user should be able to navigate back to the form header.
 
 ### Providing a user guide
 
@@ -989,9 +1042,10 @@ You can pass data to CustomData node by overriding the GetCustomData() method on
 Create new class in your project and make it implement _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface, prior to calling AddBizDoc().
 
-### Customize built-in objects
+### Customizing built-in objects
 
-BizDoc comes with several built-in objects. You can extend these objects behavior by creating an  object that inherits from the built-in object.
+BizDoc has several built-in objects, such as widgets and reports.
+You can choose to change an object behavior by creating your own object and overrding its behaviour.
 
 ```c#
 public class MyDepartmentsCompare: DepartmentsCompareBase {
@@ -1000,31 +1054,27 @@ public class MyDepartmentsCompare: DepartmentsCompareBase {
 }
 ```
 
-In BizDoc configuration file, disable the built-in object, and set the Type of the new object to your implementation.
+In BizDoc configuration file, set the Type of your object to the new object with your implementation.
 
 ```json
 Widgets: [{
-  "Type": "BizDoc.Configuration.Widgets.DepartmentsCompare",
-  "Disabled": true,
-  "Name": "_departmentsCompare"
-},
-{
   "Type": "MyProject.MyDepartmentsCompare, MyProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
   "Name": "myDepartmentsCompare"
 }]
 ```
 
 BizDoc built-in objects can be found under the following namespaces:
-BizDoc.Workflow.Activities,
-BizDoc.Workflow.Actions,
-BizDoc.Configuration.Types,
-BizDoc.Configuration.Rules,
-BizDoc.Configuration.Reports and
-BizDoc.Configuration.Widgets.
 
-### Internationalization
+* BizDoc.Workflow.Activities,
+* BizDoc.Workflow.Actions,
+* BizDoc.Configuration.Types,
+* BizDoc.Configuration.Rules,
+* BizDoc.Configuration.Reports and
+* BizDoc.Configuration.Widgets.
 
-BizDoc configuration _ResourceType_ attribute.
+### Support Internationalization
+
+Server-side objects internationalization is achieved by setting the _ResourceType_ attribute to a .resx public file.
 
 ```json
 "Folders": [
@@ -1036,7 +1086,7 @@ BizDoc configuration _ResourceType_ attribute.
   }]
 ```
 
-In code:
+In a custom object code:
 
 ```c#
 [Form(Title = "MyForm", ResourceType = typeof(Properties.Resources))]
@@ -1044,22 +1094,27 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ```
 
-In Angular app.module:
+The above Properties.Resources maps to the project level resources, found in project properties.
+
+In Angular side, you can introduce string respurces using the `TranslationService`:
 
 ```typescript
-TranslationService.Set('es', {myField: 'My Field {0}'});
+TranslationService.Set('es', {
+  myField: 'My Field {0}'
+});
 ```
 
-Consume using translation _pipe_, which accepts parameters.
+Consume the reource using the `translate` pipe:
 
 ```html
 <div>{{'myField' | translate : '!'}}</div>
 ```
 
+In the above code, translate pipe accepts ! as a parameter, replacing the {0} in the resource.
+
 ### Disable existing objects
 
-Open bizdoc.json configuration and locate the object you wish to disable.
-Add Disabled to the object node.
+From bizdoc.json configuration file, locate the object you wish to disable and add Disabled property.
 
 ```json
 {
@@ -1069,7 +1124,7 @@ Add Disabled to the object node.
 
 ### Set privileges to form fields and sections
 
-BizDoc has an administrative utility for assigning _roles_ to _rules_. Rules are declared per form in _bizdoc.config_.
+BizDoc has an administrative utility for assigning _roles_ to _rules_. Rules are declared per form in bizdoc.config.
 
 ```json
 Forms:[{
@@ -1084,7 +1139,7 @@ Forms:[{
 }]
 ```
 
-In your form component template, test privileges by providing the permission name to either `bizdocDisabled` or `bizdocHidden` directives.
+In your form component, test privileges by providing the permission name to either `bizdocDisabled` or `bizdocHidden` directive.
 
 ```html
 <input bizdocDisabled="myField" />
@@ -1092,7 +1147,7 @@ In your form component template, test privileges by providing the permission nam
 <div bizdocHidden="myField"></div>
 ```
 
-You can gain programatic access to rules from the onBind() method.
+You can get programatic access to rules in runtime from the onBind() method of the form component.
 
 ```typescript
 onBind(data: MailModel<MyFormModel>): void {
@@ -1102,13 +1157,13 @@ onBind(data: MailModel<MyFormModel>): void {
 }
 ```
 
-In addition to roles, a rule may be assigned an _Expression_, which has to evaluates to true. See _rules_ above on how to endorse a new rule.
+In addition to _roles_, a rule may reflect an _expression_, which evaluates to either true or false. See [rules](#Rules) above on how to endorse a new rule or use the existion ones.
 
 ### Store custom user settings
 
-You can use BizDoc _IProfileManager_ service to store application specific settings.
+You can use BizDoc _IProfileManager_ service to store user specific settings.
 
-In your object constructor, consume _IProfileManager_ and use Get() and Set() method to retrieve and persist your settings.
+In your object constructor, consume _IProfileManager_ and use Get() and Set() methods to retrieve and persist your settings.
 
 ```c#
 public class MyForm: FormBase<MyFormModel> {
@@ -1130,43 +1185,54 @@ public class MyForm: FormBase<MyFormModel> {
 }
 ```
 
+### Add Guided Tour
+
+Guides are declared in the configuration file. A guide may have one or more _step_, when each step can be mapped to UI element using css selector.
+
+Guides can be linked to *form*, *report*, *widget*, cube *view* or *utility* by settings their Guide property to the guide name.
+
+Guides can also be started using the Angular `GuideService`.
+
 ## Database
 
-BizDoc databse tables are created and maintained in the _BizDoc_ schema.
-You may access BizDoc storage using the `Store` service. If you wish to access the _cube_, we recommand using the `CubeService` as explained in the [Cube](#querying) section.
+BizDoc databse tables are self-maintained under the _BizDoc_ schema.
+You can access the database using the `Store` service. If you wish to access the _cube_, we recommand using the `CubeService` as explained in the [Cube](#querying) section.
+
+Datanase tables:
 
 | Table       | Usage |
 ----          | ---   |
-| Documents | Data model records
+| Documents | Document header and data model
 | Recipients | Document recipients
 | Events | Events of documents
+| Locations |
 | Comments | Comments of documents
-| Entries | Reflects axes data extracted from document data model
-| Log | Documents log of one of: _ActionTaken_, _Submit_, _Escalate_, _ModelChange_ or _StateChange_ found in BizDoc.Core.Data.Models.Log namespace.
-| Devices | (Internal registry of user devices)
+| Entries | Cube Axes mapping of a document
+| Log | Document log. May be one of _ActionTaken_, _Submit_, _Escalate_, _ModelChange_, _Downloaded_, or _StateChange_. Log models can be found in BizDoc.Core.Data.Models.Log namespace.
+| Devices | (Internal, registry of user devices)
 | Chats | Conversations (when applicable)
 | Cube | Reflects document data from _Entries_ table and data from 3rd party app
 | Indices | Indices for cube
-| Segments | Account segments code names
-| Combinations | Account segments combinations
-| Sequences | Unique form sequence
+| Segments | Account segments code names (default implementation)
+| Combinations | Account segments combinations (default implementation)
+| Sequences | (Internal, unique form sequence)
 
-You can access document models using the Document GetModel\<TModel\>() method. This practice does require you retrieve the documents first and is not intended for large queries.
+You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use TableMapping as explained above when dealing with a large datasets.
 
-> As _Cube_ and _Indices_ tables grow significantly large, consider adding indexes on the axes you use.
+> As _Cube_ and _Indices_ tables grow significantly large, consider adding indexes to the axes you use.
 
-If you add 3rd party information to _Cube_ table, use separate records than the ones BizDoc create.
+If you add 3rd party information to _Cube_ table, use separate records than the ones BizDoc creates.
 
-_Segments_ and _Combinations_ tables are used by Segments _type_, `CombinationPicker` and `CombinationPool` by default. You may map a segment axis to any _type_, as explained in [Cube](#axes) section, and override _cube_ CombinationsAync() method to retrieve combinations from a source of your choice.
+_Segments_ and _Combinations_ tables are used by Segments built-in type, `CombinationPicker` and `CombinationPool`. You may override cube CombinationsAync() method to retrieve combinations from a source of your choice.
 
 ## References
 
-BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background tasking. You can add your long-running or period tasks using it's infrastructure. Administrative access available through /hangfire url.
+BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background tasking. You can add your long-running or periodic tasks using this library. Administrative control available in /hangfire url on the app web server.
 
-BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add your own charts, consider using this library. Licensing required.
+BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add charts to your custom components, we strongly recommand you consider using this library. Licensing required.
 
-If you use the currency exchange rate job, register at <http://data.fixer.io>.
+If you use the currency exchange rate job, register at <http://data.fixer.io> and set the appropriate options in startup.cs.
 
 Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
 
-> Product updates are released pariodically as npm and Nuget packages.
+> Product updates are released through npm and Nuget packages. Kepp your project updated!
