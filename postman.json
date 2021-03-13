@@ -1,0 +1,1114 @@
+{
+	"info": {
+		"_postman_id": "cf88575b-1902-44c2-9418-7228b9e9f373",
+		"name": "BizDoc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "recents",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/recents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"recents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "personal score",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/personalScore",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"personalScore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "periods",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/periods",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"periods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "personal activity",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/personalActivity",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"personalActivity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cube analysis",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/cubeAnalysis",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"cubeAnalysis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "departmental performance",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/departmentalPerformance",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"departmentalPerformance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pending results",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/pendingResults",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"pendingResults"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cube documents",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br",
+								"type": "text"
+							},
+							{
+								"key": "cookie",
+								"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/api/dashboard/cube-documents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								"cube-documents"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/index.html",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh 401",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/api/account/refresh",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"account",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\".AspNetCore.Identity.\", pm.cookies.get(\".AspNetCore.Identity.Application\"));\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"user{{$randomInt}}\",\r\n    \"password\":\"user0000!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/api/account/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/api/account/refresh",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"account",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Compose",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var model = pm.response.json();\r",
+							"pm.collectionVariables.set(\"documentId\", model.id);\r",
+							"pm.collectionVariables.set(\"dVer\", 0);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/api/mail?form=myForm",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail"
+					],
+					"query": [
+						{
+							"key": "form",
+							"value": "myForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mailbox",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/api/mail",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/api/mail/{{documentId}}?version={{dVer}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail",
+						"{{documentId}}"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "{{dVer}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Message update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var model = pm.response.json();\r",
+							"pm.collectionVariables.set(\"dVer\", model.version);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"due\": \"0001-01-01T00:00:00\",\r\n\"field1\": \"02bed0c2-b715-4e35-9c94-24a193856d74\",\r\n\"lines\": [],\r\n\"quarter\": \"1\",\r\n\"subject\": \"A\",\r\n\"year\": \"2020\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/api/mail/{{documentId}}?version={{dVer}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail",
+						"{{documentId}}"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "{{dVer}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var model = pm.response.json();\r",
+							"pm.collectionVariables.set(\"documentId\", model.recipients[1].id);\r",
+							"pm.collectionVariables.set(\"dVer\", model.version);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"due\": \"0001-01-01T00:00:00\",\r\n\"field1\": \"02bed0c2-b715-4e35-9c94-24a193856d74\",\r\n\"lines\": [],\r\n\"quarter\": \"1\",\r\n\"subject\": \"A\",\r\n\"year\": \"2020\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/api/mail/{{documentId}}?version={{dVer}}&go=true",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail",
+						"{{documentId}}"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "{{dVer}}"
+						},
+						{
+							"key": "go",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var model = pm.response.json();\r",
+							"pm.collectionVariables.set(\"documentId\", model.recipients[1].id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "cookie",
+						"value": ".AspNetCore.Identity.Application={{.AspNetCore.Identity.}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"due\": \"0001-01-01T00:00:00\",\r\n\"field1\": \"02bed0c2-b715-4e35-9c94-24a193856d74\",\r\n\"lines\": [],\r\n\"quarter\": \"1\",\r\n\"subject\": \"A\",\r\n\"year\": \"2020\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/api/mail/{{documentId}}?version={{dVer}}&action={{action}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"mail",
+						"{{documentId}}"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "{{dVer}}"
+						},
+						{
+							"key": "action",
+							"value": "{{action}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": ".AspNetCore.Identity.",
+			"value": "refresh"
+		},
+		{
+			"key": ".AspNetCore.Identity.",
+			"value": ""
+		},
+		{
+			"key": "documentId",
+			"value": "1"
+		},
+		{
+			"key": "documentId",
+			"value": ""
+		},
+		{
+			"key": "dVer",
+			"value": "1"
+		},
+		{
+			"key": "dVer",
+			"value": ""
+		},
+		{
+			"key": "action",
+			"value": "approve"
+		},
+		{
+			"key": "action",
+			"value": ""
+		}
+	]
+}

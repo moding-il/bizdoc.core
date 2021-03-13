@@ -824,7 +824,20 @@ To show cube from your Angular app, use Angular `CubeService`. See [Angular DI](
 
 #### Define cube anomaly
 
-By default, anomaly is calculated as the value of all cube records that map to the document *entries* deducted from parallel *indices*. Only axes marked *sensitive* are taken into considuration.
+By default, anomaly is calculated as the value of all cube records that map to the document *entries* deducted from parallel *indices*.
+
+BizDoc notifies recipients of any anomaly found in any of the axes.
+To make BizDoc ignore one of more segment, use the `AnomalyPolicy` option in AddBizDoc() startup.
+
+```c#
+services.AddBizDoc(o => {
+  o.AnomalyPolicy &= ^ AnomalyPolicy.Axis3 | AnomalyPolicy.Positions;
+});
+```
+
+If the 3rd axis is, for example, months, the anomaly will be calculated in a higher lever of quarters.
+
+You may also change the default behaviour of notifying recepients to notifying users who where assigned to roles by adding the AnomalyPolicy.Positions.
 
 If you wish to refine how anomaly is calculated, override cube CalculateAnomalyAsync() method. A negative value is considered an anomaly, whereas a positive or zero indicates no anomaly.
 
