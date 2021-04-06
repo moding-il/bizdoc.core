@@ -26,14 +26,14 @@
  export let options = {
    //duration: '60s',
    //httpDebug: 'full',
-   iterations: 400,
-   vus: 50
+   iterations: 100,
+   vus: 1
  };
  
  export default function () {
    // sign in
    {
-     let username = `user3${__VU}`;
+     let username = `user${__VU}`;
      let payload = {
        username: username,
        password: `${username}!`
