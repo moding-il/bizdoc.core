@@ -107,7 +107,7 @@ Install the relevant Nuget and add it to services in _startup.cs_.
           });
 ```
 
-> If the available default identity managers donen't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#custom).
+> If the available default identity managers donen't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#provide-a-custom-identity-manager).
 
 BizDoc offers additional services:
 
