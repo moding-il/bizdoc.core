@@ -186,6 +186,7 @@ Services include:
 | MapInfo | Open a map
 | DocumentInfo | Preview a document
 | AttachmentInfo | Preview an attachment
+| ChatInfo | Chat
 
 ```typescript
 class MyClass {
@@ -351,7 +352,7 @@ To create an Angular component, run the following from command-line in project .
 Open ./app/src/my-Form/my-form.component.ts and replace the content of the file with the following:
 
 ```typescript
-import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
+import { FormComponent, RecipientModel, ViewMode, BizDoc } from 'bizdoc.core';
 
 @Component({
   selector: 'app-my-form',
@@ -368,7 +369,7 @@ export class MyFormComponent implements FormComponent<MyFormModel> {
   mode: ViewMode;
   constructor(private _fb: FormBuilder) {
   }
-  onBind(model: MailModel<MyFormModel>): void {
+  onBind(model: RecipientModel<MyFormModel>): void {
   }
 }
 interface MyFormModel {
@@ -482,7 +483,7 @@ public class MyFormModel {
 The corresponding Angular component use the _@BizDoc_ decorator, with the *app-my-form* value.
 
 ```typescript
-import { FormComponent, MailModel, ViewMode, BizDoc } from 'bizdoc.core';
+import { FormComponent, RecipientModel, ViewMode, BizDoc } from 'bizdoc.core';
 
 @BizDoc({
   selector: 'app-my-form'
@@ -796,7 +797,7 @@ public class MyCube : CubeBase, CubeBase.IBrowsable<PO> {
 
 #### Querying
 
-Use the `CubeService` to preform queries on _cubes_, _indices_ and currencies.
+Use the `CubeService` to preform queries on cubes, indices and currencies.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -822,7 +823,7 @@ The _Axis_ struct can be utilized to specify a range, an array, a mask or - comb
 
 To show cube from your Angular app, use Angular `CubeService`. See [Angular DI](#angular-di) example.
 
-#### Define cube anomaly
+#### Define anomaly
 
 By default, anomaly is calculated as the value of all cube records that map to the document *entries* deducted from parallel *indices*.
 
@@ -956,7 +957,7 @@ To enable a form to show version compare, use the `bizdocCompareGroup`, `bizdocC
 You can also access version data programmatically from the onBind() function.
 
 ```typescript
-onBind(data: MailModel<MyFormModel>, version?: MyFormModel): void {
+onBind(data: RecipientModel<MyFormModel>, version?: MyFormModel): void {
     if(version && version.subject !== data.model.subject) {
       ...
     }
@@ -1165,7 +1166,7 @@ In your form component, test privileges for a field or a section of your code by
 You can gain programmatic access to rules from form component onBind() method.
 
 ```typescript
-onBind(data: MailModel<MyFormModel>): void {
+onBind(data: RecipientModel<MyFormModel>): void {
     if (!data.rules['myField']) {
       ...
     }
