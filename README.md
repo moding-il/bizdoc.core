@@ -983,6 +983,21 @@ export class MyFormComponent implements FormComponent<MyModel> {
 
 This code pattern is recommended if your form opens internal portals, and the user should be able to navigate back and forth.
 
+### Inject custom slot
+
+BizDoc uses *slots* to display different content parts. The form itself is presented as a slot, which can be pinned, resized, etc.
+
+If you wish to open a custom angular component on a new slot next to your component, use the `SlotsRouter` service.
+
+```typescript
+constructor(private _router: SlotsRouter) {}
+open() {
+  this._router.navigate(MySlotComponent);
+}
+```
+
+You may also register slots with paths in advance.
+
 ### Providing a user guide
 
 BizDoc can present the user with a guide of component functionality and use.
