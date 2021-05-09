@@ -187,6 +187,7 @@ Services include:
 | DocumentInfo | Preview a document
 | AttachmentInfo | Preview an attachment
 | ChatInfo | Chat
+| SlotsRouter | Slots navigation
 
 ```typescript
 class MyClass {
@@ -1221,7 +1222,7 @@ public class MyForm: FormBase<MyFormModel> {
 BizDoc databse tables are self-maintained under the _BizDoc_ schema.
 You can access database objects using the `Store` service. If you wish to access the _cube_, we recommand using the `CubeService` as explained in the [Cube](#querying) section.
 
-Datanase tables:
+Database tables:
 
 | Table       | Usage |
 ----          | ---   |
