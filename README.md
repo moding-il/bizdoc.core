@@ -187,7 +187,8 @@ Services include:
 | DocumentInfo | Preview a document
 | AttachmentInfo | Preview an attachment
 | ChatInfo | Chat
-| SlotsRouter | Slots navigation
+| Popup | Open a popup
+| SlotsRouter | Navigate to a slot
 
 ```typescript
 class MyClass {
