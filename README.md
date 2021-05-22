@@ -126,6 +126,8 @@ You can set BizDoc client app behavior using the BizDocModule.forRoot() function
   })]
 ```
 
+You can find release notes [here](./release.md).
+
 ## Managed Objects
 
 A managed object is a unit of code that implements one of BizDoc base classes. Base classes can be found in BizDoc.Configuration namespace.
