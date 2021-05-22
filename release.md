@@ -14,7 +14,7 @@ Version supports Angular 11.2.x and .Net 5.1.
 
 ### Features
 
-* Organize componenets as slots for desktop users. Read more on this feature [here](./issues/10).
+* Organize componenets as slots for desktop users. Read more on this feature [here](https://github.com/moding-il/bizdoc.core/issues/10).
 * Chat with more than one user in parallel.
 * Paste image in chat and document comments.
 * [Slack](http://www.slack.com) support using BizDoc [package](https://www.nuget.org/packages/BizDoc.Slack/).
