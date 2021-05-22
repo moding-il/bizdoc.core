@@ -1,10 +1,6 @@
 # Release notes
 
-We release a major version twice a year, medium version once a month and minor patches regularly.
-
-Nuget packages release.
-
-Npm release.
+We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
 ## 1.0.1
 
@@ -18,8 +14,10 @@ Version supports Angular 11.2.x and .Net 5.1.
 
 ### Features
 
-* Organize componenets as slots for desktop users.
-* Chat with more than one user, paste image.
+* Organize componenets as slots for desktop users. Read more on this feature [here](./issues/10).
+* Chat with more than one user in parallel.
+* Paste image in chat and document comments.
+* [Slack](http://www.slack.com) support using BizDoc [package](https://www.nuget.org/packages/BizDoc.Slack/).
 
 ### Breaking changes
 
@@ -35,5 +33,6 @@ imports: [BizDocModule.formRoot(
 
 ### Features
 
+* Chat and comment emoji (y), (n), <3. **Emphasis** using leading and trailing \*.
 * Configuration diff system utility.
 * Trace document system utility.
