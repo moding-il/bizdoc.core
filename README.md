@@ -1,6 +1,6 @@
 # bizdoc.core
 
-BizDoc is a software developer framework for delivering form-flow solusion. It includes a workflow engine, a mailbox -like user interface, and set of built-in components for data analysis.
+BizDoc is a software developer framework for delivering form-flow solution. It includes a workflow engine, a mailbox -like user interface, and set of built-in components for data analysis.
 
 ## Setting up
 
@@ -41,7 +41,7 @@ Commonly, a front-end component has a backing server object. For example, BizDoc
 BizDoc manages to following objects:
 
 * Form - Application details.
-* Report - Retreive and present data.
+* Report - Retrieve and present data.
 * Widget - Dashboard item.
 * Utility - An administrative procedure.
 * Type - Data source for list of values.
@@ -50,7 +50,7 @@ BizDoc manages to following objects:
 * FlowNode - Workflow item.
 * Rule - Server-side JS expression.
 
-In addition to the managed objects above, BizDoc facilitates unmanaged objects which doesn't have a backend object but is configured in configuration file:
+In addition to the managed objects above, BizDoc facilitates objects which doesn't have a backend object but is configured in configuration file:
 
 * Folders - Trays of documents and display columns.
 * States - Document statuses.
@@ -69,7 +69,7 @@ You can alter object Type and Template in configuration settings.
 
 BizDoc objects accepts .Net Core services using Dependency Injection (DI). In addition to .Net standard services, BizDoc provides its own services to access its functionality.
 
-BizDoc maintains _Roles_. A _role_ is declared per _type_ and assigned _positions_ to type _keys_. In addition to assiging roles to type keys, positions can be assigned to _patterns_, a regular expression, and to _groups_ of keys.
+BizDoc maintains _Roles_. A _role_ is declared per _type_ and assigned _positions_ to type _keys_. In addition to assigning roles to type keys, positions can be assigned to _patterns_, a regular expression, and to _groups_ of keys.
 
 BizDoc database can be SqlServer, MySQl or Oracle. The BizDoc database objects are created under the \[BizDoc\] schema.
 Commonly, developer creates their own database context to access custom database objects. Refer to .Net Core [EF](https://docs.microsoft.com/en-us/ef/core/get-started/index) on how to create and maintain Entity Framework context.
@@ -107,7 +107,7 @@ Install the relevant Nuget and add it to services in _startup.cs_.
           });
 ```
 
-> If the available default identity managers donen't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#provide-a-custom-identity-manager).
+> If the available default identity managers doesn't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#provide-a-custom-identity-manager).
 
 BizDoc offers additional services:
 
@@ -157,13 +157,13 @@ BizDoc provides the following services:
 | IDocumentContext | Currently handled document | BizDoc.Core.Data
 | IWorkflowInstance | Start and resume document workflow | BizDoc.Core.Workflow
 | IWorkflowContext | Currently running workflow context | BizDoc.Core.Workflow
-| SourceService | Retreive data source (Type object values) | BizDoc.Core.Data
+| SourceService | Retrieve data source (Type object values) | BizDoc.Core.Data
 | CubeService | Query cube and currencies | BizDoc.Core.Data
 | IProfileManager | Access user profile | BizDoc.Core.Identity
-| IIdentityManager | Retreive user information | BizDoc.Core.Identity
+| IIdentityManager | Retrieve user information | BizDoc.Core.Identity
 | IEmailer | Deliver @ | BizDoc.Core.Messaging
 | ISmser | Send SMS | BizDoc.Core.Messaging
-| NotificationManager | Send notifiction to a user | BizDoc.Core.Messaging
+| NotificationManager | Send notification to a user | BizDoc.Core.Messaging
 | IOptions\<SystemOptions\> | Access configuration | BizDoc.Core.Configuration.Models
 | ScheduledTasks | Enqueue delayed execution | BizDoc.Core.Tasks
 
@@ -181,7 +181,7 @@ Services include:
 | CubeService | Query cube
 | DataSourceService | Retrieve managed _Type_ values
 | AccountService |  Get users info
-| TranslationService | Add and query internationalization resources, used in conjection with the _translate_ pipe
+| TranslationService | Add and query internationalization resources, used in conjunction with the _translate_ pipe
 | GuideService | Start a step-by-step guided tour
 | MailboxService | Mail related operations
 | CubeInfo | Open a cube matrix
@@ -201,7 +201,7 @@ class MyClass {
       company: 201
     }, {
      xAxis: 'month',
-     serie: 'balance'
+     series: 'balance'
     })
   }
 }
@@ -229,7 +229,7 @@ public class MyFormModel {
 }
 ```
 
-You may annotate your model with attributes to instruct BizDoc how to handle it. Attributes include: Subject, Summary, Value, Currency, ExchageRate, Required, Hint and ListType. In addition, model may be annotated with .Net attributes such as DataType, MaxLength and Display.
+You may annotate your model with attributes to instruct BizDoc how to handle it. Attributes include: Subject, Summary, Value, Currency, ExchangeRate, Required, Hint and ListType. In addition, model may be annotated with .Net attributes such as DataType, MaxLength and Display.
 
 For example, to use the model *Purpose* property as the document title, annotate it with the `Subject` attribute.
 
@@ -297,7 +297,7 @@ public class MyFormLine {
 ##### Mapping a cube
 
 Map form model to _cube_ by annotating your data model class with `CubeMapping` attribute.
-This creates an index from model properties, which can later be accesed from reports and widgets.
+This creates an index from model properties, which can later be accessed from reports and widgets.
 
 ```c#
 [CubeMapping(nameof(Amount), nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance))]
@@ -436,7 +436,7 @@ Cubes: [{
   "Constraints": [
     {
       "Condition": {
-        "compnay": "company1"
+        "company": "company1"
       },
       "Projection": {
         "region": ["100-200"]
@@ -500,7 +500,7 @@ export class MyFormComponent implements FormComponent<MyFormModel> {
 ### Types
 
 A _type_ represents a source of key-value pairs.
-For example, the *Account* type can retrieve accounts from a database, and make thier vaules available using a type.
+For example, the *Account* type can retrieve accounts from a database, and make their values available using a type.
 
 ```c#
 [Table("Accounts")]
@@ -586,7 +586,7 @@ Another built-in type is Segments, which retrieve values from the _BizDoc.Segmen
 
 ### Reports
 
-A _report_ component tooconsists of a data model, a backing class, and an arguments class.
+A _report_ component too consists of a data model, a backing class, and an arguments class.
 
 ```c#
 public class MyReportDataModel
@@ -647,7 +647,7 @@ If no Angular component is registered for the report, BizDoc treats the model pr
 
 You can also customize the arguments pane by implementing IArgumentComponent\<T\> and annotating the arguments model with the _Template_ attribute.
 
-Use one of the buit-in pipes to display BizDoc keys as values. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`. UserName pipe and TypeValue pipe are async.
+Use one of the built-in pipes to display BizDoc keys as values. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`. UserName pipe and TypeValue pipe are async.
 
 #### Customizing built-in Reports
 
@@ -673,7 +673,7 @@ To find out which reports accepts which options, use the Object Browser to disco
 
 ### Cube
 
-A _cube_ is the mechanizm for indexing forms data. Data can then be visualized using cube _views_ or one of the built-in reports and widgets.
+A _cube_ is the mechanism for indexing forms data. Data can then be visualized using cube _views_ or one of the built-in reports and widgets.
 
 #### Axes
 
@@ -767,11 +767,11 @@ For example, to restrict view to years 20` for companies 201 and 202 and regions
 Mask value accepts a dot (.) for a single character, asterisk (*) for more than one character and hashtag (#) for replacing an individual character with a character at the same position in a previously selected combination.
 Hashtags patterns enable drilling up from a base combination.
 
-In addition to roles, a pattern can be set a programatic _rule_ expression. See [Rules](#rules) section on how to add an expression.
+In addition to roles, a pattern can be set a programmatic _rule_ expression. See [Rules](#rules) section on how to add an expression.
 
-The built-in *CubePatternUsage* report uses patterns to selectivly show data relevant to the user.
+The built-in *CubePatternUsage* report uses patterns to selectively show data relevant to the user.
 
-You can test if the user has privileges to a cirtain set of axes using the Authorize() method of the `CubeService` service.
+You can test if the user has privileges to a certain set of axes using the Authorize() method of the `CubeService` service.
 
 By default, the cube CanView() method uses patterns to restrict access to cube data.
 
@@ -815,7 +815,7 @@ public class MyForm : FormBase<MyFormModel> {
       2020 /* year axis */,
       Axis.FromArray(1, 2) /* quarter axis */,
       default /* skip months axis */,
-      Balance.Opend /* open only */);
+      Balance.Opened /* open only */);
       ...
   }
 }
@@ -842,7 +842,7 @@ services.AddBizDoc(o => {
 
 If the 3rd axis is, for example, months, the anomaly will be calculated in a higher lever of quarters.
 
-You may also change the default behaviour of notifying recepients to notifying users who where assigned to roles by adding the AnomalyPolicy.Positions.
+You may also change the default behavior of notifying recipients to notifying users who where assigned to roles by adding the AnomalyPolicy.Positions.
 
 If you wish to refine how anomaly is calculated, override cube CalculateAnomalyAsync() method. A negative value is considered an anomaly, whereas a positive or zero indicates no anomaly.
 
@@ -859,7 +859,7 @@ public class MyCube : CubeBase
 ### Widgets
 
 A _widget_ represents a component displayed in user dashboard, commonly showing relevant data summary.
-Widgets have a backing server-side object and a coresponding Angular component.
+Widgets have a backing server-side object and a corresponding Angular component.
 
 The backing object derived from WidgetBase.
 
@@ -878,7 +878,7 @@ public class MyWidget : WidgetBase<PersonalActivity.DataModel>
 }
 ```
 
-And an Angular component imlementing WidgetComponent\<T\>.
+And an Angular component implementing WidgetComponent\<T\>.
 
 ```typescript
 import { WidgetComponent, BizDoc } from 'bizdoc.core';
@@ -1000,7 +1000,7 @@ open() {
 }
 ```
 
-You may also register slots with paths in advance.
+You may also register slots with paths in advance. See slots [issue](https://github.com/moding-il/bizdoc.core/issues/10) for more.
 
 ### Providing a user guide
 
@@ -1039,7 +1039,7 @@ You can set a guide to a form, report, utility, widget or cube view.
 ]
 ```
 
-You can also set a guide at runtime using `FormRef`. For example, a form may provide dfferent guide for line view and header view, or a different guide in preview and edit mode.
+You can also set a guide at runtime using `FormRef`. For example, a form may provide different guide for line view and header view, or a different guide in preview and edit mode.
 
 ### Format delivered emails
 
@@ -1067,7 +1067,7 @@ Edit file:
 
 In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
-> Study the schama to learn about the structure of the XML representing document data.
+> Study the schema to learn about the structure of the XML representing document data.
 
 Some limitations may apply to data models to allow them to be serialized as XML. Annotate your model with _XmlIgnore_, _XmlAttribute_, _XmlArray_ and _XmlArrayItem_ to control the XML structure.
 
@@ -1078,9 +1078,9 @@ You can pass data to XML CustomData node by overriding the GetCustomData() metho
 Create new class in your project implementing _BizDoc.Core.Identity.IIdentityManager_ and _BizDoc.Core.Identity.ISignInProvider_ interfaces.
 Register each of them separately in _startup.cs_ as scoped service for the respective interface.
 
-### Customizing built-in objects
+### Customizing built-in components
 
-BizDoc built-in objects, such as widgets and reports, can be overriden to alter their behaviour.
+BizDoc built-in components, such as widgets and reports, can be extended to alter their behavior. For example, an existing _widget_ component implementation can be overridden to determine data scope.
 
 ```c#
 public class MyDepartmentsCompare: DepartmentsCompareBase {
@@ -1192,13 +1192,13 @@ onBind(data: RecipientModel<MyFormModel>): void {
 }
 ```
 
-In addition to _roles_, a rule may grant privilege per _rules_  expression. See [rules](#Rules) above on how to endorse a new rule or use the existion ones.
+In addition to _roles_, a rule may grant privilege per _rules_  expression. See [rules](#Rules) above on how to endorse a new rule or use the existing ones.
 
 ### Store custom user settings
 
 Use BizDoc _IProfileManager_ service to store user specific settings.
 
-In your object constructor, consume _IProfileManager_ and use Get() and Set() methods to retrieve and set a predefied model. Persist your changes using the Persist() method.
+In your object constructor, consume _IProfileManager_ and use Get() and Set() methods to retrieve and set a predefined model. Persist your changes using the Persist() method.
 
 ```c#
 public class MyForm: FormBase<MyFormModel> {
@@ -1222,8 +1222,8 @@ public class MyForm: FormBase<MyFormModel> {
 
 ## Database
 
-BizDoc databse tables are self-maintained under the _BizDoc_ schema.
-You can access database objects using the `Store` service. If you wish to access the _cube_, we recommand using the `CubeService` as explained in the [Cube](#querying) section.
+BizDoc database tables are self-maintained under the _BizDoc_ schema.
+You can access database objects using the `Store` service. If you wish to access the _cube_, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 Database tables:
 
@@ -1257,10 +1257,10 @@ _Segments_ and _Combinations_ tables are used by Segments built-in type, `Combin
 
 BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background execution. You can add your long-running or periodic jobs using this library. Administrative control available in /hangfire url on your web app server.
 
-BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add charts to your custom components, we recommand using this library. Licensing required.
+BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add charts to your custom components, we recommend using this library. Licensing required.
 
 If you use the currency exchange rate job, register at <http://data.fixer.io> and set the appropriate options in startup.cs.
 
 Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
 
-> Product updates are released through npm and Nuget packages. Kepp your project up to date!
+> Product updates are released through npm and Nuget packages. Keep your project up to date!
