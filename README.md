@@ -86,7 +86,7 @@ BizDoc configuration includes licensing, SMTP and more.
 
 Setup database provider by installing the relevant Nuget, from either [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
 
-```c#
+```csharp
     services.AddBizDoc().
       UseSqlServer(connectionString);
 
@@ -95,7 +95,7 @@ Setup database provider by installing the relevant Nuget, from either [SqlServer
 Set up authentication from one of: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) which uses Microsoft Active Directory, [Office365](https://www.nuget.org/packages/BizDoc.Core.Office) or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta).
 Install the relevant Nuget and add it to services in _startup.cs_.
 
-```c#
+```csharp
     services.AddBizDoc().
        UseSqlServer(connectionString).
        AddAspIdentity(options =>
@@ -136,7 +136,7 @@ A managed object is a unit of code that implements one of BizDoc base classes. B
 
 BizDoc objects support Dependency Injection. Object may consume services added in your startup.cs or one of BizDoc services.
 
-```c#
+```csharp
 public class MyForm : FormBase<MyFormModel> {
     private readonly IWorkflowInstance _workflowInstance;
     public MyForm(IWorkflowInstance workflowInstance) {
@@ -221,7 +221,7 @@ A _form_ object consists of three parts:
 
 #### Declare a data model
 
-```c#
+```csharp
 public class MyFormModel {
   public string Purpose { get; set; }
   public DateTime? Due { get; set; }
@@ -233,7 +233,7 @@ You may annotate your model with attributes to instruct BizDoc how to handle it.
 
 For example, to use the model *Purpose* property as the document title, annotate it with the `Subject` attribute.
 
-```c#  
+```csharp  
 using BizDoc.ComponentModel.Annotations;
 
 public class MyFormModel {
@@ -245,7 +245,7 @@ public class MyFormModel {
 
 Data model may have sub models:
 
-```c#  
+```csharp  
 using BizDoc.ComponentModel.Annotations;
 
 public class MyFormModel {
@@ -259,7 +259,7 @@ public class MyFormModel {
 Create a class that derived from FormBase\<T\>.
 Override its methods to respond to form events.
 
-```c#
+```csharp
 using BizDoc.Configuration;
 
 [Form(title: "My form")]
@@ -281,7 +281,7 @@ BizDoc stores form data internally. If you wish to store form data as database t
 
 Assign the `DocumentId` attribute to instruct BizDoc to set its value from the document identity, and the `Line` attribute to set am ordinal to a sub model collections.
 
-```c#
+```csharp
 [Table("MyTableLine")]
 public class MyFormLine {
   [DocumentId]
@@ -299,7 +299,7 @@ public class MyFormLine {
 Map form model to _cube_ by annotating your data model class with `CubeMapping` attribute.
 This creates an index from model properties, which can later be accessed from reports and widgets.
 
-```c#
+```csharp
 [CubeMapping(nameof(Amount), nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance))]
 public class Line {
   public DateTime Date { get; set; }
@@ -338,7 +338,7 @@ The `StateAxisResolver` above finds the Balance in the configuration file that m
 
 Schedule one or more events from model properties, allowing documents to be presented on a calendar.
 
-```c#
+```csharp
 [ScheduleMapping(nameof(EventDate))]
 public class Line {
   public DateTime EventDate {get; set;}
@@ -475,7 +475,7 @@ Preview mode commonly displays document trace or flow diagram. Pass the data rec
 
 The _Template_ annotation on the server-side object maps to the Angular component using the Template attribute.
 
-```c#  
+```csharp  
 using BizDoc.ComponentModel.Annotations;
 
 [Template("app-my-form")]
@@ -502,7 +502,7 @@ export class MyFormComponent implements FormComponent<MyFormModel> {
 A _type_ represents a source of key-value pairs.
 For example, the *Account* type can retrieve accounts from a database, and make their values available using a type.
 
-```c#
+```csharp
 [Table("Accounts")]
 public class Account
 {
@@ -525,7 +525,7 @@ public class Accounts : TypeBase<string>
 
 Type can be linked to a form model property by setting its ListType attribute.
 
-```c#
+```csharp
 [ListType(typeof(Accounts))]
 public string AccountId {get; set }
 ```
@@ -588,7 +588,7 @@ Another built-in type is Segments, which retrieve values from the _BizDoc.Segmen
 
 A _report_ component too consists of a data model, a backing class, and an arguments class.
 
-```c#
+```csharp
 public class MyReportDataModel
 {
     [Key]
@@ -685,7 +685,7 @@ You map a cube to form data model by annotating the _CubeMapping_ attribute as e
 
 Create a class that inherits from CubeBase.
 
-```c#
+```csharp
 public class MyCube : CubeBase
 {
 }
@@ -783,7 +783,7 @@ If you use the cube to store 3rd party app data, such as POs from ERP, you can p
 
 First, override the GetExploreType() method and return the relevant type for the requested axes. Then, implement the CubeBase.IBrowsable&lt;T&gt; QueryAsync() to populate 3rd party data.
 
-```c#
+```csharp
 public class MyCube : CubeBase, CubeBase.IBrowsable<PO> {
   private const byte BALANCE_AXIS_POSITION = 4;
   public override async Task<IEnumerable<PO>> QueryAsync(params Axis[] axes) {
@@ -803,7 +803,7 @@ public class MyCube : CubeBase, CubeBase.IBrowsable<PO> {
 
 Use the `CubeService` to preform queries on cubes, indices and currencies.
 
-```c#
+```csharp
 public class MyForm : FormBase<MyFormModel> {
   private readonly CubeService _cubeService;
   public MyForm(ICubeService CubeService) {
@@ -834,7 +834,7 @@ By default, anomaly is calculated as the value of all cube records that map to t
 BizDoc notifies recipients of any anomaly found in any of the axes.
 To make BizDoc ignore one of more segment, use the `AnomalyPolicy` option in AddBizDoc() startup.
 
-```c#
+```csharp
 services.AddBizDoc(o => {
   o.AnomalyPolicy &= ^ AnomalyPolicy.Axis3 | AnomalyPolicy.Positions;
 });
@@ -846,7 +846,7 @@ You may also change the default behavior of notifying recipients to notifying us
 
 If you wish to refine how anomaly is calculated, override cube CalculateAnomalyAsync() method. A negative value is considered an anomaly, whereas a positive or zero indicates no anomaly.
 
-```c#
+```csharp
 public class MyCube : CubeBase
 {
   public override Task<decimal> CalculateAnomalyAsync(params Axis[] axes)
@@ -863,7 +863,7 @@ Widgets have a backing server-side object and a corresponding Angular component.
 
 The backing object derived from WidgetBase.
 
-```c#
+```csharp
 [Template("app-my-widget")]
 public class MyWidget : WidgetBase<PersonalActivity.DataModel>
 {
@@ -915,7 +915,7 @@ Rules can then be evaluated in scenarios like a workflow *If* condition or objec
 
 A rule object inherits from RuleBase.
 
-```c#
+```csharp
 public class ValueRule : RuleBase<decimal?>
 {
     private readonly IDocumentContext _documentContext;
@@ -1082,7 +1082,7 @@ Register each of them separately in _startup.cs_ as scoped service for the respe
 
 BizDoc built-in components, such as widgets and reports, can be extended to alter their behavior. For example, an existing _widget_ component implementation can be overridden to determine data scope.
 
-```c#
+```csharp
 public class MyDepartmentsCompare: DepartmentsCompareBase {
   private readonly IIdentityContext _identityContext;
   protected override async Task<string[]> GetUsersAsync(string groupId) => ... // provide list of identities
@@ -1123,7 +1123,7 @@ Server-side objects internationalization may be applied by setting the _Resource
 
 In a custom object code:
 
-```c#
+```csharp
 [Form(Title = "MyForm", ResourceType = typeof(Properties.Resources))]
 public class MyForm : FormBase<MyFormModel> {
 }
@@ -1200,7 +1200,7 @@ Use BizDoc _IProfileManager_ service to store user specific settings.
 
 In your object constructor, consume _IProfileManager_ and use Get() and Set() methods to retrieve and set a predefined model. Persist your changes using the Persist() method.
 
-```c#
+```csharp
 public class MyForm: FormBase<MyFormModel> {
     private readonly IProfileManager _profileManager;
     private readonly IHttpContext _httpContext;

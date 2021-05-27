@@ -2,6 +2,14 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
+## 1.1.0
+
+Version supports Angular 12.0.x.
+
+### Fixes
+
+* Right-to-left support for charts.
+
 ## 1.0.1
 
 ### Fixes
