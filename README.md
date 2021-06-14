@@ -1263,4 +1263,5 @@ If you use the currency exchange rate job, register at <http://data.fixer.io> an
 
 Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
 
-> Product updates are released through npm and Nuget packages. Keep your project up to date!
+> Product updates are released regularly via [npm](https://www.npmjs.com/package/bizdoc.core) and [Nuget](https://www.nuget.org/packages/BizDoc.Core/) packages.
+> Keep your project up to date!
