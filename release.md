@@ -2,13 +2,11 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.2.0
-
-(Planned)
-
-Version supports Angular 12.1.
+## 1.2.5
 
 * Spreadsheet cube view. Set type from configuration file.
+* Cube info sum columns/rows option, such as YTD.
+* Cube dashboard widgets filters.
 
 ### Flutter app (Preview)
 
