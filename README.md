@@ -300,7 +300,7 @@ Map form model to _cube_ by annotating your data model class with `CubeMapping` 
 This creates an index from model properties, which can later be accessed from reports and widgets.
 
 ```csharp
-[CubeMapping(nameof(Amount), nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance))]
+[CubeMapping(nameof(Year), nameof(Quarter), nameof(Month), nameof(Balance))]
 public class Line {
   public DateTime Date { get; set; }
   [JsonIgnore, ListType(typeof(Years))]
@@ -312,9 +312,14 @@ public class Line {
 
   [ListType(typeof(Balances)), ValueResolver(typeof(StateAxisResolver<Balance?>))]
   public Balance? Balance { get; set; }
+  [Value, JsonIgnore]
+  public decimal Total => Amount * Qty;
   public decimal Amount { get; set; }
+  public decimal Qty { get; set; }
 }
 ```
+
+The `Value` attribute directs BizDoc which property holds the cube value. You can also set the `Currency`, `ExchangeRate` and `Percentage` attributes.
 
 The `StateAxisResolver` above finds the Balance in the configuration file that matches the document _state_. Set the *Axis* attribute of state *Options*:
 
