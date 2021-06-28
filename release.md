@@ -2,6 +2,12 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
+## 1.3.0
+
+### Features
+
+* Cube multi currency support in explore.
+
 ## 1.2.5
 
 * Spreadsheet cube view. Set type from configuration file.
