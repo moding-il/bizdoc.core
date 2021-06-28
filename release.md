@@ -7,6 +7,7 @@ We release a major version twice a year, medium version every other month, and m
 ### Features
 
 * Cube multi currency support in explore.
+* `Currency`, `ExchangeRate` and `Percentage` attributes enable more than one currency per document, in scenarios such as lines, where currency is set for the line.
 
 ## 1.2.5
 
