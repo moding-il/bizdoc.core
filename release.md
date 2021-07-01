@@ -2,12 +2,13 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.3.0
+## 1.3.2
 
 ### Features
 
 * Cube multi currency support in explore.
 * `Currency`, `ExchangeRate` and `Percentage` attributes enable more than one currency per document, in scenarios such as lines, where currency is set for the line.
+* Flutter *Invoice* form for Invy. Camera capture, geo location and nearby businesses.
 
 ## 1.2.5
 
