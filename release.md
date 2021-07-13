@@ -2,6 +2,10 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
+## 1.4.0 (planned)
+
+* Emoji in chat, comment
+
 ## 1.3.2
 
 ### Features
