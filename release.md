@@ -2,9 +2,10 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.4.0 (planned)
+## 1.4.0 (Planned)
 
 * Emoji in chat, comment
+* Microsoft Teams for BizDoc (Preview)
 
 ## 1.3.2
 
