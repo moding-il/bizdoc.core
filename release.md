@@ -4,8 +4,10 @@ We release a major version twice a year, medium version every other month, and m
 
 ## 1.4.0 (Planned)
 
-* Emoji in chat, comment
-* Microsoft Teams for BizDoc (Preview)
+* Emoji in chat, comment.
+* Avatar available indicator.
+* Microsoft Teams for BizDoc (Preview).
+* Flutter *Business Trip* form, including geo suggestions.
 
 ## 1.3.2
 
