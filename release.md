@@ -4,7 +4,9 @@ We release a major version twice a year, medium version every other month, and m
 
 ## 1.4.0 (Planned)
 
-* Emoji in chat, comment.
+* Folder filter by cube axes.
+* Themes green and brown.
+* Emoji in chat and comment.
 * Avatar available indicator.
 * Microsoft Teams for BizDoc (Preview).
 * Flutter *Business Trip* form, including geo suggestions.
