@@ -2,14 +2,19 @@
 
 We release a major version twice a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.4.0 (Planned)
+## 1.4.0
+
+### Features
 
 * Folder filter by cube axes.
 * Themes green and brown.
 * Emoji in chat and comment.
-* Avatar available indicator.
+* User availability indicator.
 * Microsoft Teams for BizDoc (Preview).
-* Flutter *Business Trip* form, including geo suggestions.
+
+### Breaking changes
+
+* RxJs 7.3, TypeScrip 4.3
 
 ## 1.3.2
 
