@@ -848,17 +848,11 @@ To show cube from your Angular app, use Angular `CubeService`. See [Angular DI](
 Anomaly is when the usage accedes index value. By default, anomaly is calculated as the value of all cube records that map to the document _entries_ deducted from all _indices_ values.
 
 BizDoc notifies recipients of any anomaly found in any of the axes.
-To make BizDoc ignore one of more segment, use the `AnomalyPolicy` option in AddBizDoc() startup.
-
-```csharp
-services.AddBizDoc(o => {
-  o.AnomalyPolicy &= ^ AnomalyPolicy.Axis3 | AnomalyPolicy.Positions;
-});
-```
+To make BizDoc ignore one of more segment, set the _Sensitive_ to false for one of more axes in configuration file.
 
 If the 3rd axis is, for example, months, the anomaly will be calculated in a higher lever of quarters.
 
-You may also change the default behavior of notifying recipients to notifying users who where assigned to roles by adding the AnomalyPolicy.Positions.
+You may also change the default behavior of notifying recipients to notifying users who where assigned to roles by setting the _AnomalyPolicy_ to _Positions_.
 
 To refine how anomaly is calculated, override cube CalculateAnomalyAsync() method. A negative value is considered an anomaly, whereas a positive or zero indicates no anomaly.
 
