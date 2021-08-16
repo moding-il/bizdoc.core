@@ -8,6 +8,7 @@ We release a major version once a year, medium version every other month, and mi
 
 * Html editor in comments and chat.
 * Reply to comments.
+* Action-picker in form body, replacing toolbar option.
 
 ## 1.4.1
 
