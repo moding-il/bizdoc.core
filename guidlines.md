@@ -28,13 +28,13 @@ public class MyFormModel {
 | Required | | System.ComponentModel.DataAnnotations
 | Display | | System.ComponentModel.DataAnnotations
 | MaxLength | | System.ComponentModel.DataAnnotations
-| DataType
+| DataType | | System.ComponentModel.DataAnnotations
 | RegularExpression | | System.ComponentModel.DataAnnotations
-| StringLength
-| Range
-| MinLength
-| MaxLength
-| Hint
+| StringLength | | System.ComponentModel.DataAnnotations
+| Range | | System.ComponentModel.DataAnnotations
+| MinLength | | System.ComponentModel.DataAnnotations
+| MaxLength | | System.ComponentModel.DataAnnotations
+| Hint | | BizDoc.ComponentModel.Annotations
 | Column | Sql type | System.ComponentModel.DataAnnotations.Schema
 | Line | Update numerator
 | VersionIgnore | | BizDoc.ComponentModel.Annotations
@@ -50,8 +50,9 @@ public class MyFormModel {
 | XmlArrayItem | | System.Xml.Serialization
 | ListType | | BizDoc.ComponentModel.Annotations
 | ValueResolver | | BizDoc.ComponentModel.Annotations
+| Template | | BizDoc.ComponentModel.Annotations
 
-> Models.
+> Model attributes are used in cases such as report arguments. You can override default layout by specifying the Template to use.
 
 #### Cube
 
@@ -95,28 +96,76 @@ export class MyFormComponent implements FormComponent<MyFormModel> {
 }
 ```
 
+In [Reactive Forms](https://angular.io/guide/reactive-forms), each field map to a FormControl in FormGroup.
+
 ### Embed Components
 
 built-in.
 
 | Name | Usage
 | -- | --
-| AddressInput |
-| TypeSelect | _Type_
-| TypeAutocomplete | _Type_
-| TimeInput |
-| CombinationPicker
-| CombinationPool | _Constraints_
+| AddressInput | Form field
+| TypeSelect | Form field mam to _Type_
+| TypeAutocomplete | Form field map to _Type_ \<bizdoc-autocomplete type="parts"\>
+| TimeInput | Form field
+| CombinationPicker | Form field
+| TypeValuePipe | Translate _type_ value. Async
+| StatePipe
+| ActionPipe
+| RolePipe
+| FormPipe
+| ArraySortPipe
+| IdentityName | \<identity-name [identity]=identity\>
+| GuideService | Start a guide
+| CubeService |
+| DataSourceService | _Types_
+| SessionService |
+| MailboxService |
+| MapInfo | Service.
+| DocumentInfo | Service.
+| AttachmentInfo | Service.
+| CubeInfo | Service.
+| ChatInfo | Service.
+| Popup | Service. Inject POPUP_DATA.
+| Avatar | \<bizdoc-avatar [person]=person\>
+| CombinationPool | _Constraints_ \<bizdoc-combination-pool [formGroup]=form\>
 | ActionPicker | Move actions to form body.
 
-Input form-field.
-
 ```html
-<bizdoc-address formControlName="businessAddress"></bizdoc-address>
+<mat-form-field>
+    <bizdoc-address formControlName="businessAddress"></bizdoc-address>
+</mat-form-field>
 ```
+
+```ts
+export class MyFormComponent {
+    constructor(private _cube: CubeInfo) {
+    }
+    info() {
+        this._cube.open({year: new Date().getFullYear()});
+    }
+}
+```
+
 ### View Mode
 
 compose, preview and version.
+
+### I18n
+
+```html
+<span>{{'MyField' | translate }}</span>
+```
+
+```ts
+TranslateService.set({'en-US': {
+    MyField: "My field!"
+}})
+```
+
+#### Version Compare
+
+bizdocVersion attribute.
 
 ### Rules
 
@@ -124,13 +173,23 @@ bizdoc.config _Forms_.
 
 ```json
 {
-    "Rules": {}
+    "Rules": {
+        "section1": {
+            "Roles": ["directManager"] 
+        }
+    }
 }
+```
+
+```html
+<div bizdocHidden="section1">
+...
+</div>
 ```
 
 ### Mobile Responsive
 
-fxLayout
+[fxLayout](https://github.com/angular/flex-layout/wiki/fxLayout-API)
 
 ```html
 <form fxLayout=column>
@@ -146,6 +205,8 @@ fxLayout
     selector: 'my-form'
 })
 ```
+
+Server:
 
 ```c#
 [Template("my-form")]
@@ -244,6 +305,26 @@ public abstract class ApiTypeBase : TypeBase {
     }
 }
 ```
+
+#### Simple Source
+
+Manage types in bizdoc.json
+
+```json
+{
+  "Types":[
+      {
+        "Type": "BizDoc.Configuration.Types.ConfigurationDataSource",
+        "Name": "types",
+        "Options": {
+        "Items": {
+            "Type1": "Type 1",
+            "Type2": "Type 2"
+        }
+        }
+    }
+  ]
+}```
 
 ### Cube
 
@@ -493,6 +574,10 @@ services.AddBizDoc(options => {
 
 ## Jobs
 
+Use Hangfire to run background jobs in-process.
+
+Job may consume BizDoc services.
+
 ```c#
 public class SynchronizeJob {
     SynchronizeJob(Store store) {}
@@ -510,7 +595,11 @@ using Hangfire;
 RecurringJobs.AddOrUpdate<SynchronizeJob>("Synchronize", e=> e.Synchronize(), Crone.Daily());
 ```
 
-*server-url*/hangfire/recurring.
+*server-url*/hangfire/recurring locally.
+
+### Console
+
+Long-running.
 
 ## Deployment
 
