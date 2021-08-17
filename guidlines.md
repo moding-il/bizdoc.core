@@ -314,7 +314,7 @@ public class MyFormModel {
 }
 ```
 
-> not needed
+> Form model is accessible from Document.Model\<T\>. If you do not require model for reporting, avoid mapping Table attribute.
 
 ### Migration
 
@@ -345,7 +345,7 @@ Override base methods to tap into lifetime events.
 
 ### Type
 
-_Type_ is a data source. It returns a map of key-value. You may author your own types to provide values from database or remote app.
+A _Type_ is a data source. It returns a map of key-value. You may author your own types to provide values from database or remote app.
 
 ```c#
 public class Customers : TypeBase {
@@ -353,6 +353,8 @@ public class Customers : TypeBase {
         _storage.Customers.ToDictionaryAsync(c=> c.Id, c=> c.Name);
 }
 ```
+
+API:
 
 ```c#
 public abstract class ApiTypeBase : TypeBase {
@@ -386,7 +388,8 @@ One option is to manage type values in bizdoc.json.
         }
     }
   ]
-}```
+}
+```
 
 ### Cube
 
@@ -423,6 +426,8 @@ public class MyFormModel {
 
 ### Explore
 
+As cube shows aggregated data, user may want to drill down into actual records. User IExplore interface to enable drill down into 3r party app, such as ERP.
+
 ```c#
 public class MyCube : CubeBase, CubeBase.IExplore<Po> {
     ...
@@ -452,7 +457,7 @@ public class MyController : ControllerBase {
 
 > Return as small as possible chunks of data.
 
-#### Cache
+#### Cache Server Response
 
 Static resources may cache response for better performance.
 
@@ -460,9 +465,9 @@ Static resources may cache response for better performance.
 [ResponseCache(Duration = 3600 /* an hour */)]
 ```
 
-Configure startup.cs to support caching.
+Configure startup.cs to support [caching](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/middleware?view=aspnetcore-5.0).
 
-### Angular
+### Angular Service
 
 Create Angulat service to consume API.
 
@@ -495,7 +500,7 @@ export class MyLineComponent implements OnInit {
 
 BizDoc configuration is managed in bizdoc.json file. File includes all managed and non-managed components.
 
-### Cube
+### Cubes
 
 Declare cube _axes_ and _views_. An axis has to map to a _type, declared in Types section of the file.
 
@@ -569,13 +574,13 @@ BizDoc _action_ is an option presented to the user choice on the document. An ac
 
 Maintain user guide. Set Guide name on any of the widgets, reports or forms.
 
-### Privileges
-
-Components may be restricted to certain users by applying Privileges.
-
 ### Rules
 
 A _Rule_ is a JavaScript code that can be tested inside expressions, such as form workflow If condition, or privileges.
+
+#### Privileges
+
+Components may be restricted to certain users by applying Privileges.
 
 ## Extensions
 
@@ -686,6 +691,6 @@ Tree-shaking.
 
 ## More read
 
-[readme](readme.md).
+Refer to [product documentation](readme.md).
 
-[RxJs](https://rxjs.dev/)
+Learn advanced programming with [RxJs](https://rxjs.dev/)
