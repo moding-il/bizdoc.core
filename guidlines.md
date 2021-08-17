@@ -61,7 +61,7 @@ You may apply attributes to the model to control how BizDoc reflector treats it.
 | ScheduleMapping | Map a date to schedule | BizDoc.ComponentModel.Annotations
 | LocationMapping | * Experimental, Geo location | BizDoc.ComponentModel.Annotations
 
-#### Cube
+#### Model Cube
 
 _Cube_ index form properties, enabling BizDoc to aggregate data various views.
 
@@ -201,11 +201,7 @@ public class MyReportArgs {
 }
 ```
 
-#### Angular
-
-```html
-<span>{{'MyField' | translate }}</span>
-```
+#### Angular i18n
 
 ```ts
 TranslateService.set({'en-US': {
@@ -213,11 +209,17 @@ TranslateService.set({'en-US': {
 }})
 ```
 
+Use in html:
+
+```html
+<span>{{'MyField' | translate }}</span>
+```
+
 #### Version Compare
 
-bizdocVersion attribute.
+bizdocCompare, bizdocCompareName attributes.
 
-### Rules
+### Form Permissions
 
 In scenario in which a portion of the form may be available to one or more users, while others should not, use form _rules_.  
 
@@ -393,7 +395,7 @@ One option is to manage type values in bizdoc.json.
 
 ### Cube
 
-Managed component.
+Managed component lifetime events.
 
 ```c#
 public class MyCube : CubeBase {
@@ -401,7 +403,8 @@ public class MyCube : CubeBase {
 }
 ```
 
-Commonly, a cube manages a balance _axes_. Use Enum:
+Commonly, one a cube axes is the balance _axis_.
+Declare an Enum:
 
 ```c#
 public enum Balance {
@@ -411,26 +414,34 @@ public enum Balance {
 }
 ```
 
-Add balance property in form data model:
+Add balance property to form data model:
 
 ```c#
 using BizDoc.ComponentModel.Annotations;
 using BizDoc.ComponentModel.Resolvers;
+
 public class MyFormModel {
     [ValueResolver(typeof(StateAxisResolver<Balance?>))]
     public Balance? Balance { get; set; }
 }
 ```
 
-> Cube _Axes_, such as account segments and date part, has to have a matching _Type_.
+> All cube _axes_ has to have a matching _Type_.
 
 ### Explore
 
-As cube shows aggregated data, user may want to drill down into actual records. User IExplore interface to enable drill down into 3r party app, such as ERP.
+As cube shows aggregated data, user may want to drill down into actual data. Use IExplore interface to enable drill down into data and implement BrowseType to resolve type.
 
 ```c#
 public class MyCube : CubeBase, CubeBase.IExplore<Po> {
-    ...
+    Task<IEnumerable<PO>> IBrowsable<PO>.QueryAsync(params Axis[] axes)
+    {
+        ...
+    }
+    public override Type BrowseType(params Axis[] axes)
+    {
+        return typeof(PO);
+    }
 }
 ```
 
@@ -438,9 +449,9 @@ public class MyCube : CubeBase, CubeBase.IExplore<Po> {
 
 Forms often require access to additional resources, such as database tables. The design pattern to use in this case if Angular service.
 
-### Server-side
+### Server-side API
 
-Add a Controller to your project.
+Add a Controller to your project and implement the API.
 
 ```c#
 [ApiController]
@@ -455,7 +466,7 @@ public class MyController : ControllerBase {
 }
 ```
 
-> Return as small as possible chunks of data.
+> Return small chunks of data using Take.
 
 #### Cache Server Response
 
@@ -469,7 +480,7 @@ Configure startup.cs to support [caching](https://docs.microsoft.com/en-us/aspne
 
 ### Angular Service
 
-Create Angulat service to consume API.
+Create Angular service to consume API.
 
 ```bash
 ng generate service MyService // same as ng g s My 
@@ -477,7 +488,7 @@ ng generate service MyService // same as ng g s My
 
 ```ts
 export class MyService {
-    contructor(private _http: HttpClient) {
+    constructor(private _http: HttpClient) {
     }
     tables() {
         return this._http.get('/api/myController/parts')
@@ -485,7 +496,7 @@ export class MyService {
 }
 ```
 
-Inject service to your component and call server API.
+In your component, inject service and call its method.
 
 ```ts
 export class MyLineComponent implements OnInit {
