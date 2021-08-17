@@ -1,6 +1,10 @@
 # Developer Guidelines
 
+This document covers best practices in developing BizDoc.
+
 ## Modeling
+
+Start by declaring the data model of your form.
 
 ### Server-side
 
@@ -13,6 +17,8 @@ public class MyFormModel {
     }
 }
 ```
+
+You may apply attributes to the model to control how BizDoc reflector treats it.
 
 #### Attributes
 
@@ -27,34 +33,39 @@ public class MyFormModel {
 | Key | | System.ComponentModel.DataAnnotations
 | Required | | System.ComponentModel.DataAnnotations
 | Display | | System.ComponentModel.DataAnnotations
-| MaxLength | | System.ComponentModel.DataAnnotations
 | DataType | | System.ComponentModel.DataAnnotations
 | RegularExpression | | System.ComponentModel.DataAnnotations
-| StringLength | | System.ComponentModel.DataAnnotations
-| Range | | System.ComponentModel.DataAnnotations
-| MinLength | | System.ComponentModel.DataAnnotations
-| MaxLength | | System.ComponentModel.DataAnnotations
-| Hint | | BizDoc.ComponentModel.Annotations
+| StringLength | Text length range | System.ComponentModel.DataAnnotations
+| Range | Numeric value | System.ComponentModel.DataAnnotations
+| MinLength | Text length | System.ComponentModel.DataAnnotations
+| MaxLength | Text length | System.ComponentModel.DataAnnotations
+| Hint | Angular FormField | BizDoc.ComponentModel.Annotations
 | Column | Sql type | System.ComponentModel.DataAnnotations.Schema
-| Line | Update numerator
+| Line | Collection numerator | BizDoc.ComponentModel.Annotations
 | VersionIgnore | | BizDoc.ComponentModel.Annotations
 | Switch | | BizDoc.ComponentModel.Annotations
 | Switch | | BizDoc.ComponentModel.Annotations
 | Address | | BizDoc.ComponentModel.Annotations
-| DocumentId | Set document Id
+| DocumentId | Set document Id | BizDoc.ComponentModel.Annotations
 | JsonIgnore | | System.Text.Json.Serialization
 | JsonPropertyName | | System.Text.Json.Serialization
 | JsonConverter | | System.Text.Json.Serialization
 | XmlIgnore | | System.Xml.Serialization
+| XmlAttribute | | System.Xml.Serialization
 | XmlArray | | System.Xml.Serialization
 | XmlArrayItem | | System.Xml.Serialization
-| ListType | | BizDoc.ComponentModel.Annotations
-| ValueResolver | | BizDoc.ComponentModel.Annotations
-| Template | | BizDoc.ComponentModel.Annotations
-
-> Model attributes are used in cases such as report arguments. You can override default layout by specifying the Template to use.
+| ListType | Ma property to _type_ | BizDoc.ComponentModel.Annotations
+| ValueResolver | Resolve value from code | BizDoc.ComponentModel.Annotations
+| Template | Match Angular @BizDoc selector | BizDoc.ComponentModel.Annotations
+| CubeMapping | Map _cube axes_ | BizDoc.ComponentModel.Annotations
+| ScheduleMapping | Map a date to schedule | BizDoc.ComponentModel.Annotations
+| LocationMapping | * Experimental, Geo location | BizDoc.ComponentModel.Annotations
 
 #### Cube
+
+_Cube_ index form properties, enabling BizDoc to aggregate data various views.
+
+To use cube, the properties which participate in the index are provided as _axes_ to the CubeMapping attribute.
 
 ```c#
 [CubeMapping(nameof(Price), nameof(Segment1), ...)]
@@ -63,9 +74,15 @@ public class Line {
 }
 ```
 
+You can use calculated properties as an axis. For example, extracting the quarter from a specific date property.
+
+```c#
+public byte Quarter => ShippingDate.Quarter();
+```
+
 ### Angular
 
-my-form/declarations.ts using camel-casing.
+Declare the model above in TypeScript in my-form/declarations.ts using camel-casing.
 
 ```ts
 export interface MyFormModel {
@@ -81,6 +98,8 @@ export interface LineModel {
 > Keep naming conventions.
 
 ## User Interface
+
+Create an Angular component for your form:
 
 ```bash
 ng g c MyForm
@@ -100,7 +119,7 @@ In [Reactive Forms](https://angular.io/guide/reactive-forms), each field map to 
 
 ### Embed Components
 
-built-in.
+Html may include [Angular components](https://material.angular.io/components/categories) as well as BizDoc built-in tags.
 
 | Name | Usage
 | -- | --
@@ -137,6 +156,8 @@ built-in.
 </mat-form-field>
 ```
 
+Form component may inject BizDoc services:
+
 ```ts
 export class MyFormComponent {
     constructor(private _cube: CubeInfo) {
@@ -149,9 +170,38 @@ export class MyFormComponent {
 
 ### View Mode
 
-compose, preview and version.
+Support form view mode: compose, preview and version.
 
-### I18n
+### Internationalization
+
+Support multi-language user interface.
+
+#### Server
+
+Add resource file and change it's access to PublicResXFileCodeGenerator.
+
+Apply ResourceType to BizDoc components:
+
+```json
+    {
+      "Template": "bizdoc-personal-activity",
+      "Type": "BizDoc.Configuration.Widgets.PersonalActivity",
+      "Name": "personalActivity",
+      "Title": "YourActivity",
+      "ResourceType": "BizDoc.Core.Resources.Strings"
+    },
+```
+
+Models that are used in reports and widgets which do not have an angular template should be decorated with Display attribute:
+
+```c#
+public class MyReportArgs {
+    [Display(Name = "Search", ResourceType = typeof(Strings))]
+    public string Search { get; set; }
+}
+```
+
+#### Angular
 
 ```html
 <span>{{'MyField' | translate }}</span>
@@ -169,7 +219,9 @@ bizdocVersion attribute.
 
 ### Rules
 
-bizdoc.config _Forms_.
+In scenario in which a portion of the form may be available to one or more users, while others should not, use form _rules_.  
+
+In bizdoc.config Forms section.
 
 ```json
 {
@@ -182,7 +234,7 @@ bizdoc.config _Forms_.
 ```
 
 ```html
-<div bizdocHidden="section1">
+<div *ngIf="data.rules.section1">
 ...
 </div>
 ```
@@ -200,16 +252,24 @@ bizdoc.config _Forms_.
 
 ### Map Angular to Server Model
 
+Angular BizDoc components:  
+
 ```ts
 @BizDoc({
     selector: 'my-form'
 })
 ```
 
-Server:
+Server data model or component attribute:
 
 ```c#
 [Template("my-form")]
+```
+
+Register component in AppModule:
+
+```ts
+    BizDocModule.forRoot({ components: [MyFormComponent] })
 ```
 
 ## Database
@@ -233,8 +293,8 @@ startup.cs.
     services.AddBizDoc().AddDbContext<DbStorage>();
 ```
 
-> Schema
-> naming conventions
+> Use database schema for code clearance.
+> Keep naming conventions using human readable names.
 
 ### Model Mapping
 
@@ -264,11 +324,11 @@ EF Code-first
 dotnet ef add-migration "Initial" // -context MyProject.DbStorage
 ```
 
-## Managed-Type
+## Managed Components
 
-Managed types are registered in bizdoc.json upon app initial run.
+Managed components are registered in bizdoc.json on initial run.
 
-Dependency Injection.
+Components may use Dependency Injection.
 
 ### Form
 
@@ -281,9 +341,11 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ```
 
-Override base methods.
+Override base methods to tap into lifetime events.
 
 ### Type
+
+_Type_ is a data source. It returns a map of key-value. You may author your own types to provide values from database or remote app.
 
 ```c#
 public class Customers : TypeBase {
@@ -306,20 +368,20 @@ public abstract class ApiTypeBase : TypeBase {
 }
 ```
 
-#### Simple Source
+#### Built-in Type
 
-Manage types in bizdoc.json
+One option is to manage type values in bizdoc.json.
 
 ```json
 {
   "Types":[
       {
         "Type": "BizDoc.Configuration.Types.ConfigurationDataSource",
-        "Name": "types",
+        "Name": "categories",
         "Options": {
         "Items": {
-            "Type1": "Type 1",
-            "Type2": "Type 2"
+            "Category1": "Category 1",
+            "Category2": "Category 2"
         }
         }
     }
@@ -328,11 +390,15 @@ Manage types in bizdoc.json
 
 ### Cube
 
+Managed component.
+
 ```c#
-public class MyCube : CubeBase {}
+public class MyCube : CubeBase {
+
+}
 ```
 
-Enum:
+Commonly, a cube manages a balance _axes_. Use Enum:
 
 ```c#
 public enum Balance {
@@ -342,7 +408,7 @@ public enum Balance {
 }
 ```
 
-form:
+Add balance property in form data model:
 
 ```c#
 using BizDoc.ComponentModel.Annotations;
@@ -365,6 +431,8 @@ public class MyCube : CubeBase, CubeBase.IExplore<Po> {
 
 ## Services
 
+Forms often require access to additional resources, such as database tables. The design pattern to use in this case if Angular service.
+
 ### Server-side
 
 Add a Controller to your project.
@@ -382,17 +450,21 @@ public class MyController : ControllerBase {
 }
 ```
 
-> Return small chunks is a good practice.
+> Return as small as possible chunks of data.
 
 #### Cache
+
+Static resources may cache response for better performance.
 
 ```c#
 [ResponseCache(Duration = 3600 /* an hour */)]
 ```
 
-startup.cs
+Configure startup.cs to support caching.
 
 ### Angular
+
+Create Angulat service to consume API.
 
 ```bash
 ng generate service MyService // same as ng g s My 
@@ -408,7 +480,7 @@ export class MyService {
 }
 ```
 
-Consume.
+Inject service to your component and call server API.
 
 ```ts
 export class MyLineComponent implements OnInit {
@@ -421,12 +493,11 @@ export class MyLineComponent implements OnInit {
 
 ## Configure
 
-bizdoc.json
+BizDoc configuration is managed in bizdoc.json file. File includes all managed and non-managed components.
 
 ### Cube
 
-_Axes_
-and _Views_
+Declare cube _axes_ and _views_. An axis has to map to a _type, declared in Types section of the file.
 
 ```json
  {
@@ -461,7 +532,7 @@ and _Views_
 
 ### Widgets
 
-bizdoc.config _Options_
+Managed object, such as a widget, may have extended properties. Extended properties are managed in component _Options_.
 
 ```json
 {
@@ -482,29 +553,33 @@ bizdoc.config _Options_
 }
 ```
 
-> Refer to the class declared in widget _Type_ to learn more of its exposed properties.
+> Refer to the class declared in Type property to explore its properties.
 
 ### Reports
 
+Reports are managed components which has a server-side class that inherit from ReportBase and an Angular side that implements ReportComponent interface.
+
+As with widgets and forms, reports may have extended properties that can be set in Options.
+
 ### Actions
 
-```c#
-```
+BizDoc _action_ is an option presented to the user choice on the document. An action inherits from ActionBase and may have an Angular template.
 
 ### Guides
 
-User guide. Set _Guide_ name on any of the widgets, reports or forms.
+Maintain user guide. Set Guide name on any of the widgets, reports or forms.
 
 ### Privileges
 
+Components may be restricted to certain users by applying Privileges.
+
 ### Rules
 
-```c#
-```
+A _Rule_ is a JavaScript code that can be tested inside expressions, such as form workflow If condition, or privileges.
 
 ## Extensions
 
-startup.cs
+Configure one or more BizDoc extensions in startup.cs to feature your app.
 
 | Method | Usage | Package
 | -- | -- | --
@@ -538,7 +613,7 @@ services.AddBizDoc(options => {
 
 ### Formatting Email
 
-Add Xml attributes to form data model.
+Decorate yor data model with XML attributes.
 Xml structure [message.xsd](message.xsd).
 
 ```c#
@@ -550,6 +625,8 @@ public class MyFormModel {
 ```
 
 #### FormBase Extra
+
+Provide on demand data for serialization. by overriding the GetCustomDataAsync method.
 
 ```c#
 public class MyForm : FormBase<MyFormModel> {
@@ -569,14 +646,14 @@ services.AddBizDoc(options => {
 });
 ```
 
-> Relative path.
-> Set my-email.xslt file properties to `Content`.
+> Use relative paths.
+> Set xslt file build property to `Content`.
 
 ## Jobs
 
 Use Hangfire to run background jobs in-process.
 
-Job may consume BizDoc services.
+Jobs may consume BizDoc services.
 
 ```c#
 public class SynchronizeJob {
@@ -595,11 +672,11 @@ using Hangfire;
 RecurringJobs.AddOrUpdate<SynchronizeJob>("Synchronize", e=> e.Synchronize(), Crone.Daily());
 ```
 
-*server-url*/hangfire/recurring locally.
+Browse to *server-url*/hangfire/recurring to monitor job execution.
 
 ### Console
 
-Long-running.
+Long-running procedures may run better on a dedicated process. Create a console project and connect to BizDoc in code.
 
 ## Deployment
 
@@ -611,4 +688,4 @@ Tree-shaking.
 
 [readme](readme.md).
 
-RxJs
+[RxJs](https://rxjs.dev/)
