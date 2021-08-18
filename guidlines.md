@@ -10,6 +10,7 @@ Start by declaring the data model of your form.
 
 ```c#
 public class MyFormModel {
+    public string Topic { get; set; }
     public List<Line> Lines { get; set; }
     public class Line {
         public string CatalogNumber { get; set; }
@@ -18,7 +19,12 @@ public class MyFormModel {
 }
 ```
 
-You may apply attributes to the model to control how BizDoc reflector treats it.
+Apply attributes to the model to control it's behavior.
+
+```c#
+[Subject] // BizDoc reads Topic property as document subject
+public string Topic { get; set; }
+```
 
 #### Attributes
 
@@ -61,9 +67,9 @@ You may apply attributes to the model to control how BizDoc reflector treats it.
 | ScheduleMapping | Map a date to schedule | BizDoc.ComponentModel.Annotations
 | LocationMapping | * Experimental, Geo location | BizDoc.ComponentModel.Annotations
 
-#### Model Cube
+#### Link Cube
 
-_Cube_ index form properties, enabling BizDoc to aggregate data various views.
+_Cube_ index form properties, enabling BizDoc to aggregate data in various views.
 
 To use cube, the properties which participate in the index are provided as _axes_ to the CubeMapping attribute.
 
@@ -86,6 +92,7 @@ Declare the model above in TypeScript in my-form/declarations.ts using camel-cas
 
 ```ts
 export interface MyFormModel {
+    topic: string;
     lines: LineModel[];
 }
 export interface LineModel {
@@ -102,7 +109,7 @@ export interface LineModel {
 Create an Angular component for your form:
 
 ```bash
-ng g c MyForm
+ng generate component MyForm // same as ng g c MyForm 
 ```
 
 ```ts
@@ -271,7 +278,7 @@ Server data model or component attribute:
 Register component in AppModule:
 
 ```ts
-    BizDocModule.forRoot({ components: [MyFormComponent] })
+BizDocModule.forRoot({ components: [MyFormComponent] })
 ```
 
 ## Database
@@ -292,7 +299,7 @@ public class DbStorage: DbContext {
 startup.cs.
 
 ```c#
-    services.AddBizDoc().AddDbContext<DbStorage>();
+services.AddBizDoc().AddDbContext<DbStorage>();
 ```
 
 > Use database schema for code clearance.
@@ -334,7 +341,7 @@ Components may use Dependency Injection.
 
 ### Form
 
-Create
+Create backend object to support form lifetime events.
 
 ```c#
 [Form(...)]
@@ -356,7 +363,7 @@ public class Customers : TypeBase {
 }
 ```
 
-API:
+API example:
 
 ```c#
 public abstract class ApiTypeBase : TypeBase {
@@ -372,7 +379,7 @@ public abstract class ApiTypeBase : TypeBase {
 }
 ```
 
-#### Built-in Type
+#### Self-Managed Type
 
 One option is to manage type values in bizdoc.json.
 
@@ -395,7 +402,7 @@ One option is to manage type values in bizdoc.json.
 
 ### Cube
 
-Managed component lifetime events.
+Component lifetime events.
 
 ```c#
 public class MyCube : CubeBase {
@@ -577,6 +584,8 @@ Reports are managed components which has a server-side class that inherit from R
 
 As with widgets and forms, reports may have extended properties that can be set in Options.
 
+### Utilities
+
 ### Actions
 
 BizDoc _action_ is an option presented to the user choice on the document. An action inherits from ActionBase and may have an Angular template.
@@ -698,10 +707,14 @@ Long-running procedures may run better on a dedicated process. Create a console 
 
 Angular production build optimization.
 
-Tree-shaking.
+Apply database changes using EF migration:
+
+```bash
+dotnet ef update-database
+```
 
 ## More read
 
-Refer to [product documentation](readme.md).
+Refer to [product documentation](readme.md) for complete list of options.
 
-Learn advanced programming with [RxJs](https://rxjs.dev/)
+Learn advanced programming topics [RxJs](https://rxjs.dev/)

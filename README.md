@@ -980,12 +980,12 @@ onBind(data: RecipientModel<MyFormModel>, version?: MyFormModel): void {
 
 ### Enable navigation in forms
 
-You communicate with form container by injecting _FormRef_.
+You communicate with form container by injecting `FormRef`.
 
 ```typescript
 export class MyFormComponent implements FormComponent<MyModel> {
   constructor(@Optional() @Inject(FormRef) private _formRef: FormRef) {
-    this._formRef.navigating().subscribe(page => {
+    this._formRef.navigating.subscribe(page => {
       ...
     });
   }
