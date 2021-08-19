@@ -47,12 +47,11 @@ public string Topic { get; set; }
 | MaxLength | Text length | System.ComponentModel.DataAnnotations
 | Hint | Angular FormField | BizDoc.ComponentModel.Annotations
 | Column | Sql type | System.ComponentModel.DataAnnotations.Schema
-| Line | Collection numerator | BizDoc.ComponentModel.Annotations
 | VersionIgnore | | BizDoc.ComponentModel.Annotations
-| Switch | | BizDoc.ComponentModel.Annotations
-| Switch | | BizDoc.ComponentModel.Annotations
-| Address | | BizDoc.ComponentModel.Annotations
-| DocumentId | Set document Id | BizDoc.ComponentModel.Annotations
+| Switch | Use slide toggle on boolean | BizDoc.ComponentModel.Annotations
+| Address | Populate addresses from Google maps. Set googleMaps on BizDocModule.forRoot() | BizDoc.ComponentModel.Annotations
+| DocumentId | Set document Id as database table key | BizDoc.ComponentModel.Annotations
+| Line | Collection numerator for database | BizDoc.ComponentModel.Annotations
 | JsonIgnore | | System.Text.Json.Serialization
 | JsonPropertyName | | System.Text.Json.Serialization
 | JsonConverter | | System.Text.Json.Serialization
@@ -128,13 +127,13 @@ In [Reactive Forms](https://angular.io/guide/reactive-forms), each field map to 
 
 Html may include [Angular components](https://material.angular.io/components/categories) as well as BizDoc built-in tags.
 
-| Name | Usage
-| -- | --
-| AddressInput | Form field
+| Name | Usage |
+| -- | -- |
+| AddressInput | Form field \<bizdoc-address>
 | TypeSelect | Form field mam to _Type_
 | TypeAutocomplete | Form field map to _Type_ \<bizdoc-autocomplete type="parts"\>
 | TimeInput | Form field
-| CombinationPicker | Form field
+| CombinationPicker | Form field \<bizdoc-combination-picker formControlName="accountCode">
 | TypeValuePipe | Translate _type_ value. Async
 | StatePipe
 | ActionPipe
@@ -142,20 +141,24 @@ Html may include [Angular components](https://material.angular.io/components/cat
 | FormPipe
 | ArraySortPipe
 | IdentityName | \<identity-name [identity]=identity\>
-| GuideService | Start a guide
-| CubeService |
+| GuideService | Start a guide.
+| CubeService | Service for querying backend server cube.
 | DataSourceService | _Types_
 | SessionService |
 | MailboxService |
-| MapInfo | Service.
-| DocumentInfo | Service.
-| AttachmentInfo | Service.
-| CubeInfo | Service.
-| ChatInfo | Service.
+| MapInfo | Service for showing a location in a map. Requires googleMaps settings.
+| DocumentInfo | Open document preview.
+| AttachmentInfo | Opening document attachment.
+| CubeInfo | Open cube view or explore.
+| ChatInfo | Start chat conversation.
 | Popup | Service. Inject POPUP_DATA.
+| FormRef\<T>
+| ReportRef\<T>
+| UtilityRef\<T>
+| SlotRef\<T>
 | Avatar | \<bizdoc-avatar [person]=person\>
 | CombinationPool | _Constraints_ \<bizdoc-combination-pool [formGroup]=form\>
-| ActionPicker | Move actions to form body.
+| ActionPicker | Move actions to form body. \<bizdoc-action-picker [data]=data\>
 
 ```html
 <mat-form-field>

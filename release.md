@@ -2,7 +2,7 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.5.0 Planned
+## 1.5.1
 
 ### Features
 
