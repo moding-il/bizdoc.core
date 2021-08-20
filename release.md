@@ -10,6 +10,7 @@ We release a major version once a year, medium version every other month, and mi
 * Reply to comments.
 * Action-picker in form body, replacing toolbar option.
 * Swagger Nuget, AddSwagger() extension.
+* Preserve draft comment, chat (optional BizDocModule.forRoot())
 
 ## 1.4.1
 
