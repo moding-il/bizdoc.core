@@ -326,7 +326,7 @@ public class MyFormModel {
 }
 ```
 
-> Form model is accessible from Document.Model\<T\>. If you do not require model for reporting, avoid mapping Table attribute.
+> Form model is accessible from Document.GetModel\<T\>(). If you do not require model for reporting, avoid mapping Table attribute.
 
 ### Migration
 
@@ -523,7 +523,7 @@ BizDoc configuration is managed in bizdoc.json file. File includes all managed a
 
 ### Cubes
 
-Declare cube _axes_ and _views_. An axis has to map to a _type, declared in Types section of the file.
+Declare cube _axes_ and _views_. An axis has to map to a _type_, declared in Types section of the file.
 
 ```json
  {
@@ -611,8 +611,6 @@ Configure one or more BizDoc extensions in startup.cs to feature your app.
 
 | Method | Usage | Package
 | -- | -- | --
-| UseSqlServer | Microsoft Sql Server storage
-| UseOracle | Oracle storage | BizDoc.Core.Oracle
 | AddAspIdentity | User authentication | BizDoc.Core.AspIdentity
 | AddOkta | Okta authentication | BizDoc.Core.Okta
 | AddOffice | 365 | BizDoc.Core.Office365
@@ -623,12 +621,16 @@ Configure one or more BizDoc extensions in startup.cs to feature your app.
 | AddMailExecutePOP3
 | AddMailExecuteIMAP
 | AddDbContext | Complementary EF context. See [Database](#database) section
-| AddSwagger
+| AddSwagger | Swagger | BizDoc.Core.Swagger
+| AddSlack | Slack push | BizDoc.Core.Slack
+| AddTeams | Microsoft teams push | BizDoc.Core.Teams
+| AddExchangeRate | Currency exchange rate from [data.fixer.io](http://data.fixer.io)
+| UseSqlServer | Microsoft Sql Server storage
+| UseOracle | Oracle storage | BizDoc.Core.Oracle
 | UseDatabaseFileStore
 | UseFileSystemFileStore
-| AddSlack | Slack push | BizDoc.Core.Social
-| AddTeams | Microsoft teams push | BizDoc.Core.Social
-| AddExchangeRate | Currency exchange rate
+| UseComputerVision | Ocr reader | BizDoc.Invy
+| UseAbbyy | Ocr reader | BizDoc.Invy
 
 ```c#
 services.AddBizDoc(options => {
@@ -641,7 +643,7 @@ services.AddBizDoc(options => {
 
 ### Formatting Email
 
-Decorate yor data model with XML attributes.
+Decorate your data model with XML attributes.
 Xml structure [message.xsd](message.xsd).
 
 ```c#
@@ -652,7 +654,7 @@ public class MyFormModel {
 }
 ```
 
-#### FormBase Extra
+#### Extra Data
 
 Provide on demand data for serialization. by overriding the GetCustomDataAsync method.
 
@@ -664,7 +666,7 @@ public class MyForm : FormBase<MyFormModel> {
 }
 ```
 
-#### Configuring
+#### Configure Template
 
 Set Xslt in startup.cs.
 
