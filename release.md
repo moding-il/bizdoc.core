@@ -2,7 +2,17 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.5.1
+## 1.6 Planned
+
+* Invoice module [npm](https://www.npmjs.com/package/@bizdoc/invoice)
+* Teams [npm](https://www.npmjs.com/package/@bizdoc/teams)
+* Monday [npm](https://www.npmjs.com/package/@bizdoc/monday)
+
+### Breaking changes
+
+@bizdoc.core deprecated in favor of @BizDoc/Core
+
+## 1.5.4
 
 ### Features
 
