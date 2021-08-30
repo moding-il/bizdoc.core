@@ -192,7 +192,7 @@ Angular services include:
 | AttachmentInfo | Preview an attachment
 | ChatInfo | Chat
 | Popup | Open a popup
-| SlotsRouter | Navigate to a slot
+| PaneRouter | Navigate to a pane
 
 ```typescript
 class MyClass {
@@ -997,20 +997,20 @@ export class MyFormComponent implements FormComponent<MyModel> {
 
 This code pattern is recommended if your form opens internal portals, and the user should be able to navigate back to previous view.
 
-### Inject custom slot
+### Inject custom pane
 
-BizDoc uses *slots* to display different content parts to desktop users. Slot can be pinned, resized, etc.
+BizDoc uses *panes* to display different content parts to desktop users. A pane can be opened either next to the currently displayed info, or as a tab.
 
-If you wish to open a custom component on a new slot next to your form, use the `SlotsRouter` service.
+If you wish to open a custom component on a new pane next to your form, use the `PanesRouter` service.
 
 ```typescript
-constructor(private _router: SlotsRouter) {}
+constructor(private _router: PanesRouter) {}
 open() {
-  this._router.navigate(MySlotComponent);
+  this._router.navigate(MyPaneComponent);
 }
 ```
 
-You may also register slots with paths in advance. See slots [issue](https://github.com/moding-il/bizdoc.core/issues/10) for more.
+You may pre-register panes with paths in advance. See [panes](https://github.com/moding-il/bizdoc.core/issues/10) for more.
 
 ### Providing a user guide
 

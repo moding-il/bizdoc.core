@@ -155,8 +155,10 @@ Html may include [Angular components](https://material.angular.io/components/cat
 | FormRef\<T>
 | ReportRef\<T>
 | UtilityRef\<T>
-| SlotRef\<T>
+| PaneRef\<T>
+| PanesRouter | Service, navigate, open tab using OpenPolicy.Tab
 | Avatar | \<bizdoc-avatar [person]=person\>
+| Tooltip | \<div bizdocTooltip="Tooltip!"></div>
 | CombinationPool | _Constraints_ \<bizdoc-combination-pool [formGroup]=form\>
 | ActionPicker | Move actions to form body. \<bizdoc-action-picker [data]=data\>
 

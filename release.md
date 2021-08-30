@@ -4,13 +4,16 @@ We release a major version once a year, medium version every other month, and mi
 
 ## 1.6 Planned
 
+### Features
+
+* Desktop UX rearranged.
 * Invoice module [npm](https://www.npmjs.com/package/@bizdoc/invoice)
-* Teams [npm](https://www.npmjs.com/package/@bizdoc/teams)
-* Monday [npm](https://www.npmjs.com/package/@bizdoc/monday)
+* Teams (Preview) [npm](https://www.npmjs.com/package/@bizdoc/teams)
+* Monday (Preview) [npm](https://www.npmjs.com/package/@bizdoc/monday)
 
 ### Breaking changes
 
-@bizdoc.core deprecated in favor of @BizDoc/Core
+@bizdoc.core deprecated in favor of @bizdoc/core
 
 ## 1.5.4
 
