@@ -2,11 +2,11 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.6 Planned
+## 1.6
 
 ### Features
 
-* Desktop UX rearranged.
+* Desktop UX improvements, introducing tabs, available developer API.
 * Invoice module [npm](https://www.npmjs.com/package/@bizdoc/invoice)
 * Teams (Preview) [npm](https://www.npmjs.com/package/@bizdoc/teams)
 * Monday (Preview) [npm](https://www.npmjs.com/package/@bizdoc/monday)
