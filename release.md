@@ -2,10 +2,12 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.6
+## 1.6.12
 
 ### Features
 
+* Stacking widget chart, see CubeAnalysisBase.IOptions.
+* Okta hosted sign-in widget.
 * Desktop UX improvements, introducing tabs, available developer API.
 * Invoice module [npm](https://www.npmjs.com/package/@bizdoc/invoice)
 * Teams (Preview) [npm](https://www.npmjs.com/package/@bizdoc/teams)
