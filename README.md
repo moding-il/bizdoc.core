@@ -1085,8 +1085,14 @@ You can pass data to XML CustomData node by overriding the GetCustomData() metho
 
 ### Provide a Custom Identity Manager
 
-Create new class in your project implementing BizDoc.Core.Identity.IIdentityManager and BizDoc.Core.Identity.ISignInManager interfaces.
-Register each of them separately in startup.cs as scoped service for the respective interface.
+Create new class in your project implementing BizDoc.Core.Identity.IIdentityManager interface.
+Register in startup.cs.
+
+```c#
+  AddBizDoc(...).
+    AddIdentityManager<MyManager>();
+
+```
 
 ### Customizing built-in components
 
