@@ -2,6 +2,12 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
+## 1.7
+
+* JWT for form authentication.
+* Item view (Cube, etc.)
+* Social packages (Teams, Monday) features
+
 ## 1.6.12
 
 ### Features
