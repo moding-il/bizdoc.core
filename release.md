@@ -2,12 +2,16 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.7
+## 1.7.0-next
 
 * JWT for form authentication.
 * Document view
 * Gantt timeline
 * Social packages (Teams, Monday) features
+
+### Breaking changes
+
+BizDoc.Core.AspIdentity deprecated in favor of BizDoc.Core.FormIdentity Nuget. AddAspIdentity() and UseAspIdentity() replaced with AddFormIdentity() and UseFormIdentity().  
 
 ## 1.6.12
 
@@ -22,7 +26,7 @@ We release a major version once a year, medium version every other month, and mi
 
 ### Breaking changes
 
-@bizdoc.core deprecated in favor of @bizdoc/core
+bizdoc.core deprecated in favor of @bizdoc/core
 
 ## 1.5.4
 
