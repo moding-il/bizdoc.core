@@ -5,7 +5,8 @@ We release a major version once a year, medium version every other month, and mi
 ## 1.7
 
 * JWT for form authentication.
-* Item view (Cube, etc.)
+* Document view
+* Gantt timeline
 * Social packages (Teams, Monday) features
 
 ## 1.6.12
