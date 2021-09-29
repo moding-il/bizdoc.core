@@ -8,8 +8,8 @@ We release a major version once a year, medium version every other month, and mi
 * Document view from inbox (e.g cube related to current document)
 * Gantt timeline
 * Social packages (Teams, Monday) features
-* OAuth0 authentication
-* Stacking cube widget, explore from dashboard
+* OAuth0 authentication, Nuget package [BizDoc.Authentication.OAuth0](https://www.nuget.org/packages/BizDoc.Authentication.OAuth0/)
+* Cube widget stacking chart (bar, column). Explore
 
 ### Breaking changes
 
@@ -26,7 +26,7 @@ We release a major version once a year, medium version every other month, and mi
 * Desktop UX improvements, introducing tabs, available developer API.
 * Invoice module [npm](https://www.npmjs.com/package/@bizdoc/invoice)
 * Teams (Preview) [npm](https://www.npmjs.com/package/@bizdoc/teams)
-* Monday (Preview) [npm](https://www.npmjs.com/package/@bizdoc/monday)
+* Monday [npm](https://www.npmjs.com/package/@bizdoc/monday)
 
 ### Breaking changes
 
