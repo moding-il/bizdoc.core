@@ -11,7 +11,8 @@ We release a major version once a year, medium version every other month, and mi
 
 ### Breaking changes
 
-BizDoc.Core.AspIdentity deprecated in favor of BizDoc.Core.FormIdentity Nuget. AddAspIdentity() and UseAspIdentity() replaced with AddFormIdentity() and UseFormIdentity().  
+* BizDoc.Core.AspIdentity deprecated in favor of BizDoc.Core.FormIdentity Nuget. AddAspIdentity() and UseAspIdentity() replaced with AddFormIdentity() and UseFormIdentity().  
+* Credentials npm moved to @bizdoc/credentials. Use forRoot() to configure.
 
 ## 1.6.12
 
