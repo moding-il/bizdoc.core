@@ -8,6 +8,8 @@ We release a major version once a year, medium version every other month, and mi
 * Document view from inbox (e.g cube related to current document)
 * Gantt timeline
 * Social packages (Teams, Monday) features
+* OAuth0 authentication
+* Stacking cube widget, explore from dashboard
 
 ### Breaking changes
 
