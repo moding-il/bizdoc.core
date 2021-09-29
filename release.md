@@ -2,17 +2,18 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.7.0-next
+## 1.7.0
 
 * JWT for form authentication.
-* Document view
+* Document view from inbox (e.g cube related to current document)
 * Gantt timeline
 * Social packages (Teams, Monday) features
 
 ### Breaking changes
 
 * BizDoc.Core.AspIdentity deprecated in favor of BizDoc.Core.FormIdentity Nuget. AddAspIdentity() and UseAspIdentity() replaced with AddFormIdentity() and UseFormIdentity().  
-* Credentials npm moved to @bizdoc/credentials. Use forRoot() to configure.
+* Credentials npm moved to [@bizdoc/credentials](https://www.npmjs.com/package/@bizdoc/credentials). Use forRoot() to configure.
+* Okta for Angular moved to [@bizdoc/okta](https://www.npmjs.com/package/@bizdoc/okta).
 
 ## 1.6.12
 
