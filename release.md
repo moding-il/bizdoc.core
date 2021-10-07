@@ -2,6 +2,12 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
+# 1.8.0-next
+
+* Tabs scope navigation.
+* Combination pool _source_ attribute.
+* Document summary view.
+
 ## 1.7.0
 
 * JWT for form authentication.
@@ -9,7 +15,7 @@ We release a major version once a year, medium version every other month, and mi
 * Gantt timeline
 * Social packages (Teams, Monday) features
 * OAuth0 authentication, Nuget package [BizDoc.Authentication.OAuth0](https://www.nuget.org/packages/BizDoc.Authentication.OAuth0/)
-* Cube widget stacking chart (bar, column). Explore
+* Cube widget stacking chart (bar, column). Widget explore tab
 
 ### Breaking changes
 
