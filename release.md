@@ -7,6 +7,7 @@ We release a major version once a year, medium version every other month, and mi
 * Tabs scope navigation.
 * Combination pool _source_ attribute.
 * Document summary view.
+* Chart and pivot document views.
 
 ## 1.7.0
 
