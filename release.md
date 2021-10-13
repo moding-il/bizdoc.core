@@ -2,12 +2,14 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-# 1.8.0-next
+## 1.8.0
 
-* Tabs scope navigation.
+* Tabs navigation scope.
 * Combination pool _source_ attribute.
 * Document summary view.
 * Chart and pivot document views.
+* Cube views _Scope_, can be set to either Positions, Patterns or Global.
+* G-Suite authentication and email reply.
 
 ## 1.7.0
 
