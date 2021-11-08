@@ -16,7 +16,7 @@
       <xs:element minOccurs="1" maxOccurs="1" name="Received" type="xs:dateTime" />
       <xs:element minOccurs="0" maxOccurs="1" name="Note" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="Recipients" type="ArrayOfRecipient" />
-      <xs:element minOccurs="0" maxOccurs="1" name="CustomData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Extra" />
       <xs:element minOccurs="0" maxOccurs="1" name="ThumbnailPhoto" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="By" type="UserInfo" />
       <xs:element minOccurs="0" maxOccurs="1" name="Sender" type="UserInfo" />

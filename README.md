@@ -1081,7 +1081,7 @@ In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 Some limitations may apply to data models to allow them to be serialized as XML. Annotate your model with XmlIgnore, XmlAttribute, XmlArray and XmlArrayItem to control the XML structure.
 
-You can pass data to XML CustomData node by overriding the GetCustomData() method of your form server-side object.
+You can pass data to XML Extra node by overriding the GetExtraDataAsync() method of your form server-side object.
 
 ### Provide a Custom Identity Manager
 
