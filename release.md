@@ -2,7 +2,15 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.8.0
+## 1.9.3
+
+### Compatibility
+
+Angular 13. Net Core 6.0
+
+* Spreadsheet explore
+
+## 1.8.20
 
 * Tabs navigation scope.
 * Combination pool _source_ attribute.
