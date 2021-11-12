@@ -3,7 +3,7 @@
   <xs:element name="Message" nillable="true" type="Message" />
   <xs:complexType name="Message">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="Actions" type="ArrayOfAction" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Actions" type="Actions" />
       <xs:element minOccurs="0" maxOccurs="1" name="Form" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="Model" />
       <xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:string" />
@@ -11,11 +11,11 @@
       <xs:element minOccurs="0" maxOccurs="1" name="Subject" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="Summary" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="Value" nillable="true" type="xs:decimal" />
-      <xs:element minOccurs="0" maxOccurs="1" name="Comments" type="ArrayOfComment" />
-      <xs:element minOccurs="0" maxOccurs="1" name="Attachments" type="ArrayOfAttachment" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Comments" type="Comments" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Attachments" type="Attachments" />
       <xs:element minOccurs="1" maxOccurs="1" name="Received" type="xs:dateTime" />
       <xs:element minOccurs="0" maxOccurs="1" name="Note" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="Recipients" type="ArrayOfRecipient" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Recipients" type="Recipients" />
       <xs:element minOccurs="0" maxOccurs="1" name="Extra" />
       <xs:element minOccurs="0" maxOccurs="1" name="ThumbnailPhoto" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="By" type="UserInfo" />
@@ -24,7 +24,7 @@
     <xs:attribute name="FormId" type="xs:string" />
     <xs:attribute name="EncryptedId" type="xs:string" />
   </xs:complexType>
-  <xs:complexType name="ArrayOfAction">
+  <xs:complexType name="Actions">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Action" nillable="true" type="Action" />
     </xs:sequence>
@@ -50,7 +50,7 @@
       <xs:enumeration value="Female" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:complexType name="ArrayOfComment">
+  <xs:complexType name="Comments">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="Comment" />
     </xs:sequence>
@@ -63,7 +63,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="Text" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="ArrayOfAttachment">
+  <xs:complexType name="Attachments">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Attachment" nillable="true" type="Attachment" />
     </xs:sequence>
@@ -71,10 +71,11 @@
   <xs:complexType name="Attachment">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Content" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="Name" type="xs:string" />
   </xs:complexType>
-  <xs:complexType name="ArrayOfRecipient">
+  <xs:complexType name="Recipients">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Recipient" nillable="true" type="Recipient" />
     </xs:sequence>
