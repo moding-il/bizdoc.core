@@ -458,7 +458,7 @@ The `CombinationPool` tag allows the user to pick _combinations_ of _segments_ b
 ```
 
 ```json
-Cubes: [{
+{"Cubes": [{
   "Name": "myCube",
   "Constraints": [
     {
@@ -471,6 +471,7 @@ Cubes: [{
     }
   ]
 }]
+}
 ```
 
 _Conditions_ and _projections_ accepts *axis expression*, presenting either a value, a range of values, an array of values or a mask. For explanation on axis options see [Understanding Patterns](#understanding-patterns).
@@ -565,7 +566,7 @@ BizDoc has several built-in types, including Years, Quarters, Months and Users. 
 You control Type object behavior by setting its Options in the configuration file.
 
 ```json
-Types: [
+{"Types": [
   {
     "Name": "products",
     "Type": "BizDoc.Configuration.Types.SqlDataSource",
@@ -575,6 +576,7 @@ Types: [
     }
   }
 ]
+}
 ```
 
 The code above queries a database for products.
@@ -668,7 +670,7 @@ Use one of the built-in pipes to display BizDoc keys as values. Pipes include `S
 BizDoc has several built-in reports which can be customized by setting Options in the configuration.
 
 ```json
-Reports: [{
+{"Reports": [{
   "Type": "BizDoc.Configuration.Reports.CubeChartUsage",
   "Name": "cube-chart-usage",
   "Title": "ChartUsage",
@@ -681,6 +683,7 @@ Reports: [{
     "Collapse": true
   }
 }]
+}
 ```
 
 > To find out which reports accepts which options, use the Object Browser to discover class properties.
@@ -918,6 +921,14 @@ The onBind() function receives the data returned by the server-side GetAsync() m
 
 Core widgets server-side objects can be overridden. See [how to](#customizing-built-in-objects) example.
 
+### Views
+
+A _view_ presents information in the context of specific document. Built-in views can be configured to present cube -related data, like matrix and pivot, derived from the cube arguments provided in the document form.
+
+Developer can create custom view, by implementing IViewComponent on the Angular side and inheriting ViewBase on the backing server code.
+
+Commonly, views options are set in the Options node of Views in bizdoc.config.
+
 ### Rules
 
 A _rule_ declares a programmatic value. For example, the Anomaly rule returns the cube anomaly for the currently processed document.
@@ -1108,10 +1119,11 @@ public class MyDepartmentsCompare: DepartmentsCompareBase {
 In BizDoc configuration file, change the Type of the widget to your object implementation.
 
 ```json
-Widgets: [{
+{"Widgets": [{
   "Type": "MyProject.MyDepartmentsCompare, MyProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
   "Name": "myDepartmentsCompare"
 }]
+}
 ```
 
 BizDoc built-in objects can be found under the following namespaces:
@@ -1120,10 +1132,11 @@ BizDoc built-in objects can be found under the following namespaces:
 * BizDoc.Workflow.Actions,
 * BizDoc.Configuration.Types,
 * BizDoc.Configuration.Rules,
+* BizDoc.Configuration.Views,
 * BizDoc.Configuration.Reports and
 * BizDoc.Configuration.Widgets.
 
-### Support Internationalization
+### Support internationalization
 
 Server-side objects internationalization may be applied by setting the ResourceType attribute to a .resx public file.
 
@@ -1163,7 +1176,7 @@ Consume the resource by using the `translate` pipe:
 
 In the above code, translate pipe accepts ! as a parameter, replacing the {0} in the resource string.
 
-### Disabling Objects
+### Disabling objects
 
 In bizdoc.json file, locate the object you wish to disable and set the Disabled property.
 
@@ -1173,12 +1186,13 @@ In bizdoc.json file, locate the object you wish to disable and set the Disabled 
 }
 ```
 
-### Set Privileges To Forms
+### Set privileges to forms
 
 Create _rules_ in form configuration. Use administration utility to assign _roles_ to _rules_.
 
 ```json
-Forms:[{
+{
+  "Forms":[{
   "Rules": {
     "myField": {
       "Roles": [
@@ -1188,6 +1202,7 @@ Forms:[{
   },
   "Name": "myForm"
 }]
+}
 ```
 
 In your form component, test privileges for a field or a section of your code by adding bizdocDisabled or bizdocHidden directive.
@@ -1209,6 +1224,10 @@ onBind(data: RecipientModel<MyFormModel>): void {
 ```
 
 In addition to _roles_, a rule may grant privilege per _rules_ expression. See [rules](#Rules) above on how to endorse a new rule or use the existing ones.
+
+### Run code after transaction completes
+
+To run code after transaction safely committed, use the `ScheduledTasks` service.
 
 ### Store custom user settings
 

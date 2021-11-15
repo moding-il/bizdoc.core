@@ -8,7 +8,10 @@ We release a major version once a year, medium version every other month, and mi
 
 Angular 13. Net Core 6.0
 
+### Features
+
 * Spreadsheet explore
+* Universal search, including documents, reports, cube axes
 
 ## 1.8.20
 
