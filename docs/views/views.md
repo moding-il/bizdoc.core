@@ -1,4 +1,6 @@
-# Parallel
+# Views
+
+## Parallel
 
 series of charts
 
@@ -13,3 +15,7 @@ series of charts
 | ChartType | Pie (Default), Line, Area, Column
 | Aggregate | Document axes to consolidate
 | Cube | Optional. Cube name.
+
+## Sum
+
+Compare

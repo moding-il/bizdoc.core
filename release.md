@@ -2,7 +2,13 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.9.3
+## 1.10.0-next
+
+### Breaking change
+
+BizDoc now uses DayJs instead of MomentJs.
+
+## 1.9.14
 
 ### Compatibility
 
