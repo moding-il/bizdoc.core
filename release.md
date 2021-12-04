@@ -4,9 +4,11 @@ We release a major version once a year, medium version every other month, and mi
 
 ## 1.10.0-next
 
-### Breaking change
+### Breaking changes
 
-BizDoc now uses DayJs instead of MomentJs.
+[DayJs](https://day.js.org/) replaces MomentJs.
+BizDoc exports Moment pipes `Duration`, `TimeAgo`, `Calendar` and `DateFormat`.
+Add allowSyntheticDefaultImports: true to tsconfig.
 
 ## 1.9.14
 
