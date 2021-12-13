@@ -2,13 +2,21 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.10.0-next
+## 1.10.3
+
+### Features
+
+* Matrix calculated columns / rows.
+* Excel export on charts and analysis components.
 
 ### Breaking changes
 
 [DayJs](https://day.js.org/) replaces MomentJs.
 BizDoc exports Moment pipes `Duration`, `TimeAgo`, `Calendar` and `DateFormat`.
-Add allowSyntheticDefaultImports: true to tsconfig.
+
+XLSX dropped. Using Syncfusion Excel Export package.
+
+> Add allowSyntheticDefaultImports: true to tsconfig.
 
 ## 1.9.14
 
