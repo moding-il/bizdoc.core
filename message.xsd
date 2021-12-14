@@ -21,9 +21,9 @@
 			<xs:element minOccurs="0" maxOccurs="1" name="By" type="User" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Sender" type="User" />
 		</xs:sequence>
-		<xs:attribute name="FormId" type="xs:string" />
-		<xs:attribute name="Id" type="xs:integer" />
-		<xs:attribute name="EncryptedId" type="xs:string" />
+		<xs:attribute name="FormId" type="xs:string" use="required"/>
+		<xs:attribute name="Id" type="xs:integer" use="required"/>
+		<xs:attribute name="EncryptedId" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="Actions">
 		<xs:sequence>
@@ -45,7 +45,7 @@
 			<xs:element minOccurs="1" maxOccurs="1" name="Gender" nillable="true" type="GenderType" />
 		</xs:sequence>
 		<xs:attribute name="PictureUrl" type="xs:string" />
-		<xs:attribute name="Id" type="xs:string" />
+		<xs:attribute name="Id" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:simpleType name="GenderType">
 		<xs:restriction base="xs:string">
@@ -91,5 +91,8 @@
 			<xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
 		</xs:sequence>
 		<xs:attribute name="Pending" type="xs:boolean" use="required" />
+		<xs:attribute name="ActionId" type="xs:string"/>
+		<xs:attribute name="FolderId" type="xs:string" use="required"/>
+		<xs:attribute name="RoleId" type="xs:string"/>
 	</xs:complexType>
 </xs:schema>
