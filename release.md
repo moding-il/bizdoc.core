@@ -8,6 +8,7 @@ We release a major version once a year, medium version every other month, and mi
 
 * Matrix calculated columns / rows.
 * Excel export on charts and analysis components.
+* Axis structure and SQL builder (CubeServices) support for negation.
 
 ### Breaking changes
 
@@ -32,7 +33,7 @@ Angular 13. Net Core 6.0
 ## 1.8.20
 
 * Tabs navigation scope.
-* Combination pool _source_ attribute.
+* Combination pool _source_.
 * Document summary view.
 * Chart and pivot document views.
 * Cube views _Scope_, can be set to either Positions, Patterns or Global.
