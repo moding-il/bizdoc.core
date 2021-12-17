@@ -19,6 +19,11 @@ XLSX dropped. Using Syncfusion Excel Export package.
 
 > Add allowSyntheticDefaultImports: true to tsconfig.
 
+## 1.10 next
+
+* Inline form attachments. Check in/out attachments.
+* `CallbackService` to push events from server to frontend form.
+
 ## 1.9.14
 
 ### Compatibility
