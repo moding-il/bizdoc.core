@@ -2,7 +2,16 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.10.3
+## 1.11 next
+
+* Cube scope, axes values by scope
+* Trace filter route/log.
+* Explore page size.
+* Inline form attachments.
+* Check in/out attachments.
+* Use `CallbackService` to push events from server to frontend form.
+
+## 1.10.7
 
 ### Features
 
@@ -18,11 +27,6 @@ BizDoc exports Moment pipes `Duration`, `TimeAgo`, `Calendar` and `DateFormat`.
 XLSX dropped. Using Syncfusion Excel Export package.
 
 > Add allowSyntheticDefaultImports: true to tsconfig.
-
-## 1.10 next
-
-* Inline form attachments. Check in/out attachments.
-* `CallbackService` to push events from server to frontend form.
 
 ## 1.9.14
 
