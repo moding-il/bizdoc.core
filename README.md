@@ -150,27 +150,7 @@ public class MyForm : FormBase<MyFormModel> {
 
 The above code uses the `IWorkflowInstance` service to access the currently running workflow.
 
-BizDoc provides the following services:
-
-| Name |Usage | Namespace
-| --- | --- | ---
-| IHttpContext | Current user identity and geo position | BizDoc.Core.Http
-| Store | DbContext to BizDoc database | BizDoc.Core.Data
-| DocumentFactory | Create, update and delete document | BizDoc.Core.Data
-| IDocumentContext | Currently handled document | BizDoc.Core.Data
-| IWorkflowInstance | Start and resume document workflow | BizDoc.Core.Workflow
-| IWorkflowContext | Currently running workflow context | BizDoc.Core.Workflow
-| SourceService | Retrieve data source (Type object values) | BizDoc.Core.Data
-| CubeService | Query cube and currencies | BizDoc.Core.Data
-| IProfileManager | Access user profile | BizDoc.Core.Identity
-| IIdentityManager | Retrieve user information | BizDoc.Core.Identity
-| IEmailer | Deliver @ | BizDoc.Core.Messaging
-| ISmser | Send SMS | BizDoc.Core.Messaging
-| NotificationManager | Send notification to a user | BizDoc.Core.Messaging
-| IOptions\<SystemOptions\> | Access configuration | BizDoc.Core.Configuration.Models
-| ScheduledTasks | Enqueue delayed execution | BizDoc.Core.Tasks
-
-> Note `IDocumentContext`, `IWorkflowInstance` and `IWorkflowContext` are only available inside BizDoc context in managed objects.
+BizDoc provides list [here](./wiki/Providers).
 
 #### Angular DI
 
@@ -1259,7 +1239,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access [database objects](/wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
+You can access [database objects](./wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 
