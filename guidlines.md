@@ -26,7 +26,7 @@ Apply attributes to the model to control it's behavior.
 public string Topic { get; set; }
 ```
 
-See full list [here](/wiki/Attributes).
+See full list [here](./wiki/Attributes).
 
 #### Link Cube
 
@@ -571,7 +571,7 @@ Components may be restricted to certain users by applying Privileges.
 
 ## Extensions
 
-Configure one or more BizDoc extensions in startup.cs to feature your app. See full list [here](/wiki/Extensions)
+Configure one or more BizDoc extensions in startup.cs to feature your app. See full list [here](./wiki/Extensions)
 
 ```c#
 services.AddBizDoc(options => {
