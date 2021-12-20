@@ -26,45 +26,7 @@ Apply attributes to the model to control it's behavior.
 public string Topic { get; set; }
 ```
 
-#### Attributes
-
-| Name | Usage | Namespace
-| -- | -- | --
-| Subject | | BizDoc.ComponentModel.Annotations
-| Summary | | BizDoc.ComponentModel.Annotations
-| Value | Display value | BizDoc.ComponentModel.Annotations
-| Currency | Display currency | BizDoc.ComponentModel.Annotations
-| Percentage | | BizDoc.ComponentModel.Annotations
-| ExchangeRate | Update rate from ExchangeRates database table
-| Key | | System.ComponentModel.DataAnnotations
-| Required | | System.ComponentModel.DataAnnotations
-| Display | | System.ComponentModel.DataAnnotations
-| DataType | | System.ComponentModel.DataAnnotations
-| RegularExpression | | System.ComponentModel.DataAnnotations
-| StringLength | Text length range | System.ComponentModel.DataAnnotations
-| Range | Numeric value | System.ComponentModel.DataAnnotations
-| MinLength | Text length | System.ComponentModel.DataAnnotations
-| MaxLength | Text length | System.ComponentModel.DataAnnotations
-| Hint | Angular FormField | BizDoc.ComponentModel.Annotations
-| Column | Sql type | System.ComponentModel.DataAnnotations.Schema
-| VersionIgnore | | BizDoc.ComponentModel.Annotations
-| Switch | Use slide toggle on boolean | BizDoc.ComponentModel.Annotations
-| Address | Populate addresses from Google maps. Set googleMaps on BizDocModule.forRoot() | BizDoc.ComponentModel.Annotations
-| DocumentId | Set document Id as database table key | BizDoc.ComponentModel.Annotations
-| Line | Collection numerator for database | BizDoc.ComponentModel.Annotations
-| JsonIgnore | | System.Text.Json.Serialization
-| JsonPropertyName | | System.Text.Json.Serialization
-| JsonConverter | | System.Text.Json.Serialization
-| XmlIgnore | | System.Xml.Serialization
-| XmlAttribute | | System.Xml.Serialization
-| XmlArray | | System.Xml.Serialization
-| XmlArrayItem | | System.Xml.Serialization
-| ListType | Ma property to _type_ | BizDoc.ComponentModel.Annotations
-| ValueResolver | Resolve value from code | BizDoc.ComponentModel.Annotations
-| Template | Match Angular @BizDoc selector | BizDoc.ComponentModel.Annotations
-| CubeMapping | Map _cube axes_ | BizDoc.ComponentModel.Annotations
-| ScheduleMapping | Map a date to schedule | BizDoc.ComponentModel.Annotations
-| LocationMapping | * Experimental, Geo location | BizDoc.ComponentModel.Annotations
+See full list [here](/wiki/Attributes).
 
 #### Link Cube
 
@@ -609,30 +571,7 @@ Components may be restricted to certain users by applying Privileges.
 
 ## Extensions
 
-Configure one or more BizDoc extensions in startup.cs to feature your app.
-
-| Method | Usage | Package
-| -- | -- | --
-| AddAspIdentity | User authentication | BizDoc.Core.AspIdentity
-| AddOkta | Okta authentication | BizDoc.Core.Okta
-| AddOffice | 365 | BizDoc.Core.Office365
-| AddDirectoryServices | | BizDoc.Core.DirectoryServices
-| AddEscalate | Escalate roles
-| AddSummaryMail | Send email
-| AddMailExecuteGraph | Microsoft Exchange | BizDoc.Core.Exchange
-| AddMailExecutePOP3
-| AddMailExecuteIMAP
-| AddDbContext | Complementary EF context. See [Database](#database) section
-| AddSwagger | Swagger | BizDoc.Core.Swagger
-| AddSlack | Slack push | BizDoc.Core.Slack
-| AddTeams | Microsoft teams push | BizDoc.Core.Teams
-| AddExchangeRate | Currency exchange rate from [data.fixer.io](http://data.fixer.io)
-| UseSqlServer | Microsoft Sql Server storage
-| UseOracle | Oracle storage | BizDoc.Core.Oracle
-| UseDatabaseFileStore
-| UseFileSystemFileStore
-| UseComputerVision | Ocr reader | BizDoc.Invy
-| UseAbbyy | Ocr reader | BizDoc.Invy
+Configure one or more BizDoc extensions in startup.cs to feature your app. See full list [here](/wiki/Extensions)
 
 ```c#
 services.AddBizDoc(options => {
