@@ -91,38 +91,10 @@ Html may include [Angular components](https://material.angular.io/components/cat
 
 | Name | Usage |
 | -- | -- |
-| AddressInput | Form field \<bizdoc-address>
-| TypeSelect | Form field mam to _Type_
-| TypeAutocomplete | Form field map to _Type_ \<bizdoc-autocomplete type="parts"\>
-| TimeInput | Form field
-| CombinationPicker | Form field \<bizdoc-combination-picker formControlName="accountCode">
-| TypeValuePipe | Translate _type_ value. Async
-| StatePipe
-| ActionPipe
-| RolePipe
-| FormPipe
-| ArraySortPipe
 | IdentityName | \<identity-name [identity]=identity\>
-| GuideService | Start a guide.
-| CubeService | Service for querying backend server cube.
-| DataSourceService | _Types_
-| SessionService |
-| MailboxService |
-| MapInfo | Service for showing a location in a map. Requires googleMaps settings.
-| DocumentInfo | Open document preview.
-| AttachmentInfo | Opening document attachment.
-| CubeInfo | Open cube view or explore.
-| ChatInfo | Start chat conversation.
-| Popup | Service. Inject POPUP_DATA.
-| FormRef\<T>
-| ReportRef\<T>
-| UtilityRef\<T>
-| PaneRef\<T>
-| PanesRouter | Service, navigate, open tab using OpenPolicy.Tab
-| Avatar | \<bizdoc-avatar [person]=person\>
-| Tooltip | \<div bizdocTooltip="Tooltip!"></div>
-| CombinationPool | _Constraints_ \<bizdoc-combination-pool [formGroup]=form\>
 | ActionPicker | Move actions to form body. \<bizdoc-action-picker [data]=data\>
+
+See full list [here](../../wiki/Angular#Components).
 
 ```html
 <mat-form-field>
@@ -613,12 +585,13 @@ Set Xslt in startup.cs.
 
 ```c#
 services.AddBizDoc(options => {
-    options.EmailBody = "./my-email.xslt";
+    options.Smtp.EmailBody = "./my-email.xslt";
 });
 ```
 
 > Use relative paths.
 > Set xslt file build property to `Content`.
+> xsd [here](message.xsd).
 
 ## Jobs
 
