@@ -39,37 +39,11 @@ BizDoc can be broken into two major parts: backend server objects, responsible f
 Commonly, a front-end component has a matching backing server object. For example, BizDoc *form* object will have a backend class that manages its lifetime events, while a corresponding front-end Angular component will take care of presenting form data to user and respond to form input.
 Communication between the front-end and the backend is done through BizDoc APIs.
 
-BizDoc manages to following objects:
-
-* Form - Application details.
-* Report - Retrieve and present data.
-* Widget - Dashboard tile.
-* View - Document info.
-* Utility - Administrative procedure.
-* Type - Data source of list of values.
-* Cube - Index to form's data.
-* FlowAction - Workflow possible user option.
-* FlowNode - Workflow node.
-* Rule - Server-side JavaScript expression.
-
-In addition to the managed objects above, BizDoc facilitates server side objects which doesn't have a backend object:
-
-* Folders - Trays of documents and possible display columns.
-* States - Document statuses.
-* Roles - Positions in the organization.
-* Guides - Step-by-step user guides.
-* Currencies - Exchange rate.
-
 BizDoc configures both managed and none-managed server-side objects in bizdoc.json file.
-Upon run, managed objects found in any of your project assembly or referenced assemblies are registered automatically.
 
 > Open bizdoc.json and review your app's configuration.
 
-The configuration file is updated either by BizDoc, by administrative utilities, or can be edited manually. When the configuration changes, a copy of the previous configuration is kept in the /backups directory.
-
 If a BizDoc object has a front-end Angular component, the two is coupled by annotating the back-end class with the \[Template()\] attribute, and decorating the Angular component with the @BizDoc() attribute with a matching value.
-
-BizDoc objects accepts .Net Core services using Dependency Injection (DI). BizDoc provides its own services to access its functionalities, as listed in the [services](#managed-objects) section.
 
 BizDoc also maintains non managed objects such as _Roles_. A _role_ is declared per _type_ and assigned _positions_ per type _keys_. In addition to assigning roles to type keys, positions can be assigned to _patterns_, a regular expression, and to _groups_ of keys.
 
@@ -156,24 +130,7 @@ BizDoc provides list [here](../../wiki/Providers).
 
 In your Angular app, you can access BizDoc functionality by injecting BizDoc services.
 
-Angular services include:
-
-| Name | Usage
---- | ---
-| SessionService | Logged user info and available configuration
-| CubeService | Query cube
-| DataSourceService | Retrieve managed _Type_ values
-| AccountService |  Get users info
-| TranslationService | Add and query internationalization resources, used in conjunction with the _translate_ pipe
-| GuideService | Start a step-by-step guided tour
-| MailboxService | Mail related operations
-| CubeInfo | Open a cube matrix
-| MapInfo | Open a map
-| DocumentInfo | Preview a document
-| AttachmentInfo | Preview an attachment
-| ChatInfo | Chat
-| Popup | Open a popup
-| PaneRouter | Navigate to a pane
+See full Angular services list [here](../../wiki/Angular#Services).
 
 ```typescript
 class MyClass {
@@ -216,17 +173,7 @@ public class MyFormModel {
 
 You may annotate your model with attributes to instruct BizDoc how to handle it.
 
-Attributes include:
-
-| Name | Usage
-| -- | --
-| Subject | Document title
-| Summary | Extended document details
-| Value | Document value for display
-| Currency | Specify document display currency and sub model actual currency
-| ExchangeRate | Set exchange rate from internal rates table
-| Percentage | _Cube_ value calculate out of Value
-| ListType | Bind property to _cube_ and _positions_
+See full list [here](../../wiki/Attributes).
 
 In addition to BizDoc behavior attributes above, model properties may be annotated with .Net attributes such as Required, DataType, MaxLength and Display.
 
@@ -1073,7 +1020,9 @@ In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 Some limitations may apply to data models to allow them to be serialized as XML. Annotate your model with XmlIgnore, XmlAttribute, XmlArray and XmlArrayItem to control the XML structure.
 
-You can pass data to XML Extra node by overriding the GetExtraDataAsync() method of your form server-side object.
+You can pass data to XML Extra node by overriding the GetExtraAsync() method of your form server-side object.
+
+> xsd [here](message.xsd).
 
 ### Provide a Custom Identity Manager
 
