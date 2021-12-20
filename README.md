@@ -150,7 +150,7 @@ public class MyForm : FormBase<MyFormModel> {
 
 The above code uses the `IWorkflowInstance` service to access the currently running workflow.
 
-BizDoc provides list [here](./wiki/Providers).
+BizDoc provides list [here](../../wiki/Providers).
 
 #### Angular DI
 
@@ -1239,7 +1239,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access [database objects](./wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
+You can access [database objects](../../wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 
