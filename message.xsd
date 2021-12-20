@@ -35,6 +35,7 @@
 			<xs:element minOccurs="1" maxOccurs="1" name="Title" type="xs:string" />
 		</xs:sequence>
 		<xs:attribute name="Name" type="xs:string" />
+		<xs:attribute name="Icon" type="xs:string" />
 	</xs:complexType>
 	<xs:complexType name="User">
 		<xs:sequence>
@@ -75,8 +76,10 @@
 		<xs:sequence>
 			<xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Content" type="xs:string" />
-		</xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CheckedTo" type="User" />
+    </xs:sequence>
 		<xs:attribute name="Name" type="xs:string" />
+		<xs:attribute name="IsPrivate" type="xs:boolean" />
 	</xs:complexType>
 	<xs:complexType name="Recipients">
 		<xs:sequence>
@@ -89,6 +92,7 @@
 			<xs:element minOccurs="1" maxOccurs="1" name="Sent" type="xs:dateTime" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Replied" nillable="true" type="xs:dateTime" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Role" type="xs:string" />
 		</xs:sequence>
 		<xs:attribute name="Pending" type="xs:boolean" use="required" />
 		<xs:attribute name="ActionId" type="xs:string"/>

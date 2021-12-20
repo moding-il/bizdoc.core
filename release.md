@@ -14,7 +14,7 @@ This version release include scope management feature. Analysis cube can now be 
 * Axes parenting.
 * Trace filter route/log.
 * Explore page size.
-* Inline form attachments.
+* Inline form attachments (Preview).
 * Check in/out attachments.
 * `CallbackService` to push events from server to frontend form.
 

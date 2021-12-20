@@ -44,6 +44,7 @@ BizDoc manages to following objects:
 * Form - Application details.
 * Report - Retrieve and present data.
 * Widget - Dashboard tile.
+* View - Document info.
 * Utility - Administrative procedure.
 * Type - Data source of list of values.
 * Cube - Index to form's data.
@@ -1258,27 +1259,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access database objects using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
-
-Database tables:
-
-| Table       | Usage |
-----          | ---   |
-| Documents | Document header and data model
-| Recipients | Document recipients
-| Events | Events of documents
-| Locations | Document geo data
-| Attachments | Document attachments (Using BizDocService.UseDatabaseFileStore)
-| Comments | Comments of documents
-| Entries | Cube Axes mapping of a document
-| Log | Document log. May be one of ActionTaken, Submit, Escalate, ModelChange, Downloaded, or StateChange. Log models can be found in BizDoc.Core.Data.Models.Log namespace.
-| Cube | Reflects document data from Entries table and data from 3rd party app
-| Indices | Indices for cube
-| Segments | Account segments code names (default implementation)
-| Combinations | Account segments combinations (default implementation)
-| Chats | Conversations (when applicable)
-| Devices | (Internal, registry of user devices)
-| Sequences | (Internal, unique form sequence)
+You can access [database objects](/wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 
