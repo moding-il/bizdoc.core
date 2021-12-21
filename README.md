@@ -9,7 +9,7 @@ To author a new BizDoc environment, create a new project from _BizDoc_ template.
 
 ### Prerequisites
 
-[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 5.0](https://dotnet.microsoft.com/download/dotnet/5.0),
+[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 6.0](https://dotnet.microsoft.com/download/dotnet/6.0),
 Latest [Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
@@ -86,13 +86,15 @@ Install the relevant Nuget and add it to services in startup.cs.
 
 > If the available default identity managers doesn't answer your organization needs, you can implement your own identity manager. See below how to create a [Custom Identity Manager](#provide-a-custom-identity-manager).
 
-BizDoc offers additional services:
+BizDoc offers additional services, like:
 
 * AddEscalate() - Escalate unattended documents.
 * AddSummaryMail() - Send @ of pending documents, notifications and chat summary.
 * AddMailExecute() - Analyze @ and forward document workflow. Service arrives in three configurations: IMAP, POP3 and Exchange. Exchange require an additional reference to [Exchange](https://www.nuget.org/packages/BizDoc.Core.Exchange/).
 * AddExchangeRate() - Update currency exchange rates from the web.
 * AddSwagger() - Support Swagger.
+
+See full extensions list [here](../../wiki/Extensions).
 
 You can set BizDoc client app behavior using the BizDocModule.forRoot() function in app.module.ts file.
 
@@ -310,7 +312,7 @@ ng g c myForm
 Open ./app/src/my-Form/my-form.component.ts and replace the content of the file with the following:
 
 ```typescript
-import { FormComponent, RecipientModel, ViewMode, BizDoc } from 'bizdoc.core';
+import { FormComponent, RecipientModel, ViewMode, BizDoc } from '@bizdoc/core';
 
 @Component({
   templateUrl: './my-form.component.html',
@@ -435,7 +437,7 @@ public class MyFormModel {
 The corresponding Angular component use the @BizDoc decorator, with the same value, here *app-my-form*.
 
 ```typescript
-import { FormComponent, RecipientModel, ViewMode, BizDoc } from 'bizdoc.core';
+import { FormComponent, RecipientModel, ViewMode, BizDoc } from '@bizdoc/core';
 
 @BizDoc({
   selector: 'app-my-form'
@@ -567,7 +569,7 @@ The above PopulateAsync method accepts MyReportArgsModel and returns a list of M
 A report object may have an Angular component presenting it. In which case, the component should implement the IReportComponent\<T\>.
 
 ```typescript
-import {ReportComponent, BizDoc, ReportRef} from 'bizdoc.core';
+import {ReportComponent, BizDoc, ReportRef} from '@bizdoc/core';
 
 @Component({...})
 @BizDoc({ selector: 'my-report' })
@@ -591,7 +593,7 @@ If no Angular component is registered for the report, BizDoc treats the model pr
 
 You can also customize the arguments pane by implementing IArgumentComponent\<T\> and annotating the arguments model with the Template attribute.
 
-Use one of the built-in pipes to display BizDoc keys as values. Pipes include `StateNamePipe`, `ActionNamePipe`, `UserNamePipe`, `FormNamePipe`, `RoleNamePipe`, and `TypeValuePipe`. UserName and TypeValue pipes are async.
+Use one of the built-in [pipes](../../wiki/Angular#Pipes) to display BizDoc keys as values.
 
 #### Customizing built-in Reports
 
@@ -728,23 +730,7 @@ Patterns can be modified using the designated administration utility or by manua
 
 If you use the cube to store 3rd party app data, such as POs from ERP, you can provide drill down to the 3rd party app by implementing the IBrowsable interface.
 
-First, override the ExploreType() method and return the relevant type for the requested axes. Then, implement the CubeBase.IBrowsable&lt;T&gt; QueryAsync() to populate 3rd party data.
-
-```csharp
-public class MyCube : CubeBase, CubeBase.IBrowsable<PO> {
-  private const byte BalanceAxisPosition = 4;
-  public override async Task<IEnumerable<PO>> QueryAsync(params Axis[] axes) {
-    ...
-  }
-  public override ExploreType(params string[] axes) {
-      if (axes.ElementAt(BalanceAxisPosition).Equals(Balance.PO.ToString())
-        return typeof(PO);
-      return base.ExploreType();
-  }
-}
-```
-
-> The implementation of the QueryAsync should be able to handle different Axis values, including range, arrays and patterns. Use the CubeService.FormatAxisPhrase() method to build an SQL phrase that supports these patterns.
+[API](../../wiki/Explore)
 
 #### Querying
 
@@ -802,52 +788,9 @@ public class MyCube : CubeBase
 A _widget_ represents a component displayed in user dashboard, commonly showing relevant data summary.
 Widgets have an Angular component and a backing server-side object.
 
-The backing object derived from WidgetBase.
-
-```csharp
-[Template("app-my-widget")]
-public class MyWidget : WidgetBase<PersonalActivity.DataModel>
-{
-    public override Task<DataModel> GetAsync(Void args)
-    {
-        ...
-    }
-    public struct DataModel
-    {
-        ...
-    }
-}
-```
-
-And an Angular component implementing WidgetComponent\<T\>.
-
-```typescript
-import { WidgetComponent, BizDoc } from 'bizdoc.core';
-
-@Component({
-  selector: 'app-my-widget',
-  templateUrl: './my-widget.widget.html',
-})
-@BizDoc({
-  selector: 'app-my-widget'
-})
-export class MyWidget implements WidgetComponent<DataModel[]> {
-  onBind(data: DataModel[]) {
-    ...
-  }
-}
-interface DataModel {
-    ...
-}
-```
-
-Like other components, Angular widget component must have a @BizDoc decoration matching the backing object Template attribute.
-
-The onBind() function receives the data returned by the server-side GetAsync() method.
-
-> Widgets, as other objects, accepts _Options_ to control their behavior. Refer to BizDoc.Configuration.Widgets namespace to inspect core widget properties.
-
 Core widgets server-side objects can be overridden. See [how to](#customizing-built-in-objects) example.
+
+[API](../../wiki/Widgets)
 
 ### Views
 
@@ -857,35 +800,14 @@ Developer can create custom view, by implementing IViewComponent on the Angular 
 
 Commonly, views options are set in the Options node of Views in bizdoc.config.
 
+[API](../../wiki/Views)
+
 ### Rules
 
 A _rule_ declares a programmatic value. For example, the Anomaly rule returns the cube anomaly for the currently processed document.
 Rules can then be evaluated in scenarios like a workflow _if_ condition or object _privileges_.
 
-A rule object inherits from RuleBase.
-
-```csharp
-public class ValueRule : RuleBase<decimal?>
-{
-    private readonly IDocumentContext _documentContext;
-    public ValueRule(IDocumentContext documentContext) => _documentContext = documentContext;
-
-    public override decimal? GetValue() => _documentContext.Document.Value;
-}
-```
-
-You can then use rules in configuration file.
-
-```json
-{
-  "Type": "BizDoc.Configuration.Reports.CubeUsage",
-  "Name": "usage",
-  "Privileges": {
-    "Rule": "devEnvOnly",
-    "Roles": ["System"]
-  }
-}
-```
+[API](../../wiki/Rules)
 
 ## How To
 
@@ -894,28 +816,7 @@ You can then use rules in configuration file.
 BizDoc logs changes made by users to documents model. Changes can then be viewed from document trace.
 To enable a form to show version compare, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
 
-```html
-<ng-container [ngSwitch]="mode">
-  <div *ngSwitchCase='"version"'>
-    <span bizdocCompareName="from,to">{{data.model.from}} - {{data.model.to}}</span>
-    <table bizdocCompareGroup="lines">
-      <tr *ngFor='let line of data.model.lines' [bizdocCompareContext]='line'>
-        <td bizdocCompareName="product">{{line.product}}</td>
-      </tr>
-    </table>
-  </div>
-</ng-container>
-```
-
-You may also access version data programmatically from the onBind() function.
-
-```typescript
-onBind(data: RecipientModel<MyFormModel>, version?: MyFormModel): void {
-    if(version && version.subject !== data.model.subject) {
-      ...
-    }
-}
-```
+[API](../../wiki/Forms/Version-Compare)
 
 ### Enable navigation in forms
 
@@ -955,40 +856,9 @@ You may pre-register panes with paths in advance. See [panes](https://github.com
 
 BizDoc can present the user with a guide of component functionality and use.
 
-_Guides_ are maintained in bizdoc.json configuration.
+You can also set a guide at runtime. For example, a form may provide different guide for line view and header view, or a different guide in preview and edit mode.
 
-```json
-"Guides": [
-  {
-    "Name": "myPurchaseGuide",
-    "Title": "Purchase",
-    "Steps": [
-      {
-        "Content": "Purchase form help!"
-      },
-      {
-        "Selector": "[data-help=type]",
-        "Content": "Type help!",
-        "Position": "End"
-      }
-    ]
-  }
-]
-```
-
-You can set a guide to a form, report, utility, widget or cube view.
-
-```json
-"Forms": [
-  {
-    "Name": "purchase",
-    "Title": "Purchase",
-    "Guide": "myPurchaseGuide"
-  }
-]
-```
-
-You can also set a guide at runtime using `FormRef`. For example, a form may provide different guide for line view and header view, or a different guide in preview and edit mode.
+[API](../../wiki/Guides)
 
 ### Format delivered emails
 
@@ -1018,11 +888,9 @@ In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 > Study the schema to learn about the structure of the XML representing document data.
 
-Some limitations may apply to data models to allow them to be serialized as XML. Annotate your model with XmlIgnore, XmlAttribute, XmlArray and XmlArrayItem to control the XML structure.
-
-You can pass data to XML Extra node by overriding the GetExtraAsync() method of your form server-side object.
-
 > xsd [here](message.xsd).
+
+For more information, see [emails](../../wiki/Emails).
 
 ### Provide a Custom Identity Manager
 
@@ -1200,13 +1068,7 @@ Segments and Combinations tables are used by Segments built-in type, `Combinatio
 
 ## References
 
-BizDoc rely on [Hanfire](https://docs.hangfire.io/) for background execution. You can add your long-running or periodic jobs using this library. Administrative control available in /hangfire url on your web app server.
-
-BizDoc uses [Syncfusion](https://www.syncfusion.com/angular-ui-components) for charting. If you wish to add charts to your custom components, we recommend using this library. Licensing required.
-
-If you use the currency exchange rate job, register at <http://data.fixer.io> and set the appropriate options in startup.cs.
-
 Issus can be submitted [here](https://github.com/moding-il/bizdoc.core/issues).
 
-> Product updates are released regularly via [npm](https://www.npmjs.com/package/bizdoc.core) and [Nuget](https://www.nuget.org/packages/BizDoc.Core/) packages.
+> Product updates are released regularly via [npm](https://www.npmjs.com/package/@bizdoc/core) and [Nuget](https://www.nuget.org/packages/BizDoc.Core/) packages.
 > Keep your project up to date!

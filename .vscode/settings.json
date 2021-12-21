@@ -3,6 +3,7 @@
         "bizdoc",
         "nameof",
         "Nuget",
+        "struct",
         "Syncfusion"
     ]
 }

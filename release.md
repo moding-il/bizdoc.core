@@ -6,10 +6,11 @@ We release a major version once a year, medium version every other month, and mi
 
 ### Features
 
-This version release include scope management feature. Analysis cube can now be set to either _Positions_, _Patterns_ or _Global_. Positions limits the cube filters to user privileges by assigned roles, while Patterns limits the cube to authorized cube patterns. Global is the default with no limit.
-
 #### Cube scope
 
+This version release include scope management feature. Analysis cube can now be set to either _Positions_, _Patterns_ or _Global_. Positions limits the cube filters to user privileges by assigned roles, while Patterns limits the cube to authorized cube patterns. Global is the default with no limit.
+
+* Excel styling
 * Cube scope, axes values by scope
 * Axes parenting.
 * Trace filter route/log.
