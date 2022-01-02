@@ -16,6 +16,7 @@
 			<xs:element minOccurs="1" maxOccurs="1" name="Received" type="xs:dateTime" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Issued" type="xs:dateTime" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Note" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="State" type="xs:string" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Recipients" type="Recipients" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Extra" />
 			<xs:element minOccurs="0" maxOccurs="1" name="By" type="User" />
@@ -23,6 +24,7 @@
 		</xs:sequence>
 		<xs:attribute name="FormId" type="xs:string" use="required"/>
 		<xs:attribute name="Id" type="xs:integer" use="required"/>
+		<xs:attribute name="StateId" type="xs:integer" use="required"/>
 		<xs:attribute name="EncryptedId" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="Actions">
@@ -94,7 +96,8 @@
 			<xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Role" type="xs:string" />
 		</xs:sequence>
-		<xs:attribute name="Pending" type="xs:boolean" use="required" />
+		<xs:attribute name="IsEstimate" type="xs:boolean" />
+		<xs:attribute name="IsPending" type="xs:boolean" />
 		<xs:attribute name="ActionId" type="xs:string"/>
 		<xs:attribute name="FolderId" type="xs:string" use="required"/>
 		<xs:attribute name="RoleId" type="xs:string"/>
