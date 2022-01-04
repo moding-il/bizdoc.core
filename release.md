@@ -6,9 +6,10 @@ We release a major version once a year, medium version every other month, and mi
 
 * Inverse cube indices in matrix.
 * Intelligent information on flow, expanded inbox item and trace.
-* Return and Assign actions.
+* Workflow *return* and *assign* actions.
+* Multiple configuration files.
 
-## 1.12.3
+## 1.12.4
 
 ### Features
 
