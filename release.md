@@ -9,6 +9,10 @@ We release a major version once a year, medium version every other month, and mi
 * Workflow *return* and *assign* actions.
 * Multiple configuration files.
 
+### Flutter (preview)
+
+[package](https://pub.dev/packages/bizdoc)
+
 ## 1.12.4
 
 ### Features
