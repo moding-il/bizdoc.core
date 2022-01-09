@@ -2,7 +2,7 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.13 next
+## 1.13.0 
 
 * Inverse cube indices in matrix.
 * Intelligent information on flow, expanded inbox item and trace.
