@@ -94,7 +94,7 @@ BizDoc offers additional services, like:
 * AddExchangeRate() - Update currency exchange rates from the web.
 * AddSwagger() - Support Swagger.
 
-See full extensions list [here](../../wiki/Extensions).
+See full extensions list [here](../../wiki/Core-Extensions).
 
 You can set BizDoc client app behavior using the BizDocModule.forRoot() function in app.module.ts file.
 
@@ -126,7 +126,7 @@ public class MyForm : FormBase<MyFormModel> {
 
 The above code uses the `IWorkflowInstance` service to access the currently running workflow.
 
-BizDoc provides list [here](../../wiki/Providers).
+BizDoc provides list [here](../../wiki/Core-Services).
 
 #### Angular DI
 
@@ -175,7 +175,7 @@ public class MyFormModel {
 
 You may annotate your model with attributes to instruct BizDoc how to handle it.
 
-See full list [here](../../wiki/Attributes).
+See full list [here](../../wiki/Core-Attributes).
 
 In addition to BizDoc behavior attributes above, model properties may be annotated with .Net attributes such as Required, DataType, MaxLength and Display.
 
@@ -807,7 +807,7 @@ Commonly, views options are set in the Options node of Views in bizdoc.config.
 A _rule_ declares a programmatic value. For example, the Anomaly rule returns the cube anomaly for the currently processed document.
 Rules can then be evaluated in scenarios like a workflow _if_ condition or object _privileges_.
 
-[API](../../wiki/Rules)
+[API](../../wiki/Configuration-Rules)
 
 ## How To
 
@@ -816,7 +816,7 @@ Rules can then be evaluated in scenarios like a workflow _if_ condition or objec
 BizDoc logs changes made by users to documents model. Changes can then be viewed from document trace.
 To enable a form to show version compare, use the `bizdocCompareGroup`, `bizdocCompareContext` and `bizdocCompareName` directives.
 
-[API](../../wiki/Forms/Version-Compare)
+[API](../../wiki/Forms#version-compare)
 
 ### Enable navigation in forms
 
@@ -858,7 +858,7 @@ BizDoc can present the user with a guide of component functionality and use.
 
 You can also set a guide at runtime. For example, a form may provide different guide for line view and header view, or a different guide in preview and edit mode.
 
-[API](../../wiki/Guides)
+[API](../../wiki/Configuration-Guides)
 
 ### Format delivered emails
 
@@ -890,7 +890,7 @@ In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 > xsd [here](message.xsd).
 
-For more information, see [emails](../../wiki/Emails).
+For more information, see [emails](../../wiki/Core-Emails).
 
 ### Provide a Custom Identity Manager
 
@@ -1056,7 +1056,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access [database objects](../../wiki/Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
+You can access [database objects](../../wiki/Core-Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 
