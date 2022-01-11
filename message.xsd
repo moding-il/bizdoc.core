@@ -19,14 +19,16 @@
 			<xs:element minOccurs="0" maxOccurs="1" name="State" type="xs:string" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Recipients" type="Recipients" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Extra" />
-			<xs:element minOccurs="0" maxOccurs="1" name="By" type="User" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Sender" type="User" />
-		</xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Subtituting" type="User" />
+    </xs:sequence>
 		<xs:attribute name="FormId" type="xs:string" use="required"/>
 		<xs:attribute name="Id" type="xs:integer" use="required"/>
 		<xs:attribute name="StateId" type="xs:integer" use="required"/>
 		<xs:attribute name="EncryptedId" type="xs:string" use="required"/>
-	</xs:complexType>
+    <xs:attribute name="IsEscalate" type="xs:boolean" />
+    <xs:attribute name="IsFYI" type="xs:boolean" />
+  </xs:complexType>
 	<xs:complexType name="Actions">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" name="Action" nillable="true" type="Action" />
@@ -78,6 +80,7 @@
 		<xs:sequence>
 			<xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Content" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="CheckedOut" type="xs:dateTime" />
       <xs:element minOccurs="0" maxOccurs="1" name="CheckedTo" type="User" />
     </xs:sequence>
 		<xs:attribute name="Name" type="xs:string" />
@@ -91,15 +94,21 @@
 	<xs:complexType name="Recipient">
 		<xs:sequence>
 			<xs:element minOccurs="1" maxOccurs="1" name="User" type="User" />
-			<xs:element minOccurs="1" maxOccurs="1" name="Sent" type="xs:dateTime" />
-			<xs:element minOccurs="1" maxOccurs="1" name="Replied" nillable="true" type="xs:dateTime" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Received" type="xs:dateTime" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Replied" nillable="true" type="xs:dateTime" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Role" type="xs:string" />
-		</xs:sequence>
-		<xs:attribute name="IsEstimate" type="xs:boolean" />
-		<xs:attribute name="IsPending" type="xs:boolean" />
-		<xs:attribute name="ActionId" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Subtituting" type="User" />
+      <xs:element minOccurs="0" maxOccurs="1" name="By" type="User" />
+    </xs:sequence>
+    <xs:attribute name="IsEstimate" type="xs:boolean" />
+    <xs:attribute name="IsPending" type="xs:boolean" />
+    <xs:attribute name="IsFYI" type="xs:boolean" />
+    <xs:attribute name="IsEscalate" type="xs:boolean" />
+    <xs:attribute name="ActionId" type="xs:string"/>
 		<xs:attribute name="FolderId" type="xs:string" use="required"/>
 		<xs:attribute name="RoleId" type="xs:string"/>
+		<xs:attribute name="Id" type="xs:int"/>
+		<xs:attribute name="OriginId" type="xs:int"/>
 	</xs:complexType>
 </xs:schema>
