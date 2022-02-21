@@ -2,7 +2,12 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.13.0 
+## 1.14 (next)
+
+* New _Move to_ action.
+* New [cube performance](./wiki/Performance) compare widget.
+
+## 1.13.18
 
 * Inverse cube indices in matrix.
 * Intelligent information on flow, expanded inbox item and trace.
