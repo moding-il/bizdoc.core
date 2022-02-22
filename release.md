@@ -4,8 +4,10 @@ We release a major version once a year, medium version every other month, and mi
 
 ## 1.14 (next)
 
+Angular 14 support. Code cleanup.
+
 * New _Move to_ action.
-* New [cube performance](./wiki/Performance) compare widget.
+* New [cube performance](../../wiki/Performance) compare widget.
 
 ## 1.13.18
 
