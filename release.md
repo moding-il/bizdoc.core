@@ -6,8 +6,16 @@ We release a major version once a year, medium version every other month, and mi
 
 Angular 14 support.
 
-* _Move to_ and _Return To_ actions.
-* [cube performance](../../wiki/Performance) compare widget.
+* _Move to_ action, propogating current user role on same w/f node.
+* _Return To_ action, to any of the previous nodes.
+* [cube performance](../../wiki/Performance) widget.
+* IDocumentContext now uses common code that effects CubeMapping.
+*	Numeric (non-currency values) cube & explore. Set YAxis _type_ in bizdoc.json.
+*	Escalations, nudge job (experimental).
+*	Humanized messages on flow diagram and extended item on folder view.
+*	Inline attachments as form field, including preview, check out & in.
+
+Mfg/OpenEdge integration (preview)
 
 ## 1.13.18
 
