@@ -6,6 +6,7 @@ We release a major version once a year, medium version every other month, and mi
 
 Angular 14 support.
 
+* Desktop router OpenPolicy _Stretch_ and _Dialog_.
 * _Move to_ action, propogating current user role on same w/f node.
 * _Return To_ action, to any of the previous nodes.
 * [cube performance](../../wiki/Performance) widget.
