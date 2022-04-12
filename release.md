@@ -4,8 +4,9 @@ We release a major version once a year, medium version every other month, and mi
 
 ## 1.14 (next)
 
-Angular 14 support.
+Angular 14 support in [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) npm.
 
+* Document Trace utlility browse dates range.
 * Copy document duplicate attachments.
 * Desktop [router](../../wiki/PanesRouter) OpenPolicy _Stretch_ and _Dialog_.
 * _Move to_ action, propogating current user role on same w/f node.
