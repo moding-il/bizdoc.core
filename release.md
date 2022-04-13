@@ -6,6 +6,7 @@ We release a major version once a year, medium version every other month, and mi
 
 Angular 14 support in [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) npm.
 
+* [FormIdentity](https://www.nuget.org/packages/BizDoc.Core.FormIdentity/) registerts SecureApprove and SecureReject actions.
 * Document Trace utlility browse dates range.
 * Copy document duplicate attachments.
 * Desktop [router](../../wiki/PanesRouter) OpenPolicy _Stretch_ and _Dialog_.
