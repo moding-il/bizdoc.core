@@ -7,12 +7,13 @@ We release a major version once a year, medium version every other month, and mi
 Angular 14 support in [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) npm.
 
 * [FormIdentity](https://www.nuget.org/packages/BizDoc.Core.FormIdentity/) registerts SecureApprove and SecureReject actions.
+* [FormIdentity](https://www.npmjs.com/package/@bizdoc/credentials) timeout config.
 * Document Trace utlility browse dates range.
 * Copy document duplicate attachments.
 * Desktop [router](../../wiki/PanesRouter) OpenPolicy _Stretch_ and _Dialog_.
 * _Move to_ action, propogating current user role on same w/f node.
 * _Return To_ action, to any of the previous nodes.
-* [cube performance](../../wiki/Performance) widget.
+* [Cube performance](../../wiki/Performance) widget.
 * IDocumentContext now uses common code that effects CubeMapping.
 *	Numeric (non-currency values) cube & explore. Set YAxis _type_ in bizdoc.json.
 *	Escalations, nudge job (experimental).
