@@ -2,9 +2,9 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.14 (next)
+## 1.14
 
-Angular 14 support in [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) npm.
+Angular [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) 1.14 npm corresponds to [BizDoc.Core](https://www.nuget.org/packages/BizDoc.Core) 6.5 Nuget.
 
 * [FormIdentity](https://www.nuget.org/packages/BizDoc.Core.FormIdentity/) registerts SecureApprove and SecureReject actions.
 * [FormIdentity](https://www.npmjs.com/package/@bizdoc/credentials) timeout config.
