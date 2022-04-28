@@ -1,4 +1,12 @@
-					.materialert{
+								
+.materialnumber.positive{
+					color: #008000;
+					}
+					.materialnumber.negative{
+					color: #FF0000;
+					}
+
+.materialert{
 					position: relative;
 					min-width: 150px;
 					padding: 15px;
