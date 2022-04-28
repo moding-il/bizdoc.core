@@ -1,10 +1,46 @@
+body {}
+body section {
+padding: 0 10px;
+}
+.mdl-card {
+flex: 1 1;
+margin: 5px;}
+.row {
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+}
+@media only screen and (max-width: 600px) {
+.row {
+flex-direction: column;
+}
+}
+.flex {
+flex: 1 1 auto;
+}
+.mdl-data-table {
+width: 100%;}
+
+footer{
+display: flex;
+flex-direction: column;
+}
+.blueprint{
+position: absolute;
+font-size: 320px;
+opacity: .03;
+margin-top: 50px;
+}
+
+tfoot tr td {
+	font-weight: bold;
+}
+
 footer {
 	padding: 16px 40px;
 	color: #9e9e9e;
 	background-color: #424242;
 }
-
-footer section {}
 
 footer section h1 {
 	position: relative;
@@ -46,15 +82,15 @@ tfoot tr td {
 	font-weight: bold;
 }
 
-.materialnumber.positive {
+.number.positive {
 	color: #008000;
 }
 
-.materialnumber.negative {
+.number.negative {
 	color: #FF0000;
 }
 
-.materialert {
+.alert {
 	position: relative;
 	min-width: 150px;
 	padding: 15px;
@@ -75,31 +111,31 @@ tfoot tr td {
 	align-items: center;
 }
 
-.materialert .material-icons {
+.alert .material-icons {
 	margin-right: 10px;
 }
 
-.materialert.info {
+.alert.info {
 	background-color: #039be5;
 	color: #fff;
 }
 
-.materialert.success {
+.alert.success {
 	background-color: #43a047;
 	color: #fff;
 }
 
-.materialert.error {
+.alert.error {
 	background-color: #c62828;
 	color: #fff;
 }
 
-.materialert.danger {
+.alert.danger {
 	background-color: #c62828;
 	color: #fff;
 }
 
-.materialert.warning {
+.alert.warning {
 	background-color: #fbc02d;
 	color: #fff;
 }
