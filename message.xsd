@@ -4,6 +4,7 @@
 	<xs:complexType name="Message">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="1" name="Actions" type="Actions" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Logs" type="Logs" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Form" type="xs:string" />
 			<xs:element minOccurs="1" maxOccurs="1" name="Model" />
 			<xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:string" />
@@ -29,6 +30,32 @@
     <xs:attribute name="IsEscalate" type="xs:boolean" />
     <xs:attribute name="IsFYI" type="xs:boolean" />
   </xs:complexType>
+	<xs:complexType name="Logs">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Log" nillable="true" type="Log" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Log">
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime" />
+			<xs:element minOccurs="1" maxOccurs="1" name="User" type="User" />
+			<xs:element minOccurs="0" maxOccurs="1" name="By" type="User" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Substitute" type="User" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Escalated" type="xs:boolean" />
+			<xs:element minOccurs="0" maxOccurs="1" name="IsFYI" type="xs:boolean" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Role" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="State" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Note" type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Duration" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="StateId" type="xs:string" />
+		<xs:attribute name="FileId" type="xs:integer" />
+		<xs:attribute name="RecipientId" type="xs:integer" />
+		<xs:attribute name="ActionId" type="xs:string" />
+		<xs:attribute name="RoleId" type="xs:string" />
+		<xs:attribute name="Type" type="LogType" />
+	</xs:complexType>
 	<xs:complexType name="Actions">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" name="Action" nillable="true" type="Action" />
@@ -39,6 +66,8 @@
 			<xs:element minOccurs="1" maxOccurs="1" name="Title" type="xs:string" />
 		</xs:sequence>
 		<xs:attribute name="Name" type="xs:string" />
+		<xs:attribute name="Color" type="xs:string" />
+		<xs:attribute name="BackgroundColor" type="xs:string" />
 		<xs:attribute name="Icon" type="xs:string" />
 	</xs:complexType>
 	<xs:complexType name="User">
@@ -52,6 +81,18 @@
 		<xs:attribute name="PictureUrl" type="xs:string" />
 		<xs:attribute name="Id" type="xs:string" use="required"/>
 	</xs:complexType>
+	<xs:simpleType name="LogType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ActionTaken" />
+			<xs:enumeration value="Submit" />
+			<xs:enumeration value="CheckOut" />
+			<xs:enumeration value="CheckIn" />
+			<xs:enumeration value="StateChange" />
+			<xs:enumeration value="ModelChange" />
+			<xs:enumeration value="Download" />
+			<xs:enumeration value="Escalation" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="GenderType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Male" />
