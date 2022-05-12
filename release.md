@@ -2,6 +2,10 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
+## 1.15 Next
+
+* [Slack](https://www.nuget.org/packages/BizDoc.Core.Slack) support including a socket communication, events and service.  
+
 ## 1.14
 
 Angular [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) 1.14 npm corresponds to [BizDoc.Core](https://www.nuget.org/packages/BizDoc.Core) 6.5 Nuget.
