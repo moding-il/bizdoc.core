@@ -7,6 +7,7 @@ We release a major version once a year, medium version every other month, and mi
 * [Slack](https://www.nuget.org/packages/BizDoc.Core.Slack) support including a socket communication, events and service.
 * Help tip tag `bizdoc-help-tip` opens [guide](../../wiki/Guides).  
 * Diagram designer _swimlane_ and tools.
+* ICurrencyExchange service.
 
 ## 1.14
 
