@@ -2,8 +2,9 @@
 
 We release a major version once a year, medium version every other month, and minor patches on a regular basis.
 
-## 1.15 Next
+## 1.15
 
+* Angular 14, TypeScript 4.6.
 * [Slack](https://www.nuget.org/packages/BizDoc.Core.Slack) support including a socket communication, events and service.
 * Help tip tag `bizdoc-help-tip` opens [guide](../../wiki/Guides).  
 * Diagram designer _swimlane_ and tools.
