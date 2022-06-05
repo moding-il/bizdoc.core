@@ -8,7 +8,7 @@ We release a major version once a year, medium version every other month, and mi
 * Help tip tag `bizdoc-help-tip` opens [guide](../../wiki/Guides).  
 * Diagram designer _swimlane_ and tools.
 * ICurrencyExchange service.
-* [Priority](https://www.nuget.org/packages/BizDoc.Infrastructure.Priority/) ERP integration.
+* [Priority](https://www.nuget.org/packages/BizDoc.Infrastructure.Priority/) ERP and [MFG](https://www.nuget.org/packages/BizDoc.Infrastructure.Mfg/) integration.
 
 ## 1.14
 
