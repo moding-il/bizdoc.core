@@ -9,7 +9,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Help tip tag `bizdoc-help-tip` opens [guide](../../wiki/Guides).  
 * Diagram designer _swimlane_ and tools.
 * ICurrencyExchange service.
-* Calculate available cube for document.
+* Calculate available cube for document using [IDocumentContext](../../wiki/IDocumentContext#query-cube).
 * [Priority](https://www.nuget.org/packages/BizDoc.Infrastructure.Priority/) ERP and [MFG](https://www.nuget.org/packages/BizDoc.Infrastructure.Mfg/) integration.
 
 ## 1.14
