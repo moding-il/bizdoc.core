@@ -1,6 +1,6 @@
 # Release notes
 
-We release a major version once a year, medium version every other month, and minor patches on a regular basis.
+We release a minor version every other month, and patches on a regular basis.
 
 ## 1.15
 
@@ -9,6 +9,7 @@ We release a major version once a year, medium version every other month, and mi
 * Help tip tag `bizdoc-help-tip` opens [guide](../../wiki/Guides).  
 * Diagram designer _swimlane_ and tools.
 * ICurrencyExchange service.
+* Calculate available cube for document.
 * [Priority](https://www.nuget.org/packages/BizDoc.Infrastructure.Priority/) ERP and [MFG](https://www.nuget.org/packages/BizDoc.Infrastructure.Mfg/) integration.
 
 ## 1.14
