@@ -56,7 +56,14 @@ Use Visual Studio Code to Open Folder of your project root or open from command 
 code .
 ```
 
-### What's next
+### Project structure
+
+* program.cs - startup, micro-services 
+* bizdoc.json - configuration
+* /Controllers - API
+* /ClientApp/app - Angular app
+
+## What's next
 
 Follow the [guidelines](./guidelines.md) manual onbest practices in developing BizDoc app.
 
