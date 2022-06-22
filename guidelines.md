@@ -47,6 +47,18 @@ You can use calculated properties as an axis. For example, extracting the quarte
 public byte Quarter => ShippingDate.Quarter();
 ```
 
+### Extra Data
+
+Provide on demand data for serialization. by overriding the GetCustomDataAsync method.
+
+```c#
+public class MyForm : FormBase<MyFormModel, MyExtraModel> {
+    public async Task<object> GetExtraDataAsync() => new MyExtraModel {
+        Data1 = ...
+    };
+}
+```
+
 ### Angular
 
 Declare the model above in TypeScript in my-form/declarations.ts using camel-casing.
@@ -403,7 +415,7 @@ Add a Controller to your project and implement the API.
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]
-public class MyController : ControllerBase {
+public class CatalogController : ControllerBase {
     [Route("[action]")]
     public IEnumerable<Part> Parts () => _storage.Parts.
         OrderBy(p=> p.CatalogNumber).
@@ -433,12 +445,16 @@ ng generate service MyService // same as ng g s My
 ```
 
 ```ts
-export class MyService {
+export class MyService implements OnInit {
     constructor(private _http: HttpClient) {
     }
-    tables() {
-        return this._http.get('/api/myController/parts')
+    parts$: Observable<PartInfo[]>;
+    ngOnInit() {
+        this.parts$ = this._http.get<PartInfo[]>('/api/catalog/parts')
     }
+}
+interface PartInfo {
+   ...
 }
 ```
 
@@ -533,6 +549,10 @@ BizDoc _action_ is an option presented to the user choice on the document. An ac
 
 Maintain user guide. Set Guide name on any of the widgets, reports or forms.
 
+```html
+<bizdoc-help-tip name="guidename"></bizdoc-help-tip>
+```
+
 ### Rules
 
 A _Rule_ is a JavaScript code that can be tested inside expressions, such as form workflow If condition, or privileges.
@@ -567,18 +587,6 @@ public class MyFormModel {
 }
 ```
 
-#### Extra Data
-
-Provide on demand data for serialization. by overriding the GetCustomDataAsync method.
-
-```c#
-public class MyForm : FormBase<MyFormModel> {
-    public async Task<object> GetCustomDataAsync() => new MyExtra {
-        Data1 = ...
-    };
-}
-```
-
 #### Configure Template
 
 Set Xslt in startup.cs.
@@ -591,7 +599,7 @@ services.AddBizDoc(options => {
 
 > Use relative paths.
 > Set xslt file build property to `Content`.
-> xsd [here](message.xsd).
+> xsd [here](./message.xsd).
 
 ## Jobs
 
@@ -636,4 +644,4 @@ dotnet ef update-database
 
 Refer to [product documentation](readme.md) for complete list of options.
 
-Learn advanced programming topics [RxJs](https://rxjs.dev/)
+Use advanced programming topics [RxJs](https://rxjs.dev/)
