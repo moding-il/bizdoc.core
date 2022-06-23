@@ -2,6 +2,10 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
+## 1.16 (Next)
+
+* Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
+
 ## 1.15
 
 * Angular 14, TypeScript 4.6.
