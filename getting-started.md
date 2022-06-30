@@ -38,7 +38,7 @@ For development, use Kestrel and skip this phase.
 
 On windows, goto 'Turn Windows features on and off' and Install Internet Information Server. Select World Wide Web Services and WebSockets. 
 
-Install (Windows Hosting Bundle)[https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.6-windows-hosting-bundle-installer].
+Install [Windows Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.6-windows-hosting-bundle-installer).
 
 ## Installing
 
