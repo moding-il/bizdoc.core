@@ -32,6 +32,14 @@ If you're installing development environment, you can skip this step.
 LocalDb is suitable for *development environment*. Use one of [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [Oracle](.).
 Minimum express edition.
 
+7. Install web server
+
+For development, use Kestrel and skip this phase.
+
+On windows, goto 'Turn Windows features on and off' and Install Internet Information Server. Select World Wide Web Services and WebSockets. 
+
+Install (Windows Hosting Bundle)[https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.6-windows-hosting-bundle-installer].
+
 ## Installing
 
 Create base project from repository.
@@ -45,7 +53,7 @@ git clone https://github.com/moding-il/bizdoc-web-app
 From command line, in project root:
 
 ```bash
-dotnet build
+dotnet run
 ```
 
 ## Developing
