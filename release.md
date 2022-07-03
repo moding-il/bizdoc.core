@@ -6,6 +6,11 @@ We release a minor version every other month, and patches on a regular basis.
 
 * Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
 * Azure components for workflow diagram: AppRole, ManagerRole.
+* Email alias.
+
+### Breaking changes
+
+* IIdentityManager GetPrimaryEmailAsync(), GetEmailsAsync().
 
 ## 1.15
 
