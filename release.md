@@ -12,6 +12,7 @@ We release a minor version every other month, and patches on a regular basis.
 ### Breaking changes
 
 * IIdentityManager GetPrimaryEmailAsync(), GetEmailsAsync().
+* BizDoc.Configuration.Views.CubeChart changed to BizDoc.Configuration.Views.CubeAnalysis
 
 ## 1.15
 
