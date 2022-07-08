@@ -6,8 +6,9 @@ We release a minor version every other month, and patches on a regular basis.
 
 * Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
 * Azure components for workflow diagram: AppRole, ManagerRole.
-* Email alias.
-* Configuration Designer utility, corresponding to `Designer` attribute.
+* Email alias from Azure Active Directory (AAD OtherMails).
+* Architect Tool to manage bizdoc.json, corresponding to `Designer` attribute.
+* Form Designer, create forms with no coding.
 
 ### Breaking changes
 
