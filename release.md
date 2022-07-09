@@ -4,16 +4,25 @@ We release a minor version every other month, and patches on a regular basis.
 
 ## 1.16 (Next)
 
+> Nuget 6.7.x corresponds to @bizdoc/core@1.16.x npm.
+
 * Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
 * Azure components for workflow diagram: AppRole, ManagerRole.
 * Email alias from Azure Active Directory (AAD OtherMails).
-* Architect Tool to manage bizdoc.json, corresponding to `Designer` attribute.
+* Architect tool for managing components. Buid designer using `Designer` attribute.
 * Form Designer, create forms with no coding.
+* UserGroups rule.
+* SAP, Mfg and priority dashboard widges, views and sources.
 
 ### Breaking changes
 
+Some configuration components were dropped. Remove elements from bizdoc.json. 
+
 * IIdentityManager GetPrimaryEmailAsync(), GetEmailsAsync().
 * BizDoc.Configuration.Views.CubeChart changed to BizDoc.Configuration.Views.CubeAnalysis
+* BizDoc.Configuration.Widgets.PeersPerformance deprecated. Inherit from PeersPerformanceBase instead.
+* BizDoc.Configuration.Widgets.PendingResults deprecated. Inherit from PendingResultsBase instead. 
+* BizDoc.Configuration.Types.TypeRoles dropped.
 
 ## 1.15
 
