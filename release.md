@@ -23,6 +23,7 @@ Some configuration components were dropped. Remove elements from bizdoc.json.
 * BizDoc.Configuration.Widgets.PeersPerformance deprecated. Inherit from PeersPerformanceBase instead.
 * BizDoc.Configuration.Widgets.PendingResults deprecated. Inherit from PendingResultsBase instead. 
 * BizDoc.Configuration.Types.TypeRoles dropped.
+* StateId and RoleId rules renamed to DucumentState and RecipientRole.
 
 ## 1.15
 
