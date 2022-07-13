@@ -2,7 +2,7 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
-## 1.16 (Next)
+## 1.16
 
 > Nuget 6.7.x corresponds to @bizdoc/core@1.16.x npm.
 
