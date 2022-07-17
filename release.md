@@ -2,6 +2,11 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
+## 1.17 (Next)
+
+* [DirectoryServices]() authentication, system group.
+* Global IdentityClaimType in AddBizDoc() options.
+
 ## 1.16
 
 > Nuget 6.7.x corresponds to @bizdoc/core@1.16.x npm.
@@ -9,7 +14,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
 * Azure components for workflow diagram: AppRole, ManagerRole.
 * Email alias from Azure Active Directory (AAD OtherMails).
-* Architect tool for managing components. Buid designer using `Designer` attribute.
+* Architect tool for managing components. Buid [designer](../../wiki/Designers) using `Designer` attribute.
 * Form Designer, create forms with no coding.
 * UserGroups rule.
 * SAP, Mfg and priority dashboard widges, views and sources.
