@@ -4,7 +4,7 @@ We release a minor version every other month, and patches on a regular basis.
 
 ## 1.17 (Next)
 
-* [DirectoryServices]() authentication, system group.
+* [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) authentication, system group.
 * Global IdentityClaimType in AddBizDoc() options.
 
 ## 1.16
