@@ -6,6 +6,7 @@ We release a minor version every other month, and patches on a regular basis.
 
 * [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) authentication, system group.
 * Global IdentityClaimType in AddBizDoc() options.
+* Mfg Nuget package analysis components for purchase and sales orders.
 
 ## 1.16
 
