@@ -8,7 +8,8 @@ We release a minor version every other month, and patches on a regular basis.
 * Global IdentityClaimType in AddBizDoc() options.
 * Mfg Nuget package analysis components for purchase and sales orders.
 * Implicit cube mapping.
-* Cube splitting.
+* Cube splitting by model primitive collection properties.
+* Policies managed components. 
 
 ## 1.16
 
