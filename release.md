@@ -9,7 +9,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Mfg Nuget package analysis components for purchase and sales orders.
 * Implicit cube mapping.
 * Cube splitting by model primitive collection properties.
-* Policies managed components. 
+* Policies managed components, manage properties from Architcture tool.
 
 ## 1.16
 
