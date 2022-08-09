@@ -2,7 +2,11 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
-## 1.17 (Next)
+## 1.18 (Next)
+
+* Search engine. 
+
+## 1.17 
 
 * [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) authentication, system group.
 * Global IdentityClaimType in AddBizDoc() options.
