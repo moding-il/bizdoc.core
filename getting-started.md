@@ -1,14 +1,15 @@
-Developing requires skills in C# and Angular. Mobile development for BizDoc requires skills in Flutter or Xamarin. 
+Developing requires skills in C# and Angular. Mobile development requires skills in Flutter or Xamarin. 
 
 ## Prerequisites
 
-1. Download and install [.NET](https://dotnet.microsoft.com/en-us/download).
+1. Download and install [.NET](https://dotnet.microsoft.com/en-us/download) for your OS.
 
 Use SDK edition for development and runtime for production.
 
-2. Download and install [Node.js](https://nodejs.org/en/download/). Preferably, use _current_ version with latest features.
+2. Download and install [Node.js](https://nodejs.org/en/download/). 
+Choose a version that compatible to your operating system  (64, 32 or ARM).
 
-Use the version compatible to your operating system.
+> We advide installing current version with latest features.
 
 3. Download and install [git cli](https://git-scm.com/downloads).
 
@@ -16,11 +17,11 @@ Use the version compatible to your operating system.
 
 If you're installing production environment, you can skip this step.
 
-Add the extensions for C#, SQL Server and Angular.
+For development, open Visual Studio Code and add the extensions for C#, SQL Server and Angular.
 
 5. Install [Angular cli](https://angular.io/cli).
 
-From command line, run this line:
+From command line, run the following line:
 
 ```bash
 npm install -g @angular/cli
@@ -36,13 +37,13 @@ Minimum express edition.
 
 For development, use Kestrel and skip this phase.
 
-On windows, goto 'Turn Windows features on and off' and Install Internet Information Server. Select World Wide Web Services and WebSockets. 
+To install Internet Information Server (IIS) on windows, choose 'Turn Windows features on and off'. Choosel Internet Information Server and select World Wide Web Services and WebSockets. 
 
-Install [Windows Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.6-windows-hosting-bundle-installer).
+On Windows Server, you'll be required to install [Windows Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.6-windows-hosting-bundle-installer) to run .Net app.
 
-## Installing
+## Hellow world
 
-Create base project from repository.
+Create base project from repository. From command-line:
 
 ```bash
 git clone https://github.com/moding-il/bizdoc-web-app
@@ -50,7 +51,7 @@ git clone https://github.com/moding-il/bizdoc-web-app
 
 ### Build and run
 
-From command line, in project root:
+In project root, type:
 
 ```bash
 dotnet run
@@ -73,7 +74,9 @@ code .
 
 ## What's next
 
-Follow the [guidelines](./guidelines.md) manual onbest practices in developing BizDoc app.
+BizDoc offers many configuration options. Open program.cs and consult [Nuget](https://www.nuget.org/packages?q=bizdoc) packages documentation on adding functionality to your app. 
+
+Follow the [guidelines](./guidelines.md) on first steps and best practices in developing BizDoc app.
 
 ### Mobile app
 
