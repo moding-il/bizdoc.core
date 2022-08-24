@@ -4,7 +4,8 @@ We release a minor version every other month, and patches on a regular basis.
 
 ## 1.18 (Next)
 
-* Search engine. 
+* Universal search engine, extends search to remote resources.
+* Ambient transactions, across context scope.  
 
 ## 1.17 
 
