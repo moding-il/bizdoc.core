@@ -5,7 +5,10 @@ We release a minor version every other month, and patches on a regular basis.
 ## 1.18 (Next)
 
 * Universal search engine, extends search to remote resources.
-* Ambient transactions, across context scope.  
+* Ambient transactions, across context scope.
+* FileSystem attachments.
+
+MAUI (experimental)
 
 ## 1.17 
 
