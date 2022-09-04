@@ -7,6 +7,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Universal search engine, extends search to remote resources.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
+* Survey form, designer.
 
 MAUI (experimental)
 
