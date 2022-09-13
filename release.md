@@ -8,6 +8,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
 * [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer.
+* Signature pad Html tag.
 
 MAUI (experimental)
 
