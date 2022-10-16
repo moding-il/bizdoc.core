@@ -8,10 +8,17 @@ We release a minor version every other month, and patches on a regular basis.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
 * [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer.
-* Signature pad Html tag.
+* Controls: Signature pad. Html, Checklist, Yes/No.
 * Attribute managed component.
-* Control component.
 * UseDatabaseProfile()
+* Architcture localization options.
+* ControlBase for custom control in Form Designer and Survey.
+
+## Breaking changes
+
+* PaneRef, PopupRef, FormRef, WidgetRef, ReportRef and UtilityRef observables methods rather than properties.
+* Core.Data.Store is IDocumentStorage.
+* ICallbackService, ICubeService, IScheduledTasks, IDocumentFactory, IDataSourceService
 
 MAUI (experimental)
 
