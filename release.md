@@ -2,13 +2,16 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
-## 1.18 (Next)
+## 1.18
 
 * Universal search engine, extends search to remote resources.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
 * [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer.
 * Signature pad Html tag.
+* Attribute managed component.
+* Control component.
+* UseDatabaseProfile()
 
 MAUI (experimental)
 
