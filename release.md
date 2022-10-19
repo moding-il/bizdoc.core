@@ -2,6 +2,8 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
+# 1.18
+
 > @bizdoc/core 1.17.x is compatible with BizDoc.Core 6.8.x.
  
 * Universal search engine, extends search to remote resources.
