@@ -21,6 +21,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Core.Data.Store is IDocumentStorage.
 * ICallbackService, ICubeService, IScheduledTasks, IDocumentFactory, IDataSourceService.
 * IIdentityManager GetMembersAsync()
+* RuleBase Task<T> GetValueAsync()
 
 MAUI (experimental)
 
