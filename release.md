@@ -2,17 +2,16 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
-## 1.18
-
 > @bizdoc/core 1.17.x is compatible with BizDoc.Core 6.8.x.
  
 * Universal search engine, extends search to remote resources.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
-* [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer.
-* Controls: Signature pad. Html, Checklist, Yes/No.
+* [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer and browser.
+* Controls: Signature pad, Html, CheckList, Yes/No, Date range.
+* Invite notification to fill / complete form.
 * Attribute managed component.
-* UseDatabaseProfile()
+* UseDatabaseProfile().
 * Architcture localization options.
 * ControlBase for custom control in Form Designer and Survey.
 
