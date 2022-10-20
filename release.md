@@ -11,7 +11,7 @@ We release a minor version every other month, and patches on a regular basis.
 * FileSystem attachments.
 * [Survey](https://www.nuget.org/packages/BizDoc.Survey) form, designer and browser.
 * Controls: Signature pad, Html, CheckList, Yes/No, Date range.
-* Invite notification to fill / complete form.
+* Invite users to fill / complete form / survey.
 * Attribute managed component.
 * UseDatabaseProfile().
 * Architcture localization options.
