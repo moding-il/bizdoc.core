@@ -16,6 +16,7 @@ We release a minor version every other month, and patches on a regular basis.
 * UseDatabaseProfile().
 * Architcture localization options.
 * ControlBase for custom control in Form Designer and Survey.
+* [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta/) widgets
 
 ## Breaking changes
 
