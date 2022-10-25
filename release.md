@@ -25,6 +25,7 @@ We release a minor version every other month, and patches on a regular basis.
 * ICallbackService, ICubeService, IScheduledTasks, IDocumentFactory, IDataSourceService.
 * IIdentityManager GetMembersAsync()
 * RuleBase Task<T> GetValueAsync()
+* ScheduledTasks is ITransactionScope
 
 MAUI (experimental)
 
