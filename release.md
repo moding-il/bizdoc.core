@@ -23,7 +23,7 @@ We release a minor version every other month, and patches on a regular basis.
 * PaneRef, PopupRef, FormRef, WidgetRef, ReportRef and UtilityRef observables methods rather than properties.
 * Core.Data.Store is IDocumentStorage.
 * ICallbackService, ICubeService, IScheduledTasks, IDocumentFactory, IDataSourceService.
-* IIdentityManager GetMembersAsync()
+* IdentityManager is IIdentityProvider, added GetMembersAsync()
 * RuleBase Task<T> GetValueAsync()
 * ScheduledTasks is ITransactionScope
 
