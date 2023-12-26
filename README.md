@@ -9,7 +9,7 @@ To author a new BizDoc environment, create a new project from _BizDoc_ template.
 
 ### Prerequisites
 
-[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 6.0](https://dotnet.microsoft.com/download/dotnet/6.0),
+[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 7.0](https://dotnet.microsoft.com/download/dotnet/7.0),
 Latest [Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
@@ -32,6 +32,7 @@ Update npm package from PowerShell command-line:
 Create a database of your choice and set it's _connectionString_ in appsettings.json.
 
 BizDoc will automatically create the database objects.
+
 
 ## Architecture
 
@@ -69,7 +70,8 @@ Setup database provider by installing the relevant Nuget, from either [SqlServer
 
 ```
 
-Set up authentication from one of: [AspNetIdentity](https://www.nuget.org/packages/BizDoc.Core.AspIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) which uses Microsoft Active Directory, [Office365](https://www.nuget.org/packages/BizDoc.Core.Office) or [Okta](https://www.nuget.org/packages/BizDoc.Core.Okta).
+Set up authentication from one of: [FormIdentity](https://www.nuget.org/packages/BizDoc.Authentication.FormIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Authentication.DirectoryServices), [Azure](https://www.nuget.org/packages/BizDoc.Authentication.Azure) or [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta).
+
 Install the relevant Nuget and add it to services in startup.cs.
 
 ```csharp
@@ -175,7 +177,7 @@ public class MyFormModel {
 
 You may annotate your model with attributes to instruct BizDoc how to handle it.
 
-See full list [here](../../wiki/Core-Attributes).
+See full list [here](../../wiki/Annotations).
 
 In addition to BizDoc behavior attributes above, model properties may be annotated with .Net attributes such as Required, DataType, MaxLength and Display.
 
@@ -807,7 +809,7 @@ Commonly, views options are set in the Options node of Views in bizdoc.config.
 A _rule_ declares a programmatic value. For example, the Anomaly rule returns the cube anomaly for the currently processed document.
 Rules can then be evaluated in scenarios like a workflow _if_ condition or object _privileges_.
 
-[API](../../wiki/Configuration-Rules)
+[API](../../wiki/Rules)
 
 ## How To
 
@@ -858,7 +860,7 @@ BizDoc can present the user with a guide of component functionality and use.
 
 You can also set a guide at runtime. For example, a form may provide different guide for line view and header view, or a different guide in preview and edit mode.
 
-[API](../../wiki/Configuration-Guides)
+[API](../../wiki/Guides)
 
 ### Format delivered emails
 
@@ -890,7 +892,7 @@ In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 > xsd [here](message.xsd).
 
-For more information, see [emails](../../wiki/Core-Emails).
+For more information, see [emails](../../wiki/Emails).
 
 ### Provide a Custom Identity Manager
 
@@ -1056,7 +1058,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access [database objects](../../wiki/Core-Database#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
+You can access [database objects](../../wiki/IDocumentStorage#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 

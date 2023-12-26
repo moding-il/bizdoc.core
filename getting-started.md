@@ -9,7 +9,7 @@ Use SDK edition for development and runtime for production.
 2. Download and install [Node.js](https://nodejs.org/en/download/). 
 Choose a version that compatible to your operating system  (64, 32 or ARM).
 
-> We advide installing current version with latest features.
+> We advise installing current version with latest features.
 
 3. Download and install [git cli](https://git-scm.com/downloads).
 
@@ -26,6 +26,7 @@ From command line, run the following line:
 ```bash
 npm install -g @angular/cli
 ```
+
 6. Install database.
 
 If you're installing development environment, you can skip this step.
