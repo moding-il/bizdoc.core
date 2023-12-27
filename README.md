@@ -33,7 +33,6 @@ Create a database of your choice and set it's _connectionString_ in appsettings.
 
 BizDoc will automatically create the database objects.
 
-
 ## Architecture
 
 BizDoc can be broken into two major parts: backend server objects, responsible for the business logic, and front-end user interface, built as Angular components.
@@ -338,7 +337,7 @@ interface MyFormModel {
 }
 ```
 
-The above code declares *MyFormModel* interface matching the server-side data model, with Subject property using camel-casing. The interface is then given as a generic parameter to the FormComponent\<T\> interface.
+The above code declares _MyFormModel_ interface matching the server-side data model, with Subject property using camel-casing. The interface is then given as a generic parameter to the FormComponent\<T\> interface.
 
 > Note the the client-side model properties names use camel casing.
 
@@ -354,7 +353,7 @@ Open my-form.component.html and replace the content of the file with the followi
 </form>
 ```
 
-The formGroup attribute maps to the FormGroup declared in the .ts file, while the input tag maps to the *subject* form control.
+The formGroup attribute maps to the FormGroup declared in the .ts file, while the input tag maps to the _subject_ form control.
 
 See Angular [reactive forms](https://angular.io/guide/reactive-forms) on forms options and validations.
 
@@ -406,7 +405,7 @@ The `CombinationPool` tag allows the user to pick _combinations_ of _segments_ b
 }
 ```
 
-_Conditions_ and _projections_ accepts *axis expression*, presenting either a value, a range of values, an array of values or a mask. For explanation on axis options see [Understanding Patterns](#understanding-patterns).
+_Conditions_ and _projections_ accepts _axis expression_, presenting either a value, a range of values, an array of values or a mask. For explanation on axis options see [Understanding Patterns](#understanding-patterns).
 
 #### Supporting view mode
 
@@ -436,7 +435,7 @@ public class MyFormModel {
 }
 ```
 
-The corresponding Angular component use the @BizDoc decorator, with the same value, here *app-my-form*.
+The corresponding Angular component use the @BizDoc decorator, with the same value, here _app-my-form_.
 
 ```typescript
 import { FormComponent, RecipientModel, ViewMode, BizDoc } from '@bizdoc/core';
@@ -461,7 +460,7 @@ In addition, you'll need to register the component in your app.module.ts:
 ### Types
 
 A _type_ represents a source of key-value pairs.
-For example, an *Account* type may retrieve accounts from a database, and make their values available using a type.
+For example, an _Account_ type may retrieve accounts from a database, and make their values available using a type.
 
 ```csharp
 [Table("Accounts")]
@@ -722,7 +721,7 @@ In addition to roles, a pattern can be set a programmatic _rule_ expression. See
 
 The built-in CubePatternUsage report uses patterns to selectively show data relevant to the user.
 
-You can test if the user has privileges to a certain set of axes using the Authorize() method of the `CubeService` service.
+You can test if the user has privileges to a certain set of axes using the Authorize() method of the `ICubeService` service.
 
 By default, the cube CanView() method uses patterns to restrict access to cube data.
 
@@ -736,13 +735,13 @@ If you use the cube to store 3rd party app data, such as POs from ERP, you can p
 
 #### Querying
 
-Use the `CubeService` to preform queries on cubes, indices and currencies.
+Use the `ICubeService` to preform queries on cubes, indices and currencies.
 
 ```csharp
 public class MyForm : FormBase<MyFormModel> {
-  private readonly CubeService _cubeService;
-  public MyForm(ICubeService CubeService) {
-      _CubeService = CubeService;
+  private readonly ICubeService _cubeService;
+  public MyForm(ICubeService cubeService) {
+      _cubeService = cubeService;
   }
 
   public override async Task FlowStartAsync(MyFormModel model) {
@@ -760,7 +759,7 @@ The above retrieves the usage for myCube, year 2020 1st through 2nd quarters of 
 
 The Axis struct can be utilized to specify a range, an array, a mask or - combination of them using the static Join() method.
 
-To show cube from your Angular app, use Angular `CubeService`. See [Angular DI](#angular-di) example.
+To show cube from your Angular app, use Angular `ICubeService`. See [Angular DI](#angular-di) example.
 
 #### Define anomaly
 
@@ -790,7 +789,7 @@ public class MyCube : CubeBase
 A _widget_ represents a component displayed in user dashboard, commonly showing relevant data summary.
 Widgets have an Angular component and a backing server-side object.
 
-Core widgets server-side objects can be overridden. See [how to](#customizing-built-in-objects) example.
+Core widgets server-side objects can be overridden. See [How To](#customizing-built-in-components) example.
 
 [API](../../wiki/Widgets)
 
@@ -841,7 +840,7 @@ This code pattern is recommended if your form opens internal portals, and the us
 
 ### Inject custom pane
 
-BizDoc uses *panes* to display different content parts to desktop users. A pane can be opened either next to the currently displayed info, or as a tab.
+BizDoc uses _panes_ to display different content parts to desktop users. A pane can be opened either next to the currently displayed info, or as a tab.
 
 If you wish to open a custom component on a new pane next to your form, use the `PanesRouter` service.
 
@@ -889,7 +888,6 @@ Edit file:
 In startup.cs services.AddBizDoc(), set BodyTemplate to your xslt file path.
 
 > Study the schema to learn about the structure of the XML representing document data.
-
 > xsd [here](message.xsd).
 
 For more information, see [emails](../../wiki/Emails).
@@ -1023,7 +1021,7 @@ onBind(data: RecipientModel<MyFormModel>): void {
 }
 ```
 
-In addition to _roles_, a rule may grant privilege per _rules_ expression. See [rules](#Rules) above on how to endorse a new rule or use the existing ones.
+In addition to _roles_, a rule may grant privilege per _rules_ expression. See [rules](#rules) above on how to endorse a new rule or use the existing ones.
 
 ### Run code after transaction completes
 
@@ -1058,7 +1056,7 @@ public class MyForm: FormBase<MyFormModel> {
 ## Database
 
 BizDoc database tables are self-maintained under the BizDoc schema.
-You can access [database objects](../../wiki/IDocumentStorage#Objects) using the `Store` service. If you wish to access the _cube_ to query data, we recommend using the `CubeService` as explained in the [Cube](#querying) section.
+You can access [database objects](../../wiki/IDocumentStorage#Objects) using the `IDocumentStore` service. If you wish to access the _cube_ to query data, we recommend using the `ICubeService` as explained in the [Cube](#querying) section.
 
 You can access a document data model using the Document GetModel\<TModel\>() method. This practice is not intended for large queries. Use `TableMapping` as explained above when dealing with a large datasets.
 
@@ -1066,7 +1064,7 @@ You can access a document data model using the Document GetModel\<TModel\>() met
 
 If you add 3rd party information to Cube table, use separate records than the ones BizDoc creates.
 
-Segments and Combinations tables are used by Segments built-in type, `CombinationPicker` and `CombinationPool`. You may override cube CombinationsAync() method to retrieve combinations from a source of your choice.
+Segments and Combinations tables are used by Segments built-in type, `CombinationPicker` and `CombinationPool`. You may override cube CombinationsAsync() method to retrieve combinations from a source of your choice.
 
 ## References
 

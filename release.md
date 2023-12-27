@@ -2,10 +2,17 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
+# 2.1
+
+> @bizdoc/core compatible Angular 17, BizDoc.Core Nuget 7.x.x compatible with .Net 7.
+
+* Widgets in Directory Services, Okta, MFG PRO, Oracle and Priority.
+* Chips control in _Box_ ans _Survey_ forms.
+
 # 1.18
 
 > @bizdoc/core 1.17.x is compatible with BizDoc.Core 6.8.x.
- 
+
 * Universal search engine, extends search to remote resources.
 * Ambient transactions, across context scope.
 * FileSystem attachments.
@@ -14,7 +21,7 @@ We release a minor version every other month, and patches on a regular basis.
 * Invite users to fill / complete form / survey.
 * Attribute managed component.
 * UseDatabaseProfile().
-* Architcture localization options.
+* Architecture localization options.
 * ControlBase for custom control in Form Designer and Survey.
 * [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta/) and [G-Suite](https://www.nuget.org/packages/BizDoc.Authentication.G-Suite/) widgets
 
@@ -24,19 +31,19 @@ We release a minor version every other month, and patches on a regular basis.
 * Core.Data.Store is IDocumentStorage.
 * ICallbackService, ICubeService, IScheduledTasks, IDocumentFactory, IDataSourceService.
 * IdentityManager is IIdentityProvider, added GetMembersAsync()
-* RuleBase Task<T> GetValueAsync()
+* RuleBase Task\<T> GetValueAsync()
 * ScheduledTasks is ITransactionScope
 
 MAUI (experimental)
 
-## 1.17 
+## 1.17
 
 * [DirectoryServices](https://www.nuget.org/packages/BizDoc.Core.DirectoryServices) authentication, system group.
 * Global IdentityClaimType in AddBizDoc() options.
 * Mfg Nuget package analysis components for purchase and sales orders.
 * Implicit cube mapping.
 * Cube splitting by model primitive collection properties.
-* Policies managed components, manage properties from Architcture tool.
+* Policies managed components, manage properties from Architecture tool.
 
 ## 1.16
 
@@ -45,12 +52,12 @@ MAUI (experimental)
 * Support for [SAP](https://www.nuget.org/packages/BizDoc.Infrastructure.SAP) integration.
 * Azure components for workflow diagram: AppRole, ManagerRole.
 * Email alias from Azure Active Directory (AAD OtherMails).
-* Architect tool for managing components. Buid [designer](../../wiki/Designers) using `Designer` attribute.
+* Architect tool for managing components. Build [designer](../../wiki/Designers) using `Designer` attribute.
 * Form Designer, create forms with no coding.
 * UserGroups rule.
-* SAP, Mfg and priority dashboard widges, views and sources.
+* SAP, Mfg and priority dashboard widgets, views and sources.
 
-### Breaking changes
+### Breaking Changes
 
 Some configuration components were dropped. Remove elements from bizdoc.json. 
 
@@ -59,7 +66,7 @@ Some configuration components were dropped. Remove elements from bizdoc.json.
 * BizDoc.Configuration.Widgets.PeersPerformance deprecated. Inherit from PeersPerformanceBase instead.
 * BizDoc.Configuration.Widgets.PendingResults deprecated. Inherit from PendingResultsBase instead. 
 * BizDoc.Configuration.Types.TypeRoles dropped.
-* StateId and RoleId rules renamed to DucumentState and RecipientRole.
+* StateId and RoleId rules renamed to DocumentState and RecipientRole.
 
 ## 1.15
 
@@ -75,12 +82,12 @@ Some configuration components were dropped. Remove elements from bizdoc.json.
 
 Angular [@bizdoc/core](https://www.npmjs.com/package/@bizdoc/core) 1.14 npm corresponds to [BizDoc.Core](https://www.nuget.org/packages/BizDoc.Core) 6.5 Nuget.
 
-* [FormIdentity](https://www.nuget.org/packages/BizDoc.Core.FormIdentity/) registerts SecureApprove and SecureReject actions.
+* [FormIdentity](https://www.nuget.org/packages/BizDoc.Core.FormIdentity/) registers SecureApprove and SecureReject actions.
 * [FormIdentity](https://www.npmjs.com/package/@bizdoc/credentials) timeout config.
-* Document Trace utlility browse dates range.
+* Document Trace utility browse dates range.
 * Copy document duplicate attachments.
 * Desktop [router](../../wiki/PanesRouter) OpenPolicy _Stretch_ and _Dialog_.
-* _Move to_ action, propogating current user role on same w/f node.
+* _Move to_ action, propagating current user role on same w/f node.
 * _Return To_ action, to any of the previous nodes.
 * [Cube performance](../../wiki/Performance) widget.
 * IDocumentContext now uses common code that effects CubeMapping.
@@ -128,7 +135,7 @@ This version release include scope management feature. Analysis cube can now be 
 * Excel export on charts and analysis components.
 * Axis structure and SQL builder (CubeServices) support for negation.
 
-### Breaking changes
+### Breaking Changes
 
 [DayJs](https://day.js.org/) replaces MomentJs.
 BizDoc exports Moment pipes `Duration`, `TimeAgo`, `Calendar` and `DateFormat`.
@@ -166,7 +173,7 @@ Angular 13. Net Core 6.0
 * OAuth0 authentication, Nuget package [BizDoc.Authentication.OAuth0](https://www.nuget.org/packages/BizDoc.Authentication.OAuth0/)
 * Cube widget stacking chart (bar, column). Widget explore tab
 
-### Breaking changes
+### Breaking Changes
 
 * BizDoc.Core.AspIdentity deprecated in favor of BizDoc.Core.FormIdentity Nuget. AddAspIdentity() and UseAspIdentity() replaced with AddFormIdentity() and UseFormIdentity().  
 * Credentials npm moved to [@bizdoc/credentials](https://www.npmjs.com/package/@bizdoc/credentials). Use forRoot() to configure.
@@ -183,7 +190,7 @@ Angular 13. Net Core 6.0
 * Teams (Preview) [npm](https://www.npmjs.com/package/@bizdoc/teams)
 * Monday [npm](https://www.npmjs.com/package/@bizdoc/monday)
 
-### Breaking changes
+### Breaking Changes
 
 bizdoc.core deprecated in favor of @bizdoc/core
 
@@ -261,13 +268,13 @@ Version supports Angular 11.2.x and .Net 5.1.
 * Paste image in chat and document comments.
 * [Slack](http://www.slack.com) support using BizDoc [package](https://www.nuget.org/packages/BizDoc.Slack/).
 
-### Breaking changes
+### Breaking Changes
 
-1. Custom BizDoc componenets (forms, reports, etc.) require registration in app module:
+1. Custom BizDoc components (forms, reports, etc.) require registration in app module:
 
 ```typescript
 imports: [BizDocModule.formRoot(
-  components: [MyFormComponenet]
+  components: [MyFormComponent]
 )]
 ```
 

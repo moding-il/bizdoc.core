@@ -550,7 +550,7 @@ BizDoc _action_ is an option presented to the user choice on the document. An ac
 Maintain user guide. Set Guide name on any of the widgets, reports or forms.
 
 ```html
-<bizdoc-help-tip name="guidename"></bizdoc-help-tip>
+<bizdoc-help-tip name="guide-name"></bizdoc-help-tip>
 ```
 
 ### Rules

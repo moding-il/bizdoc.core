@@ -6,7 +6,7 @@ Developing requires skills in C# and Angular. Mobile development requires skills
 
 Use SDK edition for development and runtime for production.
 
-2. Download and install [Node.js](https://nodejs.org/en/download/). 
+2. Download and install [Node.js](https://nodejs.org/en/download/).
 Choose a version that compatible to your operating system  (64, 32 or ARM).
 
 > We advise installing current version with latest features.
@@ -68,14 +68,14 @@ code .
 
 ### Project structure
 
-* program.cs - startup, micro-services 
+* program.cs - startup, micro-services
 * bizdoc.json - configuration
 * /Controllers - API
 * /ClientApp/app - Angular app
 
 ## What's next
 
-BizDoc offers many configuration options. Open program.cs and consult [Nuget](https://www.nuget.org/packages?q=bizdoc) packages documentation on adding functionality to your app. 
+BizDoc offers many configuration options. Open program.cs and consult [Nuget](https://www.nuget.org/packages?q=bizdoc) packages documentation on adding functionality to your app.
 
 Follow the [guidelines](./guidelines.md) on first steps and best practices in developing BizDoc app.
 
@@ -83,4 +83,4 @@ Follow the [guidelines](./guidelines.md) on first steps and best practices in de
 
 BizDoc offers SDK for several mobile platforms. Including Flutter, Xamarin and Kotlin.
 
-Refere to the mobile development manual for more.
+Refer to the mobile development manual for more.
