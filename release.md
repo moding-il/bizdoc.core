@@ -6,7 +6,10 @@ We release a minor version every other month, and patches on a regular basis.
 
 > @bizdoc/core compatible Angular 17, BizDoc.Core Nuget 7.x.x compatible with .Net 7.
 
-* Widgets in Directory Services, Okta, MFG PRO, Oracle and Priority.
+* Widgets for G-Suite, Azure, Directory Services, Okta, MFG PRO, Oracle and Priority.
+* Azure UseEmailer() (IEmailer implementation).
+* [Voice](https://www.nuget.org/packages/BizDoc.Infrastructure.Voice) support for VoiceXML (Preview)
+* [HiBob](https://www.nuget.org/packages/BizDoc.Infrastructure.HiBob) interface (Preview)
 * Chips control in _Box_ ans _Survey_ forms.
 
 # 1.18
