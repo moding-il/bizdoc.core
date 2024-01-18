@@ -47,7 +47,7 @@ On Windows Server, you'll be required to install [Windows Hosting Bundle](https:
 Create base project from repository. From command-line:
 
 ```bash
-git clone https://github.com/moding-il/bizdoc-web-app
+git clone https://github.com/moding-il/bizdoc-app
 ```
 
 ### Build and run
