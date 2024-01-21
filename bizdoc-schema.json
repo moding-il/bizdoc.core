@@ -33,6 +33,77 @@
       },
       "required": [ "Event" ]
     },
+    "node_base": {
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "AddInfo": {
+          "type": "object",
+          "properties": {
+            "actionName": {
+              "type": "string"
+            },
+            "Case": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "Id"
+      ]
+    },
+    "node": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "Parent": {
+              "type": "string"
+            },
+            "RotateAngle": {
+              "type": "number"
+            },
+            "Width": {
+              "type": "number"
+            },
+            "Height": {
+              "type": "number"
+            },
+            "OffsetX": {
+              "type": "number"
+            },
+            "OffsetY": {
+              "type": "number"
+            },
+            "Shape": {
+              "$ref": "#/definitions/shape"
+            },
+            "Ports": {
+              "type": "array",
+              "items": {}
+            },
+            "Pivot": {
+              "$ref": "#/definitions/point"
+            },
+            "BorderWidth": {
+              "type": "integer"
+            },
+            "BorderDashArray": {
+              "type": "string"
+            },
+            "Constraints": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "Shape"
+          ]
+        },
+        {
+          "$ref": "#/definitions/node_base"
+        }
+      ]
+    },
     "shape": {
       "type": "object",
       "properties": {
@@ -140,7 +211,14 @@
           "items": {
             "properties": {
               "Id": { "type": "string" },
+              "Children": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/node_base"
+                }
+              },
               "Height": { "type": "number" },
+              "Width": { "type": "number" },
               "Header": {
                 "type": "object",
                 "properties": {
@@ -174,6 +252,72 @@
         }
       },
       "required": [ "Type" ]
+    },
+    "connector": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "LineDashArray": {
+              "type": "string"
+            },
+            "TargetDecorator": {
+              "$ref": "#/definitions/decorator"
+            },
+            "SourceDecorator": {
+              "$ref": "#/definitions/decorator"
+            },
+            "LineWidth": {
+              "type": "integer"
+            },
+            "Constraints": {
+              "type": "integer"
+            },
+            "Segments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Type": {
+                    "type": "string"
+                  },
+                  "Points": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/point"
+                    }
+                  }
+                },
+                "required": [
+                  "Type"
+                ]
+              }
+            },
+            "CornerRadius": {
+              "type": "number"
+            },
+            "SourcePoint": {
+              "$ref": "#/definitions/point"
+            },
+            "TargetPoint": {
+              "$ref": "#/definitions/point"
+            },
+            "TargetID": {
+              "type": "string"
+            },
+            "SourceID": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "TargetID",
+            "SourceID"
+          ]
+        },
+        {
+          "$ref": "#/definitions/node_base"
+        }
+      ]
     },
     "alignment": {
       "type": "string",
@@ -295,136 +439,14 @@
         "Connectors": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "LineDashArray": {
-                "type": "string"
-              },
-              "Id": {
-                "type": "string"
-              },
-              "TargetDecorator": {
-                "$ref": "#/definitions/decorator"
-              },
-              "SourceDecorator": {
-                "$ref": "#/definitions/decorator"
-              },
-              "LineWidth": {
-                "type": "integer"
-              },
-              "Constraints": {
-                "type": "integer"
-              },
-              "Segments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "Type": {
-                      "type": "string"
-                    },
-                    "Points": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/definitions/point"
-                      }
-                    }
-                  },
-                  "required": [
-                    "Type"
-                  ]
-                }
-              },
-              "CornerRadius": {
-                "type": "number"
-              },
-              "SourcePoint": {
-                "$ref": "#/definitions/point"
-              },
-              "TargetPoint": {
-                "$ref": "#/definitions/point"
-              },
-              "AddInfo": {
-                "type": "object",
-                "properties": {
-                  "actionName": {
-                    "type": "string"
-                  },
-                  "Case": { "type": "string" }
-                }
-              },
-              "TargetID": {
-                "type": "string"
-              },
-              "SourceID": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "Id",
-              "TargetID",
-              "SourceID"
-            ]
+            "$ref": "#/definitions/connector"
           }
         },
+        "Timestamp": { "type": "number" },
         "Nodes": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "Parent": {
-                "type": "string"
-              },
-              "RotateAngle": {
-                "type": "number"
-              },
-              "Width": {
-                "type": "number"
-              },
-              "Height": {
-                "type": "number"
-              },
-              "OffsetX": {
-                "type": "number"
-              },
-              "OffsetY": {
-                "type": "number"
-              },
-              "Id": {
-                "type": "string"
-              },
-              "AddInfo": {
-                "type": "object",
-                "properties": {
-                  "nodeType": { "type": "string" },
-                  "standardTime": { "type": [ "string", "null" ] }
-                },
-                "additionalProperties": true
-              },
-              "Shape": {
-                "$ref": "#/definitions/shape"
-              },
-              "Ports": {
-                "type": "array",
-                "items": {}
-              },
-              "Pivot": {
-                "$ref": "#/definitions/point"
-              },
-              "BorderWidth": {
-                "type": "integer"
-              },
-              "BorderDashArray": {
-                "type": "string"
-              },
-              "Constraints": {
-                "type": "integer"
-              }
-            },
-            "required": [
-              "Id",
-              "Shape"
-            ]
+            "$ref": "#/definitions/node"
           }
         }
       },
@@ -438,16 +460,16 @@
       "properties": {
         "Privileges": {
           "type": "object",
-          "description": "Restrict element to authorized roles or a rule expression.",
+          "description": "Restrict element to authorized users",
           "properties": {
             "Rule": {
               "type": "string",
-              "description": "Expression evaluated by RuleEngine service."
+              "description": "Javascript expression, see rules"
             },
             "Roles": {
               "type": "array",
               "items": { "type": "string" },
-              "description": "List of authorized roles."
+              "description": "List of authorized roles"
             }
           }
         }
@@ -462,6 +484,46 @@
         "uniqueItems": true
       },
       "pattern": "^[A-Za-z][\\w]*$"
+    },
+    "chart-type": {
+      "type": "string",
+      "default": "Column",
+      "enum": [
+        "Pie",
+        "Bar",
+        "StackingStepArea",
+        "StackingBar",
+        "Line",
+        "StepLine",
+        "StackingLine",
+        "Funnel",
+        "Column",
+        "StackingColumn100",
+        "StackingBar100",
+        "StackingArea100",
+        "Bubble",
+        "Pareto",
+        "Pyramid",
+        "StackingColumn",
+        "Area",
+        "Spline",
+        "SplineArea",
+        "StackingArea",
+        "Doughnut",
+        "HalfDoughnut",
+        "Polar",
+        "Radar",
+        "StepArea"
+      ]
+    },
+    "localized_string": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "patternProperties": { "^[A-Za-z][\\w]*$": { "type": "string" } }
+        }
+      ]
     },
     "axis_value": {
       "description": "Axis value.",
@@ -497,6 +559,10 @@
         "Options": {
           "type": "object"
         },
+        "Disabled": {
+          "type": "boolean",
+          "default": false
+        },
         "ResourceType": {
           "type": "string"
         }
@@ -520,10 +586,6 @@
             "Type": {
               "type": "string",
               "description": "Implementation type and assembly."
-            },
-            "Disabled": {
-              "type": "boolean",
-              "default": true
             }
           },
           "required": [
@@ -547,6 +609,19 @@
         ]
       }
     },
+    "Attributes": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "DataType": { "type": "string" }
+            }
+          }
+        ]
+      }
+    },
     "Folders": {
       "type": "array",
       "items": {
@@ -555,6 +630,20 @@
           { "$ref": "#/definitions/privileges" },
           {
             "properties": {
+              "Filters": {
+                "type": "object",
+                "properties": {
+                  "Cube": {
+                    "type": "string"
+                  },
+                  "Axes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "Columns": {
                 "type": "array",
                 "items": {
@@ -562,7 +651,7 @@
                     "Name": {
                       "type": "string",
                       "pattern": "^[A-Za-z]\\w*$",
-                      "enum": [ "number", "subject", "value", "owner", "sender", "received", "replied", "state" ]
+                      "enum": [ "number", "subject", "value", "owner", "sender", "received", "receivedAgo", "replied", "state", "issued", "issuedAgo" ]
                     },
                     "Title": {
                       "type": "string"
@@ -604,16 +693,19 @@
               },
               "Future": {
                 "type": "string"
-              },
-              "Color": {
-                "type": "string",
-                "format": "color"
-              },
-              "Shape": {
-                "type": "string",
-                "description": "SVG"
-              },
-              "Hidden": { "type": "boolean" }
+              }
+            },
+            "BackgroundColor": {
+              "type": "string",
+              "format": "color"
+            },
+            "Color": {
+              "type": "string",
+              "format": "color"
+            },
+            "Shape": {
+              "type": "string",
+              "description": "SVG"
             }
           }
         ]
@@ -627,7 +719,7 @@
           { "$ref": "#/definitions/code" },
           {
             "properties": {
-              "Visible": {
+              "Multiple": {
                 "type": "boolean"
               },
               "Past": {
@@ -647,7 +739,12 @@
                 "description": "SVG"
               },
               "Color": {
-                "type": "string"
+                "type": "string",
+                "format": "color"
+              },
+              "BackgoundColor": {
+                "type": "string",
+                "format": "color"
               },
               "Verb": {
                 "type": "string"
@@ -663,6 +760,12 @@
               },
               "AdjectivePlural": {
                 "type": "string"
+              },
+              "Loggable": {
+                "type": "boolean"
+              },
+              "Messaging": {
+                "type": "boolean"
               }
             }
           }
@@ -680,21 +783,22 @@
               "DataType": {
                 "Type": "string"
               },
+              "SequencePolicy": {
+                "enum": [ "Strict", "Earlier", "Higher" ],
+                "default": "Strict"
+              },
               "Priority": {
+                "description": "Sequence policy higher value",
                 "Type": "number",
                 "minimum": -128,
                 "maximum": 127
-              },
-              "SequencePolicy": {
-                "enum": [ "Both", "Either", "High" ],
-                "default": "Both"
               },
               "Positions": {
                 "type": "object",
                 "patternProperties": {
                   "^.*$": {
-                    "type": "array",
-                    "items": { "type": "string" }
+                    "type": [ "string", "array" ],
+                    "items": { "type": [ "string" ] }
                   }
                 },
                 "additionalProperties": false
@@ -708,6 +812,23 @@
       },
       "additionalProperties": false
     },
+    "Controls": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Visible": { "type": "boolean" },
+              "System": { "type": "boolean" },
+              "Template": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
     "Forms": {
       "type": "array",
       "items": {
@@ -719,6 +840,13 @@
               "Format": {
                 "type": "string"
               },
+              "Group": {
+                "$ref": "#/definitions/localized_string"
+              },
+              "Description": {
+                "$ref": "#/definitions/localized_string"
+              },
+              "Ordinal": { "type": "integer" },
               "Template": {
                 "type": "string"
               },
@@ -735,19 +863,26 @@
               "Guide": {
                 "type": "string"
               },
+              "Cubes": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
               "Rules": {
-                "patternProperties": {
-                  "^.*$": {
-                    "type": "object",
-                    "properties": {
-                      "Roles": {
-                        "type": "array",
-                        "items": { "type": "string" }
-                      },
-                      "Rule": { "type": "string" },
-                      "Title": { "type": "string" }
-                    }
-                  }
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Roles": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "Rule": { "type": "string" },
+                    "Title": { "type": "string" },
+                    "Name": { "type": "string" }
+                  },
+                  "required": [ "Name" ]
                 }
               },
               "History": {
@@ -796,7 +931,8 @@
           {
             "properties": {
               "Assignable": {
-                "type": "boolean"
+                "type": "boolean",
+                "default": true
               },
               "Groups": {
                 "type": "array",
@@ -816,7 +952,10 @@
                 "items": {
                   "type": "object",
                   "properties": {
-                    "Expression": { "type": "string" },
+                    "Expression": {
+                      "type": "string",
+                      "description": "Regular expression"
+                    },
                     "Name": { "type": "string" },
                     "Title": { "type": "string" }
                   }
@@ -835,7 +974,7 @@
           { "$ref": "#/definitions/code" },
           {
             "properties": {
-              "Loggable": {
+              "Visible": {
                 "type": "boolean"
               },
               "Palette": {
@@ -861,8 +1000,21 @@
           { "$ref": "#/definitions/privileges" },
           {
             "properties": {
+              "Anomaly": {
+                "enum": [ "Positions", "Recipients", "None" ],
+                "description": "Audience of notifications in case of anomaly"
+              },
+              "Scope": {
+                "enum": [ "Positions", "Patterns", "None" ],
+                "description": "Restrict data access based on user role or pattern privileges"
+              },
+              "Schedule": {
+                "type": "string",
+                "pattern": "/d/d:/d/d:/d/d"
+              },
               "Constraints": {
                 "type": "array",
+                "description": "Axes dependencies",
                 "items": {
                   "properties": {
                     "Condition": {
@@ -878,6 +1030,10 @@
               "YAxis": {
                 "type": "object",
                 "properties": {
+                  "Type": {
+                    "enum": [ "None", "Number", "Currency" ],
+                    "default": "Currency"
+                  },
                   "Title": {
                     "type": "string"
                   }
@@ -885,7 +1041,8 @@
               },
               "CurrencyCode": { "type": "string" },
               "Template": {
-                "type": "string"
+                "type": "string",
+                "description": "Cube info matriix override"
               },
               "Axes": {
                 "type": "array",
@@ -894,21 +1051,28 @@
                     { "$ref": "#/definitions/base" },
                     {
                       "properties": {
-                        "Sensitive": {
-                          "type": "boolean",
-                          "description": "Anomaly notification group"
-                        },
                         "SelectionMode": {
                           "description": "User interaction in filters",
-                          "enum": [ "Single", "Pattern", "Multiple", "None" ]
+                          "enum": [ "Single", "Pattern", "Multiple", "Search", "None" ]
                         },
                         "Combination": {
                           "type": "boolean",
                           "description": "Is an account segment"
                         },
+                        "Aliases": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
                         "Indexable": {
                           "type": "boolean",
                           "description": "Meaningful in Indices queries. Set false for cube-only axes"
+                        },
+                        "DescendentOf": { "type": "string" },
+                        "Sensitive": {
+                          "type": "boolean",
+                          "description": "Meaningful in anomaly test. True by default"
                         },
                         "DataType": {
                           "type": "string",
@@ -939,7 +1103,7 @@
                         },
                         "Rule": {
                           "type": "string",
-                          "description": "Expression evaluated by RuleEngine service."
+                          "description": "Javascript expression"
                         }
                       },
                       "required": [ "Roles", "Axes" ]
@@ -966,30 +1130,16 @@
                           "default": "Chart",
                           "enum": [
                             "Pivot",
+                            "Spreadsheet",
                             "Grid",
                             "Chart"
                           ]
                         },
                         "ChartType": {
-                          "type": "string",
-                          "default": "Column",
-                          "enum": [
-                            "Pie",
-                            "Bar",
-                            "StackingBar",
-                            "Line",
-                            "StepLine",
-                            "Column",
-                            "StackingColumn",
-                            "Area",
-                            "Spline",
-                            "SplineArea",
-                            "Doughnut",
-                            "HalfDoughnut",
-                            "Polar",
-                            "Radar",
-                            "StepArea"
-                          ]
+                          "$ref": "#/definitions/chart-type"
+                        },
+                        "IndicesChartType": {
+                          "$ref": "#/definitions/chart-type"
                         },
                         "Series": {
                           "$ref": "#/definitions/axis"
@@ -1027,14 +1177,17 @@
                   "allOf": [
                     { "$ref": "#/definitions/base" },
                     {
+                      "properties": {
+                        "Accumulate": { "type": "boolean" },
+                        "Hidden": { "type": "boolean" }
+                      }
                     }
                   ]
                 }
               }
             },
             "required": [
-              "Axes",
-              "Views"
+              "Axes"
             ]
           }
         ]
@@ -1047,6 +1200,29 @@
         "allOf": [
           { "$ref": "#/definitions/code" },
           {
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Policies": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Sources": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": { "RegularExpression": { "type": "string" } }
           }
         ]
       },
@@ -1093,6 +1269,35 @@
       },
       "additionalProperties": false
     },
+    "Views": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/privileges" },
+          {
+            "properties": {
+              "Guide": { "type": "string" },
+              "Template": {
+                "type": "string"
+              },
+              "Forms": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "Implementation": {
+      "patternProperties": {
+        "^[A-Za-z][\\w]*$": {
+          "type": "object"
+        }
+      }
+    },
     "Guides": {
       "type": "array",
       "items": {
@@ -1137,7 +1342,8 @@
                         },
                         "ResourceType": {
                           "type": "string"
-                        }
+                        },
+                        "Execute": { "type": "boolean" }
                       },
                       "required": [
                         "Content"
@@ -1148,8 +1354,7 @@
                 "additionalProperties": false
               },
               "Mode": {
-                "enum": [ "Eager", "Menu", "Private", "None" ],
-                "default": "Standard"
+                "enum": [ "Eager", "Menu", "Private" ]
               }
             },
             "required": [
@@ -1160,18 +1365,5 @@
       },
       "additionalProperties": false
     }
-  },
-  "required": [
-    "Folders",
-    "States",
-    "Actions",
-    "Roles",
-    "Forms",
-    "Reports",
-    "Types",
-    "Nodes",
-    "Rules",
-    "Widgets",
-    "Currencies"
-  ]
+  }
 }
