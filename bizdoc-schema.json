@@ -681,6 +681,24 @@
       },
       "additionalProperties": false
     },
+    "Holidays": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/base" },
+          {
+            "properties": {
+              "FromDate": {
+                "type": "string"
+              },
+              "ToDate": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
     "States": {
       "type": "array",
       "items": {
@@ -693,19 +711,19 @@
               },
               "Future": {
                 "type": "string"
+              },
+              "BackgroundColor": {
+                "type": "string",
+                "format": "color"
+              },
+              "Color": {
+                "type": "string",
+                "format": "color"
+              },
+              "Shape": {
+                "type": "string",
+                "description": "SVG"
               }
-            },
-            "BackgroundColor": {
-              "type": "string",
-              "format": "color"
-            },
-            "Color": {
-              "type": "string",
-              "format": "color"
-            },
-            "Shape": {
-              "type": "string",
-              "description": "SVG"
             }
           }
         ]
