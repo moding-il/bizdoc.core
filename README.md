@@ -9,7 +9,7 @@ To author a new BizDoc environment, create a new project from _BizDoc_ template.
 
 ### Prerequisites
 
-[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 7.0](https://dotnet.microsoft.com/download/dotnet/7.0),
+[Visual Studio](https://visualstudio.microsoft.com/vs/) or Visual Code, [.Net 8.0](https://dotnet.microsoft.com/download/dotnet/8.0),
 Latest [Node.js](https://nodejs.org/), [Angular CLI](https://cli.angular.io/)
 and [EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/install/).
 
