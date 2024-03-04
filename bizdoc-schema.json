@@ -1077,6 +1077,7 @@
                           "type": "boolean",
                           "description": "Is an account segment"
                         },
+                        "Searchable": { "type": "boolean" },
                         "Aliases": {
                           "type": "array",
                           "items": {
@@ -1320,10 +1321,23 @@
       "type": "array",
       "items": {
         "allOf": [
-          { "$ref": "#/definitions/base" },
           { "$ref": "#/definitions/privileges" },
           {
             "properties": {
+              "Name": {
+                "type": "string",
+                "pattern": "^[A-Za-z][\\w\\-.]*$"
+              },
+              "Title": {
+                "type": "string"
+              },
+              "Disabled": {
+                "type": "boolean",
+                "default": false
+              },
+              "ResourceType": {
+                "type": "string"
+              },
               "Steps": {
                 "type": "array",
                 "items": {
@@ -1376,7 +1390,8 @@
               }
             },
             "required": [
-              "Steps"
+              "Steps",
+              "Name"
             ]
           }
         ]
