@@ -1125,7 +1125,7 @@
                           "description": "Javascript expression"
                         }
                       },
-                      "required": [ "Roles", "Axes" ]
+                      "required": [ "Axes" ]
                     }
                   ]
                 },
