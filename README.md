@@ -61,7 +61,7 @@ BizDoc server-side behavior is set in startup.cs. You first register BizDoc serv
 
 BizDoc configuration includes licensing, SMTP and more.
 
-Setup database provider by installing the relevant Nuget, from either [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
+Setup database provider by installing the relevant Nuget, from either [PostgreSQL](https://www.nuget.org/packages/BizDoc.Core.PostgreSQL), [SqlServer](https://www.nuget.org/packages/BizDoc.Core.SqlServer/), [Oracle](https://www.nuget.org/packages/BizDoc.Core.Oracle/) or [MySql](https://www.nuget.org/packages/BizDoc.Core.MySql/).
 
 ```csharp
     services.AddBizDoc().
@@ -69,7 +69,7 @@ Setup database provider by installing the relevant Nuget, from either [SqlServer
 
 ```
 
-Set up authentication from one of: [FormIdentity](https://www.nuget.org/packages/BizDoc.Authentication.FormIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Authentication.DirectoryServices), [Azure](https://www.nuget.org/packages/BizDoc.Authentication.Azure) or [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta).
+Set up authentication from one of: [FormIdentity](https://www.nuget.org/packages/BizDoc.Authentication.FormIdentity) for managing users in database, [DirectoryServices](https://www.nuget.org/packages/BizDoc.Authentication.DirectoryServices), [Azure](https://www.nuget.org/packages/BizDoc.Authentication.Azure) [PingOne](https://www.nuget.org/packages/BizDoc.Authentication.PingOne) or [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta).
 
 Install the relevant Nuget and add it to services in startup.cs.
 
