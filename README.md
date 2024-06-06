@@ -35,6 +35,8 @@ BizDoc will automatically create the database objects.
 
 ## Architecture
 
+![Architecture](https://github.com/moding-il/bizdoc.core/blob/master/architecture.png?raw=true)
+
 BizDoc can be broken into two major parts: backend server objects, responsible for the business logic, and front-end user interface, built as Angular components.
 Commonly, a front-end component has a matching backing server object. For example, BizDoc *form* object will have a backend class that manages its lifetime events, while a corresponding front-end Angular component will take care of presenting form data to user and respond to form input.
 Communication between the front-end and the backend is done through BizDoc APIs.
