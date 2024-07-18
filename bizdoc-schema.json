@@ -554,7 +554,7 @@
           "pattern": "^[A-Za-z][\\w\\-.]*$"
         },
         "Title": {
-          "type": "string"
+          "type": "#/definitions/localized_string"
         },
         "Options": {
           "type": "object"
@@ -707,10 +707,10 @@
           {
             "properties": {
               "Past": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "Future": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "BackgroundColor": {
                 "type": "string",
@@ -741,16 +741,16 @@
                 "type": "boolean"
               },
               "Past": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "You": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "YouMale": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "YouFemale": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "Shape": {
                 "type": "string",
@@ -765,19 +765,19 @@
                 "format": "color"
               },
               "Verb": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "TitleMale": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "TitleFemale": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "Adjective": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "AdjectivePlural": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "Loggable": {
                 "type": "boolean"
@@ -1335,7 +1335,7 @@
                 "pattern": "^[A-Za-z][\\w\\-.]*$"
               },
               "Title": {
-                "type": "string"
+                "type": "#/definitions/localized_string"
               },
               "Disabled": {
                 "type": "boolean",
@@ -1355,19 +1355,19 @@
                           "type": "string"
                         },
                         "Content": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "ContentMale": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "ContentFemale": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "TitleMale": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "TitleFemale": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "Position": {
                           "enum": [ "Above", "End", "Start", "Below" ]
@@ -1376,7 +1376,7 @@
                           "type": "string"
                         },
                         "Title": {
-                          "type": "string"
+                          "type": "#/definitions/localized_string"
                         },
                         "ResourceType": {
                           "type": "string"
