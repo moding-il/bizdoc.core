@@ -2,7 +2,22 @@
 
 We release a minor version every other month, and patches on a regular basis.
 
-# 2.1
+## 3.3
+
+* Notification dispatcher for pushing and interacting with messages.
+* PingIdentity authentication.
+
+## 3.1
+
+* Workday API, components
+* SAP Ariba API
+
+## 3.0 
+
+* Priority general search for part, po
+* Postgres storage
+
+## 2.1
 
 > @bizdoc/core compatible Angular 17, BizDoc.Core Nuget 7.x.x compatible with .Net 7.
 
@@ -12,7 +27,7 @@ We release a minor version every other month, and patches on a regular basis.
 * [HiBob](https://www.nuget.org/packages/BizDoc.Infrastructure.HiBob) interface (Preview)
 * Chips control in _Box_ ans _Survey_ forms.
 
-# 1.18
+## 1.18
 
 > @bizdoc/core 1.17.x is compatible with BizDoc.Core 6.8.x.
 
@@ -28,7 +43,7 @@ We release a minor version every other month, and patches on a regular basis.
 * ControlBase for custom control in Form Designer and Survey.
 * [Okta](https://www.nuget.org/packages/BizDoc.Authentication.Okta/) and [G-Suite](https://www.nuget.org/packages/BizDoc.Authentication.G-Suite/) widgets
 
-## Breaking changes
+### Breaking changes
 
 * PaneRef, PopupRef, FormRef, WidgetRef, ReportRef and UtilityRef observables methods rather than properties.
 * Core.Data.Store is IDocumentStorage.

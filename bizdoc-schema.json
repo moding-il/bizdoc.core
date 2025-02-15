@@ -852,6 +852,40 @@
         ]
       }
     },
+    "Tags": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Template": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "Notifications": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "Template": {
+                "type": "string"
+              },
+              "Settings": {
+                "type": "boolean"
+              }
+            },
+            "required": ["Template"]
+          }
+        ]
+      }
+    },
     "Forms": {
       "type": "array",
       "items": {
