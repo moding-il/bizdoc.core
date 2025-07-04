@@ -622,6 +622,21 @@
         ]
       }
     },
+    "Devices": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/code" },
+          {
+            "properties": {
+              "ExecutionMode": {
+                "enum": [ "RegisteredDevice", "Challenge" ]
+              }
+            }
+          }
+        ]
+      }
+    },
     "Folders": {
       "type": "array",
       "items": {
@@ -856,11 +871,20 @@
       "type": "array",
       "items": {
         "allOf": [
-          { "$ref": "#/definitions/code" },
+          { "$ref": "#/definitions/base" },
           {
             "properties": {
-              "Template": {
-                "type": "string"
+              "BackgroundColor": {
+                "type": "string",
+                "format": "color"
+              },
+              "Color": {
+                "type": "string",
+                "format": "color"
+              },
+              "System": {
+                "type": "boolean",
+                "default": true
               }
             }
           }
@@ -881,7 +905,7 @@
                 "type": "boolean"
               }
             },
-            "required": ["Template"]
+            "required": [ "Template" ]
           }
         ]
       }
