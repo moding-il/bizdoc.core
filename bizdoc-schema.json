@@ -563,6 +563,7 @@
           "type": "boolean",
           "default": false
         },
+        "Ordinal": { "type": "integer" },
         "ResourceType": {
           "type": "string"
         }
