@@ -667,7 +667,7 @@
                     "Name": {
                       "type": "string",
                       "pattern": "^[A-Za-z]\\w*$",
-                      "enum": [ "number", "subject", "value", "owner", "sender", "received", "receivedAgo", "replied", "state", "issued", "issuedAgo" ]
+                      "enum": [ "number", "subject", "value", "owner", "sender", "received", "receivedAgo", "replied", "repliedAgo", "state", "issued", "issuedAgo" ]
                     },
                     "Title": {
                       "type": "string"
