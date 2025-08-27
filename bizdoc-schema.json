@@ -754,7 +754,12 @@
           {
             "properties": {
               "Multiple": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "Enable taking action on more than one message"
+              },
+              "Navigate": {
+                "type": "boolean",
+                "description": "navigate to message after done"
               },
               "Past": {
                 "#ref": "#/definitions/localized_string"
@@ -1465,3 +1470,4 @@
     }
   }
 }
+
